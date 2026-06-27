@@ -1,0 +1,1 @@
+Skipped age distribution plot because age contained no numeric non-missing values.

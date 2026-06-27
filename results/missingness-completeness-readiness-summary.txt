@@ -1,0 +1,20 @@
+Clinical Missingness and Completeness Readiness Summary
+======================================================
+
+Expected files: 8
+Available files: 7
+Missing expected files: 1
+
+Variables below 80% completeness: 1
+Patients represented in patient-level summary: 6
+
+Domain completeness ranking:
+- outcomes_and_follow_up: average completeness 92.59% across 9 variables
+- clinical_results: average completeness 100.0% across 22 variables
+- coded_clinical_events: average completeness 100.0% across 21 variables
+- patient_identity_and_context: average completeness 100.0% across 5 variables
+
+Suggested next steps:
+- Review variables below the completeness threshold before engineering analysis variables.
+- Check whether missingness is concentrated in specific domains or patient groups.
+- Document whether missingness reflects clinical workflow, extraction limits, or true absence.

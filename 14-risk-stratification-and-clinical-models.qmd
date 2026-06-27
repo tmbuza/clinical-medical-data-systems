@@ -1,0 +1,339 @@
+# Risk Stratification and Clinical Models
+
+:::cdi-message
+- **ID:** CDMS-14
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, and clinical decision-support teams
+- **Theme:** Clinical models should begin as transparent risk stratification systems before becoming decision-support tools
+:::
+
+After a clinical cohort has been described, the next step is often to identify patients at higher or lower risk.
+
+This may involve a simple clinical rule.
+
+It may involve a regression model.
+
+It may involve a machine learning model.
+
+But in clinical data systems, the goal is not simply to produce predictions.
+
+The goal is to create a transparent, reviewable, clinically meaningful risk stratification workflow.
+
+---
+
+## Risk Stratification Before Prediction
+
+Risk stratification groups patients into clinically meaningful risk categories.
+
+For example:
+
+- low risk
+- moderate risk
+- high risk
+
+This is different from simply producing a probability.
+
+A probability may be useful to a data scientist, but a risk group is often easier for clinical teams to review, communicate, and act on.
+
+Good clinical modeling workflows usually include both:
+
+```text id="risk-stratification-layer"
+patient-level variables
+  -> risk score
+  -> risk group
+  -> clinical review
+  -> model evaluation
+  -> decision-support readiness
+```
+
+---
+
+## Why Clinical Models Require Extra Care
+
+Clinical models can affect real people.
+
+A model may influence:
+
+- who receives follow-up
+- who is flagged for intervention
+- who is prioritized for review
+- how resources are allocated
+- how clinical risk is communicated
+
+For this reason, a clinical model should not be treated as just another statistical output.
+
+It must be reviewed for:
+
+- data quality
+- clinical plausibility
+- bias and fairness concerns
+- calibration
+- interpretability
+- workflow fit
+- governance and accountability
+
+This chapter focuses on the first modeling layer: creating a simple, transparent risk stratification workflow.
+
+---
+
+## Input Dataset
+
+This chapter uses the analysis-ready clinical dataset created in Chapter 12 and described in Chapter 13.
+
+```text id="chapter14-input"
+results/analysis-ready-clinical-dataset.tsv
+```
+
+The expected unit is one row per patient.
+
+The dataset should contain an `analysis_inclusion_flag` and a small set of patient-level predictors.
+
+---
+
+## Modeling Goal
+
+The example workflow builds a simple risk stratification model using available patient-level features.
+
+The goal is not to create a production clinical model.
+
+The goal is to show a reproducible modeling pattern:
+
+1. select eligible patients
+2. define predictors
+3. define outcome
+4. fit a transparent model when possible
+5. generate predicted risk scores
+6. convert scores into risk groups
+7. save model-ready outputs
+8. document limitations
+
+---
+
+## Candidate Predictors
+
+The example script looks for common patient-level variables such as:
+
+- age
+- encounter count
+- diagnosis count
+- procedure count
+- medication count
+- abnormal laboratory count
+- latest systolic blood pressure
+- latest diastolic blood pressure
+- latest body mass index
+- diagnosis indicators
+
+The script only uses predictors that are present and usable.
+
+This makes the workflow robust across different stages of the project.
+
+---
+
+## Outcome Handling
+
+Clinical outcomes can be stored in many ways.
+
+The example script converts `outcome_status` into a binary modeling target using simple rules.
+
+```text id="binary-outcome-logic"
+positive outcome examples:
+  - event
+  - adverse_event
+  - died
+  - death
+  - readmitted
+  - yes
+  - true
+  - 1
+
+negative outcome examples:
+  - no_event
+  - alive
+  - no
+  - false
+  - 0
+```
+
+In a real clinical project, this mapping should be replaced by a reviewed clinical outcome definition.
+
+---
+
+## Model Choice
+
+The script uses a simple logistic regression model when there are enough positive and negative outcome examples.
+
+Logistic regression is useful at this stage because it is:
+
+- familiar to clinical teams
+- transparent
+- fast
+- interpretable
+- suitable as a baseline
+- easier to document than a complex black-box model
+
+If the dataset is too small or has only one outcome class, the script falls back to a rule-based risk score.
+
+This allows the chapter workflow to run even with small example data.
+
+---
+
+## Risk Groups
+
+Predicted risk scores are converted into risk groups.
+
+```text id="risk-group-logic"
+low risk: lower third of risk scores
+moderate risk: middle third of risk scores
+high risk: upper third of risk scores
+```
+
+For real clinical deployment, risk thresholds should not be chosen automatically.
+
+They should be selected with clinical stakeholders based on expected action, resource constraints, and consequences of false positives and false negatives.
+
+---
+
+## Outputs
+
+This chapter creates model-ready and risk-stratified outputs.
+
+```text id="chapter14-outputs"
+results/clinical-risk-stratification-results.tsv
+results/clinical-risk-model-feature-summary.tsv
+results/clinical-risk-model-summary.txt
+results/figures/risk-score-distribution.png
+results/figures/risk-group-summary.png
+logs/14-risk-stratification-and-clinical-models.log
+```
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-risk-stratification"
+python scripts/python/14-risk-stratification-and-clinical-models-safe.py
+Rscript scripts/R/14-visualize-risk-stratification-safe.R
+bash scripts/bash/14-run-risk-stratification-and-clinical-models.sh
+```
+
+To run the full chapter workflow with logging:
+
+```bash id="run-risk-bash-only"
+bash scripts/bash/14-run-risk-stratification-and-clinical-models.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script:
+
+- reads the analysis-ready dataset
+- filters to analysis-included patients when possible
+- creates a binary outcome target
+- selects usable numeric and boolean predictors
+- imputes missing predictor values
+- fits a logistic regression model when feasible
+- falls back to a rule-based score when needed
+- writes patient-level risk scores
+- writes feature summaries
+- writes a model summary
+
+The output is intentionally transparent.
+
+---
+
+## What the R Script Does
+
+The R script creates modern visual summaries of the risk stratification output.
+
+It writes:
+
+```text id="chapter14-r-outputs"
+results/figures/risk-score-distribution.png
+results/figures/risk-group-summary.png
+```
+
+The script is defensive.
+
+If the data are too small or columns are missing, it writes skip notes instead of stopping the workflow.
+
+---
+
+## Why Keep a Rule-Based Fallback?
+
+Small example datasets often do not contain enough events for formal modeling.
+
+Real clinical projects can also encounter this problem.
+
+A rule-based fallback helps demonstrate the risk stratification layer without pretending that a weak model is reliable.
+
+The summary file clearly states whether the workflow used:
+
+- logistic regression
+- rule-based fallback
+- insufficient-data fallback
+
+This prevents silent overclaiming.
+
+---
+
+## Clinical Interpretation
+
+A risk model should never be interpreted only by its code.
+
+Clinical review should ask:
+
+- Does the outcome definition make clinical sense?
+- Are the predictors available before the decision point?
+- Are any variables proxies for bias or access to care?
+- Are there leakage variables?
+- Are the risk groups actionable?
+- What harm could come from incorrect classification?
+- Who will review model outputs?
+- How will performance be monitored?
+
+These questions matter before the model is connected to real workflows.
+
+---
+
+## Avoiding Data Leakage
+
+Data leakage occurs when predictors include information that would not be available at the time of prediction.
+
+Examples include:
+
+- using future outcomes as predictors
+- using post-index follow-up variables
+- using treatments that occurred after the risk decision
+- using discharge information to predict admission risk
+- using variables created after the clinical action point
+
+Clinical modeling requires a clear prediction time.
+
+Without a prediction time, model performance can look better than it really is.
+
+---
+
+## CDI Principle
+
+A clinical model is not ready because it runs.
+
+It is ready for review when its cohort, predictors, outcome definition, risk groups, assumptions, and limitations are visible.
+
+Modeling is not the start of clinical insight.
+
+It is a layer built on top of clinical data readiness.
+
+---
+
+## Chapter Summary
+
+In this chapter, we built a transparent risk stratification workflow from the analysis-ready clinical dataset.
+
+We created patient-level risk scores, risk groups, feature summaries, visual outputs, and a model summary.
+
+The next chapter evaluates clinical models and explains why accuracy alone is not enough.

@@ -1,0 +1,19 @@
+metric	value
+total_rows	6
+unique_patients	6
+duplicate_patient_rows	0
+analysis_included_rows	0
+analysis_excluded_rows	6
+analysis_included_percent	0.0
+age_mean	
+age_median	
+age_min	
+age_max	
+follow_up_days_mean	
+follow_up_days_median	
+follow_up_days_min	
+follow_up_days_max	
+encounter_count_mean	
+encounter_count_median	
+encounter_count_min	
+encounter_count_max	

@@ -1,0 +1,483 @@
+# Clinical Variable Engineering {#chapter11}
+
+:::cdi-message
+- **ID:** CMDS-011
+- **Type:** Core
+- **Audience:** Clinical data analysts, clinical researchers, informatics teams, and applied health data science teams
+- **Theme:** Clinical variables should be derived from transparent definitions, not improvised from raw columns
+:::
+
+Clinical analysis rarely uses raw clinical tables exactly as they arrive.
+
+A patient demographics table may contain date of birth, but the analysis needs age at index encounter.
+
+An encounter table may contain visit dates, but the analysis needs baseline encounter, follow-up duration, and encounter intensity.
+
+Laboratory data may contain many repeated results, but the analysis needs baseline value, latest value, abnormality flags, or change over time.
+
+Diagnosis and medication tables may contain event-level records, but the analysis needs patient-level indicators such as diabetes history, hypertension history, medication exposure, or comorbidity burden.
+
+This chapter introduces clinical variable engineering: the process of converting raw clinical input tables into transparent, reusable, analysis-ready variables.
+
+The goal is not to create as many variables as possible.
+
+The goal is to create variables whose meaning is clinically defensible, reproducible, and easy to audit.
+
+---
+
+## Why Variable Engineering Matters
+
+Clinical datasets often begin in a transactional form.
+
+Each table reflects how care was documented rather than how analysis will be performed.
+
+For example:
+
+- demographics describe who the patient is
+- encounters describe when care happened
+- diagnoses describe coded clinical conditions
+- procedures describe services or interventions
+- medications describe prescriptions or treatment exposure
+- laboratories and vital signs describe measured clinical state
+- outcomes describe follow-up events
+
+Most clinical questions, however, require patient-level variables.
+
+A cohort table may need one row per patient with columns such as:
+
+```text id="cm011-example-variables"
+patient_id
+age_at_index
+gender
+race_ethnicity
+index_encounter_date
+follow_up_days
+encounter_count
+has_diabetes
+has_hypertension
+medication_exposure_count
+baseline_creatinine
+baseline_systolic_bp
+outcome_observed
+outcome_type
+```
+
+These variables are not always present directly in the source data.
+
+They must be engineered.
+
+That engineering step is where many clinical analyses become either strong or fragile.
+
+---
+
+## Raw Columns Are Not Yet Clinical Variables
+
+A column becomes a clinical variable only when its definition is clear.
+
+For example, a column named `age` is incomplete unless the analyst knows:
+
+- age at what date
+- calculated from which birth date source
+- rounded or continuous
+- capped or grouped
+- whether implausible ages were excluded
+
+A column named `diabetes` is also incomplete unless the analyst knows:
+
+- whether it came from diagnosis codes, medication use, laboratory results, or self-report
+- which codes were included
+- whether one code was enough or repeated evidence was required
+- whether the condition had to occur before the index date
+
+Clinical variable engineering therefore requires more than programming.
+
+It requires clinical logic.
+
+---
+
+## A Useful Variable Engineering Pattern
+
+A reliable clinical variable engineering workflow usually follows this sequence:
+
+```text id="cm011-engineering-pattern"
+1. Define the clinical question
+2. Define the cohort and index date
+3. Identify source tables
+4. Specify variable definitions
+5. Derive patient-level variables
+6. Check plausibility and completeness
+7. Save an analysis dataset
+8. Save a variable dictionary
+```
+
+The variable dictionary is just as important as the dataset.
+
+Without a dictionary, future analysts may know the column names but not the clinical assumptions behind them.
+
+---
+
+## Index Date First
+
+Many clinical variables depend on time.
+
+A diagnosis before the index date may represent baseline history.
+
+A diagnosis after the index date may represent an outcome or complication.
+
+A laboratory value before treatment may represent baseline severity.
+
+A laboratory value after treatment may represent response.
+
+For that reason, variable engineering should usually begin with an index date.
+
+In this guide, the index date is defined as the first available encounter date for each patient in the example encounter table.
+
+```text id="cm011-index-definition"
+index_encounter_date = earliest encounter_date for each patient
+```
+
+That definition is simple, but it is explicit.
+
+In a real study, the index date may instead be:
+
+- diagnosis date
+- treatment start date
+- admission date
+- surgery date
+- enrollment date
+- first eligible laboratory result
+- first visit after a policy change
+
+The correct index date depends on the clinical question.
+
+---
+
+## Baseline and Follow-Up Windows
+
+After defining the index date, the next decision is the time window.
+
+A baseline variable may use information before or around the index date.
+
+A follow-up variable may use information after the index date.
+
+For example:
+
+```text id="cm011-time-windows"
+baseline_window = information available on or before index_encounter_date
+follow_up_window = information observed after index_encounter_date
+```
+
+In real projects, these windows may be more specific:
+
+```text id="cm011-time-window-examples"
+baseline_window = -365 days to index date
+follow_up_window = index date to +180 days
+outcome_window = +30 days to +365 days
+```
+
+The important point is that time windows should be declared before analysis.
+
+Otherwise, engineered variables may accidentally mix baseline information with future information.
+
+That creates leakage.
+
+---
+
+## Leakage in Clinical Variables
+
+Leakage happens when a variable contains information that would not have been available at the decision time.
+
+For example, a model predicting readmission at hospital discharge should not use a laboratory result measured after discharge.
+
+A baseline risk model should not use diagnosis codes assigned months after the baseline date.
+
+An outcome model should not use variables that are downstream consequences of the outcome.
+
+Clinical leakage is especially easy to create because EHR data contain long patient histories.
+
+The safest practice is to define the clinical time point first, then derive all variables relative to that time point.
+
+---
+
+## Common Clinical Variable Types
+
+Clinical variables often fall into a few recurring categories.
+
+### Demographic Variables
+
+These describe patient context.
+
+Examples include:
+
+```text id="cm011-demographic-variables"
+age_at_index
+age_group
+gender
+race_ethnicity
+insurance_group
+residence_region
+```
+
+These variables should be handled carefully because they may reflect social, structural, or access-related factors rather than biology alone.
+
+### Encounter Variables
+
+These describe healthcare contact patterns.
+
+Examples include:
+
+```text id="cm011-encounter-variables"
+index_encounter_date
+encounter_count
+inpatient_encounter_count
+outpatient_encounter_count
+emergency_encounter_count
+last_encounter_date
+follow_up_days
+```
+
+Encounter variables may reflect disease severity, access to care, referral patterns, or documentation intensity.
+
+### Diagnosis Variables
+
+These describe coded clinical history.
+
+Examples include:
+
+```text id="cm011-diagnosis-variables"
+has_diabetes
+has_hypertension
+has_chronic_kidney_disease
+condition_count
+primary_diagnosis_group
+```
+
+Diagnosis variables require code-set discipline.
+
+A real workflow should maintain a versioned code list for each condition definition.
+
+### Medication Variables
+
+These describe treatment exposure.
+
+Examples include:
+
+```text id="cm011-medication-variables"
+medication_exposure_count
+has_antihypertensive_exposure
+has_antidiabetic_exposure
+active_medication_classes
+```
+
+Medication variables should distinguish prescribing, dispensing, administration, and patient-reported use when possible.
+
+### Laboratory and Vital Sign Variables
+
+These describe measured clinical state.
+
+Examples include:
+
+```text id="cm011-result-variables"
+baseline_creatinine
+baseline_glucose
+baseline_systolic_bp
+baseline_bmi
+abnormal_lab_count
+latest_creatinine
+```
+
+Repeated measurements require a rule.
+
+Examples include nearest to index, first after index, worst in window, average in window, or latest available.
+
+### Outcome Variables
+
+These describe what happened after baseline.
+
+Examples include:
+
+```text id="cm011-outcome-variables"
+outcome_observed
+outcome_type
+outcome_date
+days_to_outcome
+follow_up_complete
+```
+
+Outcome definitions should be separated from predictors.
+
+This helps avoid circular analysis.
+
+---
+
+## Variable Dictionary
+
+Every engineered dataset should have a variable dictionary.
+
+A useful dictionary includes at least:
+
+```text id="cm011-dictionary-fields"
+variable_name
+variable_label
+source_domain
+derivation_rule
+clinical_interpretation
+analysis_role
+```
+
+The `analysis_role` field is especially useful.
+
+It can identify whether a variable is used as:
+
+```text id="cm011-analysis-role"
+identifier
+cohort_context
+predictor
+outcome
+stratification_variable
+quality_check_variable
+```
+
+This makes downstream modeling and reporting safer.
+
+---
+
+## Files Used in This Chapter
+
+This chapter uses the example files created in Part II.
+
+```text id="cm011-inputs"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv
+```
+
+The workflow derives one patient-level dataset and one variable dictionary.
+
+```text id="cm011-outputs"
+results/patient-level-derived-variables.tsv
+results/clinical-variable-dictionary.tsv
+results/clinical-variable-engineering-summary.txt
+results/figures/age-group-distribution.png
+results/figures/clinical-variable-completeness.png
+logs/11-clinical-variable-engineering.log
+```
+
+---
+
+## How to Run
+
+Run the workflow from the project root.
+
+```bash id="cm011-run"
+python scripts/python/11-engineer-clinical-variables.py
+Rscript scripts/R/11-visualize-clinical-variables.R
+bash scripts/bash/11-run-clinical-variable-engineering.sh
+```
+
+The Bash runner executes the Python and R steps together and writes a log file.
+
+```bash id="cm011-runner-only"
+bash scripts/bash/11-run-clinical-variable-engineering.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script reads the available clinical input tables and derives a patient-level dataset.
+
+The workflow includes:
+
+```text id="cm011-python-steps"
+1. Load input tables from data/example/
+2. Derive index encounter date from encounters
+3. Calculate age at index from date of birth
+4. Summarize encounter counts and follow-up duration
+5. Create diagnosis history indicators
+6. Summarize medication exposure counts
+7. Derive baseline laboratory and vital sign values
+8. Attach outcome and follow-up variables
+9. Save a patient-level derived dataset
+10. Save a clinical variable dictionary
+```
+
+The script is intentionally transparent.
+
+It favors readable clinical definitions over clever code.
+
+---
+
+## What the R Script Does
+
+The R script creates simple modern visual checks from the engineered dataset.
+
+The goal is not final publication graphics.
+
+The goal is to quickly inspect whether derived variables look plausible.
+
+The script creates:
+
+```text id="cm011-r-outputs"
+results/figures/age-group-distribution.png
+results/figures/clinical-variable-completeness.png
+```
+
+These figures help answer two early readiness questions:
+
+```text id="cm011-visual-questions"
+Who is represented in the engineered dataset?
+Which engineered variables are complete enough to support analysis?
+```
+
+---
+
+## Interpretation Notes
+
+A derived variable should never be interpreted without its definition.
+
+For example, `has_diabetes` may mean diagnosis-code evidence in one project and medication-or-lab evidence in another.
+
+Those are not the same variable.
+
+Likewise, `baseline_creatinine` may mean first observed creatinine, nearest pre-index creatinine, or worst creatinine within 30 days.
+
+Those definitions may produce different clinical conclusions.
+
+The analyst should therefore treat engineered clinical variables as documented claims, not just columns.
+
+---
+
+## Readiness Checklist
+
+Before using engineered variables for analysis, confirm that:
+
+- the cohort definition is clear
+- the index date is explicit
+- baseline and follow-up windows are documented
+- variables are derived from appropriate source domains
+- future information is not used as a baseline predictor
+- code lists are versioned where diagnosis or procedure codes are used
+- medication exposure definitions distinguish source type when possible
+- repeated measurements have a clear selection rule
+- missingness is summarized after engineering
+- a variable dictionary is saved with the dataset
+
+---
+
+## Connection to the Next Chapter
+
+This chapter creates derived clinical variables.
+
+The next chapter assembles those variables into analysis-ready clinical datasets.
+
+That means moving from variable creation to dataset packaging.
+
+A variable can be clinically meaningful and still not yet be analysis-ready.
+
+The next chapter focuses on one-row-per-unit structure, outcome alignment, predictor separation, and readiness for statistical modeling or reporting.

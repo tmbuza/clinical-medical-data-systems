@@ -1,0 +1,2066 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Clinical & Medical Data Systems",
+    "section": "",
+    "text": "Clinical Medical Data Systems: Updated Jun 2026",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.html</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html",
+    "href": "00-preface-and-overview.html",
+    "title": "Preface and Overview",
+    "section": "",
+    "text": "Purpose of This Guide\nClinical and medical data are among the most valuable data sources in real-world decision-making.\nThey describe people.\nThey describe care.\nThey describe measurements, diagnoses, treatments, outcomes, follow-up, and risk.\nBut clinical data are rarely ready for analysis when they first arrive.\nThey may come from electronic health records, hospital systems, laboratory systems, registries, spreadsheets, claims databases, public health programs, or research studies.\nThey may contain repeated visits.\nThey may contain missing values.\nThey may use different coding systems.\nThey may include values recorded in different units.\nThey may mix clinical observations with administrative records.\nThey may describe the same patient across many encounters.\nAnd most importantly, they are connected to human health.\nThat means clinical and medical data must be handled carefully, ethically, and reproducibly.\nThis guide introduces a practical system for working with clinical and medical data from structured records to reliable clinical insight.\nThe purpose of Clinical & Medical Data Systems is to teach a reproducible workflow for transforming healthcare records into analysis-ready clinical datasets.\nThe guide is not focused on one hospital system, one software vendor, or one disease area.\nInstead, it focuses on the data thinking needed across many clinical and medical contexts.\nThe central question is:\nTo answer that question, this guide follows a system-level workflow:\nThis workflow is intentionally practical.\nIt reflects the reality that clinical insight depends not only on statistical methods or machine learning models, but also on the quality, meaning, and structure of the underlying data.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#purpose-of-this-guide",
+    "href": "00-preface-and-overview.html#purpose-of-this-guide",
+    "title": "Preface and Overview",
+    "section": "",
+    "text": "How do we move from healthcare records to reliable clinical insight?\n\n\nClinical Question\n        ↓\nCohort Definition\n        ↓\nClinical Data Inputs\n        ↓\nData Quality Checks\n        ↓\nMissingness and Completeness Review\n        ↓\nClinical Variable Engineering\n        ↓\nAnalysis-Ready Dataset\n        ↓\nDescriptive Clinical Analysis\n        ↓\nClinical Modeling and Evaluation\n        ↓\nClinical Interpretation\n        ↓\nReproducible Report",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#what-this-system-covers",
+    "href": "00-preface-and-overview.html#what-this-system-covers",
+    "title": "Preface and Overview",
+    "section": "What This System Covers",
+    "text": "What This System Covers\nThis guide begins with structured clinical data tables.\nThat means the starting point is not a raw hospital database.\nThe starting point is a set of privacy-safe tables that represent common clinical data domains.\nExamples include:\npatients.tsv\nencounters.tsv\ndiagnoses.tsv\nmedications.tsv\nlabs.tsv\nvitals.tsv\noutcomes.tsv\nThese tables allow us to teach the core logic of clinical data systems without exposing real patient information.\nThe guide covers:\n\nclinical questions and cohort definition\npatient demographics\nencounters and visits\ndiagnoses and procedures\nmedications\nlaboratory results\nvital signs\noutcomes and follow-up\ndata quality checks\nmissingness and completeness\nclinical variable engineering\nanalysis-ready clinical datasets\ndescriptive analysis\nrisk stratification\nclinical model evaluation\ninterpretation and decision support\nreproducible reporting\ndashboard readiness\nEHR, FHIR, and interoperability roadmap\n\nThe first version focuses on structured data because most clinical analytics work eventually depends on well-prepared tables.\nMore advanced systems can later connect this foundation to EHR exports, FHIR resources, claims data, imaging metadata, wearable data, or clinical text.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#what-this-guide-does-not-do",
+    "href": "00-preface-and-overview.html#what-this-guide-does-not-do",
+    "title": "Preface and Overview",
+    "section": "What This Guide Does Not Do",
+    "text": "What This Guide Does Not Do\nThis guide does not teach clinical diagnosis.\nIt does not provide medical advice.\nIt does not replace clinical judgment.\nIt does not claim that a model output is automatically a clinical recommendation.\nClinical data analysis can support decision-making, but it must be interpreted in context.\nA clinical model may identify risk.\nA dashboard may summarize trends.\nA table may reveal missingness.\nA report may communicate findings.\nBut clinical decisions require domain knowledge, patient context, ethical judgment, and appropriate governance.\nThis guide focuses on building reliable data systems that support responsible clinical interpretation.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#why-clinical-data-need-a-system",
+    "href": "00-preface-and-overview.html#why-clinical-data-need-a-system",
+    "title": "Preface and Overview",
+    "section": "Why Clinical Data Need a System",
+    "text": "Why Clinical Data Need a System\nClinical data are different from many other datasets.\nIn a simple business dataset, each row may represent a sale.\nIn a simple experiment, each row may represent one observation.\nIn clinical data, the structure is often more complex.\nOne patient can have many encounters.\nOne encounter can have many diagnoses.\nOne diagnosis can be coded in different ways.\nOne laboratory test can be repeated many times.\nOne medication can be prescribed, changed, stopped, restarted, or recorded inconsistently.\nOne outcome can depend on follow-up time.\nThis creates important questions:\nWhat is the unit of analysis?\n\nIs one row a patient?\n\nIs one row an encounter?\n\nIs one row a lab result?\n\nIs one row a diagnosis?\n\nIs one row a follow-up period?\nBefore analysis begins, these questions must be answered clearly.\nA clinical data system helps make these decisions explicit.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#core-principle-meaning-before-modeling",
+    "href": "00-preface-and-overview.html#core-principle-meaning-before-modeling",
+    "title": "Preface and Overview",
+    "section": "Core Principle: Meaning Before Modeling",
+    "text": "Core Principle: Meaning Before Modeling\nA model can only be as reliable as the clinical meaning of the data behind it.\nBefore building a model, we need to understand:\nWho is included?\nWho is excluded?\nWhat time period is being studied?\nWhat outcome is being predicted or described?\nWhich variables are available before the outcome?\nWhich variables may leak future information?\nWhich values are missing?\nWhich measurements are clinically plausible?\nWhich codes define the condition or exposure?\nThis is why the workflow does not begin with modeling.\nIt begins with the clinical question.\nThen it defines the cohort.\nThen it inspects the data inputs.\nOnly after those steps does it move toward analysis, modeling, and interpretation.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#relationship-to-data-science-foundations",
+    "href": "00-preface-and-overview.html#relationship-to-data-science-foundations",
+    "title": "Preface and Overview",
+    "section": "Relationship to Data Science Foundations",
+    "text": "Relationship to Data Science Foundations\nThis guide builds on the CDI Data Science Foundations layer.\nOnce clinical data have been cleaned, validated, and converted into an analysis-ready table, many general data science principles apply.\nFor example:\nAnalysis-Ready Clinical Dataset\n        ↓\nExploratory Analysis\n        ↓\nFeature Engineering\n        ↓\nModel Building\n        ↓\nModel Evaluation\n        ↓\nInterpretation\n        ↓\nCommunication\nThe difference is that clinical data require additional care before reaching that stage.\nThe clinical pathway adds healthcare-specific thinking around:\n\npatient identity and privacy\nencounter structure\nclinical coding\ntime and follow-up\nmeasurement units\nmissingness patterns\noutcome definition\nclinical plausibility\ndecision-support context\n\nIn other words, the Data Science Foundations layer teaches how to analyze data.\nThis Clinical & Medical Data Systems layer teaches how to make clinical data safe, meaningful, and ready for that analysis.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#repository-design-pattern",
+    "href": "00-preface-and-overview.html#repository-design-pattern",
+    "title": "Preface and Overview",
+    "section": "Repository Design Pattern",
+    "text": "Repository Design Pattern\nThis guide follows the CDI project structure.\nThe .qmd files are used for explanation, teaching, documentation, and interpretation.\nRunnable code is stored in the scripts/ directory.\nThis keeps the book readable while also keeping the workflow reproducible.\nclinical-medical-data-systems/\n├── index.qmd\n├── 00-preface-and-overview.qmd\n├── 01-clinical-data-systems-overview.qmd\n├── ...\n├── 20-end-to-end-case-study.qmd\n│\n├── data/\n│   ├── example/\n│   ├── input/\n│   ├── intermediate/\n│   └── reference/\n│\n├── results/\n│   ├── tables/\n│   ├── figures/\n│   └── models/\n│\n├── reports/\n│\n├── scripts/\n│   ├── bash/\n│   ├── R/\n│   └── python/\n│\n├── assets/\n│   ├── css/\n│   ├── images/\n│   └── diagrams/\n│\n└── library/\n    └── references.bib\nThe guiding rule is:\n.qmd files explain the system.\nscripts/ contains the runnable workflow.\ndata/ contains inputs and intermediate datasets.\nresults/ contains analytical outputs.\nreports/ contains summaries and final reports.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#code-execution-philosophy",
+    "href": "00-preface-and-overview.html#code-execution-philosophy",
+    "title": "Preface and Overview",
+    "section": "Code Execution Philosophy",
+    "text": "Code Execution Philosophy\nCode blocks shown in the chapters are primarily instructional.\nFor example, a chapter may show a command like this:\nbash scripts/bash/09-check-clinical-data-quality.sh\nOr an R script call like this:\nRscript scripts/R/12-build-analysis-ready-dataset.R\nOr a Python script call like this:\npython scripts/python/15-evaluate-clinical-model.py\nThese examples show how the workflow is intended to run.\nThe actual code should live in the corresponding script files.\nThis pattern makes the guide easier to maintain because the teaching narrative and the runnable workflow remain connected but not mixed together.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#privacy-safe-learning-data",
+    "href": "00-preface-and-overview.html#privacy-safe-learning-data",
+    "title": "Preface and Overview",
+    "section": "Privacy-Safe Learning Data",
+    "text": "Privacy-Safe Learning Data\nThe first version of this system uses synthetic clinical data.\nSynthetic data are used because clinical and medical records are sensitive.\nThe example data are designed to be realistic enough for learning, but they are not real patient records.\nThe purpose is to teach the structure and workflow, not to represent a real clinical population.\nA typical example dataset may include:\ndata/example/patients.tsv\ndata/example/encounters.tsv\ndata/example/diagnoses.tsv\ndata/example/medications.tsv\ndata/example/labs.tsv\ndata/example/vitals.tsv\ndata/example/outcomes.tsv\nThese files allow learners to practice:\n\njoining patient and encounter records\nchecking identifiers\nsummarizing missingness\nvalidating clinical ranges\nbuilding derived variables\ncreating an analysis-ready dataset\ngenerating reproducible summaries\n\nThis privacy-safe starting point also makes the guide easier to run on any machine.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#end-to-end-direction",
+    "href": "00-preface-and-overview.html#end-to-end-direction",
+    "title": "Preface and Overview",
+    "section": "End-to-End Direction",
+    "text": "End-to-End Direction\nThe final chapter brings the workflow together into a complete case study.\nThe end-to-end case study will show how to move from a clinical question to a reproducible report.\nThe intended workflow is:\nCreate Example Clinical Data\n        ↓\nInspect Input Tables\n        ↓\nCheck Data Quality\n        ↓\nSummarize Missingness\n        ↓\nEngineer Clinical Variables\n        ↓\nBuild Analysis-Ready Dataset\n        ↓\nRun Descriptive Analysis\n        ↓\nEvaluate Model Readiness\n        ↓\nInterpret Findings\n        ↓\nGenerate Report\nIn the repository, this workflow should be represented by a script such as:\nbash scripts/bash/20-end-to-end-case-study.sh\nThat script should call the smaller workflow scripts in sequence.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#how-to-read-this-guide",
+    "href": "00-preface-and-overview.html#how-to-read-this-guide",
+    "title": "Preface and Overview",
+    "section": "How to Read This Guide",
+    "text": "How to Read This Guide\nThis guide is designed to be read sequentially.\nPart I introduces the foundations.\nPart II introduces the major clinical data inputs.\nPart III focuses on cleaning, validation, missingness, and analysis readiness.\nPart IV moves into descriptive analysis, modeling, evaluation, interpretation, and decision support.\nPart V connects the workflow to reporting, dashboards, interoperability, and end-to-end implementation.\nThe structure is:\nPart I: Clinical Data Foundations\nPart II: Clinical Data Inputs\nPart III: Cleaning, Validation, and Readiness\nPart IV: Clinical Analysis and Interpretation\nPart V: Reporting and Real-World Systems\nEach chapter should answer four questions:\nWhat is this step?\nWhy does it matter?\nWhat inputs are needed?\nWhat outputs should be produced?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#the-cdi-clinical-data-mindset",
+    "href": "00-preface-and-overview.html#the-cdi-clinical-data-mindset",
+    "title": "Preface and Overview",
+    "section": "The CDI Clinical Data Mindset",
+    "text": "The CDI Clinical Data Mindset\nThe CDI approach is not simply to run code.\nThe goal is to build systems that make data work defensible.\nFor clinical data, this means:\nDo not analyze before defining the cohort.\n\nDo not model before understanding the outcome.\n\nDo not interpret before checking data quality.\n\nDo not communicate results without explaining limitations.\n\nDo not confuse prediction with clinical decision-making.\nA good clinical data system should make the workflow transparent.\nIt should show what was included.\nIt should show what was excluded.\nIt should show what was missing.\nIt should show what was transformed.\nIt should show what was assumed.\nIt should show what the results mean and what they do not mean.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "00-preface-and-overview.html#summary",
+    "href": "00-preface-and-overview.html#summary",
+    "title": "Preface and Overview",
+    "section": "Summary",
+    "text": "Summary\nClinical and medical data can support powerful insights, but only when handled with care.\nThis guide provides a structured pathway from healthcare records to reliable clinical insight.\nIt begins with clinical questions and structured data inputs.\nIt then moves through data quality, missingness, variable engineering, analysis-ready datasets, descriptive analysis, modeling, interpretation, and reporting.\nThe goal is not just to produce outputs.\nThe goal is to build a reproducible clinical data system that supports trustworthy evidence.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Preface and Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html",
+    "href": "01-clinical-data-systems-overview.html",
+    "title": "Clinical Data Systems Overview",
+    "section": "",
+    "text": "What Is a Clinical Data System?\nClinical data systems are the bridge between healthcare records and reliable clinical insight.\nThey help answer questions such as:\nA clinical data system is not just a database.\nIt is a workflow for transforming healthcare information into evidence that can be checked, explained, repeated, and interpreted responsibly.\nThis chapter introduces the overall structure of a clinical data system.\nIt explains why clinical data need special handling, what the major data domains are, and how this guide will move from raw structured records to analysis-ready datasets.\nA clinical data system is an organized workflow for collecting, structuring, checking, transforming, analyzing, and reporting clinical data.\nIn this guide, the word system does not mean only software.\nIt includes:\nThis matters because clinical data work is rarely a single step.\nA table may look simple, but the meaning behind it may be complex.\nFor example, a row in a clinical dataset may represent:\nThe first task in a clinical data system is to understand what each row means.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#what-is-a-clinical-data-system",
+    "href": "01-clinical-data-systems-overview.html#what-is-a-clinical-data-system",
+    "title": "Clinical Data Systems Overview",
+    "section": "",
+    "text": "Clinical question\n        ↓\nCohort definition\n        ↓\nData source identification\n        ↓\nData extraction or input\n        ↓\nData quality checks\n        ↓\nVariable engineering\n        ↓\nAnalysis-ready dataset\n        ↓\nAnalysis or modeling\n        ↓\nClinical interpretation\n        ↓\nReport or decision-support output\n\n\n\none patient\none encounter\none diagnosis\none medication order\none laboratory result\none vital sign measurement\none follow-up outcome",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#why-clinical-data-are-different",
+    "href": "01-clinical-data-systems-overview.html#why-clinical-data-are-different",
+    "title": "Clinical Data Systems Overview",
+    "section": "Why Clinical Data Are Different",
+    "text": "Why Clinical Data Are Different\nClinical data are different from many general-purpose datasets because they are created during care delivery, administration, monitoring, research, or reporting.\nThey are not always created for analysis.\nA blood pressure value may be recorded because a nurse measured it during a visit.\nA diagnosis code may be entered for documentation, billing, surveillance, or clinical care.\nA medication may appear because it was prescribed, administered, dispensed, reconciled, or reported by the patient.\nA laboratory result may represent a screening test, a diagnostic test, follow-up monitoring, or an emergency measurement.\nThis means the same data element can have different meanings depending on context.\nClinical data often require interpretation before analysis.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#common-clinical-data-domains",
+    "href": "01-clinical-data-systems-overview.html#common-clinical-data-domains",
+    "title": "Clinical Data Systems Overview",
+    "section": "Common Clinical Data Domains",
+    "text": "Common Clinical Data Domains\nMost clinical data systems are built from several major data domains.\nThis guide begins with structured tables that represent these domains.\npatients.tsv\nencounters.tsv\ndiagnoses.tsv\nmedications.tsv\nlabs.tsv\nvitals.tsv\noutcomes.tsv\nEach table contributes a different part of the clinical story.\n\nPatients\nThe patient table describes the people in the dataset.\nIt may include demographics such as:\npatient_id\nsex\nbirth_year or age\nlocation category\nenrollment information\nIn privacy-safe teaching data, identifiers are synthetic.\nIn real systems, patient identity must be handled with strict privacy and governance controls.\n\n\nEncounters\nThe encounter table describes healthcare contacts.\nAn encounter may represent:\noutpatient visit\nemergency visit\nhospital admission\nclinic appointment\ntelehealth contact\nfollow-up visit\nEncounters are important because much clinical information is time-dependent.\nA patient can have many encounters.\nEach encounter can contain many measurements, diagnoses, medications, and notes.\n\n\nDiagnoses and Procedures\nDiagnosis and procedure tables describe clinical conditions and interventions.\nThey may use coding systems such as ICD, SNOMED CT, CPT, or local hospital codes.\nIn this guide, the first version uses simplified example codes and labels.\nThe key idea is that diagnoses and procedures are not just labels.\nThey often define cohorts, exposures, comorbidities, complications, or outcomes.\n\n\nMedications\nMedication tables describe treatments.\nThey may include:\ndrug name\ndrug class\ndose\nroute\nstart date\nstop date\nprescription status\nadministration status\nMedication data can be difficult because a medication record does not always mean the patient took the medication.\nThe system must distinguish between what was ordered, dispensed, administered, or reported.\n\n\nLaboratory Results\nLaboratory tables describe measured biological values.\nThey may include:\nlab name\nresult value\nunit\nreference range\ncollection date\nresult date\nabnormal flag\nLaboratory values require careful unit checking.\nThe same clinical measurement can be recorded in different units or with different naming conventions.\n\n\nVital Signs\nVital signs describe bedside or clinical measurements such as:\nsystolic blood pressure\ndiastolic blood pressure\nheart rate\ntemperature\nrespiratory rate\noxygen saturation\nbody weight\nheight\nbody mass index\nVitals are often repeated many times.\nA clinical data system must decide whether to use the first value, last value, average value, worst value, baseline value, or value closest to an index date.\n\n\nOutcomes\nOutcome tables describe what happened after the clinical observation period.\nThey may include:\nrecovery\nreadmission\nmortality\ndisease progression\nfollow-up status\ntreatment response\ncomplication\nreview needed\nOutcome definition is one of the most important steps in clinical analysis.\nA weak outcome definition can make the entire analysis unreliable.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#the-basic-clinical-data-architecture",
+    "href": "01-clinical-data-systems-overview.html#the-basic-clinical-data-architecture",
+    "title": "Clinical Data Systems Overview",
+    "section": "The Basic Clinical Data Architecture",
+    "text": "The Basic Clinical Data Architecture\nA simple clinical data system can be represented as a set of linked tables.\npatients\n    ↓\nencounters\n    ↓\ndiagnoses\n    ↓\nmedications\n    ↓\nlabs\n    ↓\nvitals\n    ↓\noutcomes\nIn practice, the relationships are not always one-to-one.\nA patient can have many encounters.\nAn encounter can have many diagnoses.\nAn encounter can have many lab results.\nA patient can have medications across multiple encounters.\nAn outcome may be measured after a specific follow-up period.\nA more realistic structure is:\npatients\n    ├── encounters\n    │       ├── diagnoses\n    │       ├── medications\n    │       ├── labs\n    │       └── vitals\n    └── outcomes\nThe patient_id usually links records across tables.\nThe encounter_id usually links records within a visit or admission.\nThe clinical data system must preserve these relationships.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#unit-of-analysis",
+    "href": "01-clinical-data-systems-overview.html#unit-of-analysis",
+    "title": "Clinical Data Systems Overview",
+    "section": "Unit of Analysis",
+    "text": "Unit of Analysis\nOne of the most important decisions in clinical data work is the unit of analysis.\nThe unit of analysis defines what one row means in the final dataset.\nPossible units include:\none row per patient\none row per encounter\none row per diagnosis\none row per lab result\none row per medication\none row per follow-up period\nThe unit of analysis depends on the clinical question.\nFor example:\nQuestion:\nWhat proportion of patients have elevated blood pressure?\n\nLikely unit:\none row per patient\nQuestion:\nWhich emergency encounters are followed by hospital admission?\n\nLikely unit:\none row per encounter\nQuestion:\nHow often are abnormal glucose results observed after treatment?\n\nLikely unit:\none row per lab result or one row per follow-up period\nA reliable clinical data system does not begin analysis until the unit of analysis is clear.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#cohort-definition",
+    "href": "01-clinical-data-systems-overview.html#cohort-definition",
+    "title": "Clinical Data Systems Overview",
+    "section": "Cohort Definition",
+    "text": "Cohort Definition\nA cohort is the group of patients, encounters, or records included in the analysis.\nA cohort definition usually specifies:\nwho is included\nwho is excluded\nthe time period\nthe index event or index date\nthe required data elements\nthe follow-up period\nthe outcome definition\nFor example, a simple hypertension cohort might be described as:\nAdults with at least one outpatient encounter during the study period\nand at least one recorded blood pressure measurement.\nA more specific cohort might be:\nAdults aged 40 years or older\nwith two or more elevated blood pressure readings\nwithin a six-month period\nand at least 30 days of follow-up.\nThe more precise the cohort definition, the easier it is to interpret the results.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#data-quality-before-analysis",
+    "href": "01-clinical-data-systems-overview.html#data-quality-before-analysis",
+    "title": "Clinical Data Systems Overview",
+    "section": "Data Quality Before Analysis",
+    "text": "Data Quality Before Analysis\nClinical data quality checks are not optional.\nBefore analysis, the system should check:\nAre required files present?\n\nAre required columns present?\n\nAre patient identifiers consistent?\n\nAre encounter identifiers consistent?\n\nAre dates valid?\n\nAre duplicate records present?\n\nAre numeric values plausible?\n\nAre units consistent?\n\nAre outcome values defined?\n\nAre missing values acceptable or concerning?\nThese checks prevent common errors.\nFor example, if blood pressure values are imported as text, numeric summaries may fail or produce misleading results.\nIf lab units are mixed, values may not be comparable.\nIf the outcome is missing for most patients, a model may not be meaningful.\nIf a future lab value is used to predict an earlier outcome, the model may leak information.\nThe clinical data system must detect these problems early.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#analysis-ready-clinical-dataset",
+    "href": "01-clinical-data-systems-overview.html#analysis-ready-clinical-dataset",
+    "title": "Clinical Data Systems Overview",
+    "section": "Analysis-Ready Clinical Dataset",
+    "text": "Analysis-Ready Clinical Dataset\nAn analysis-ready clinical dataset is a table prepared for a specific question.\nIt is not simply a cleaned version of the raw data.\nIt is a question-specific dataset where each row has a clear meaning.\nAn analysis-ready clinical dataset should define:\nunit of analysis\npatient or encounter identifier\ninclusion and exclusion criteria\ntime window\nbaseline variables\nderived variables\noutcome variable\nmissingness indicators where needed\ndata provenance\nFor example, if the unit is one row per encounter, the table might include:\nencounter_id\npatient_id\nage_at_encounter\nsex\nencounter_type\ndiagnosis_group\nbaseline_systolic_bp\nbaseline_diastolic_bp\nglucose_value\ncomorbidity_count\nfollowup_days\noutcome_status\nThis table can then be used for descriptive analysis, modeling, reporting, or dashboard preparation.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#from-analysis-to-clinical-interpretation",
+    "href": "01-clinical-data-systems-overview.html#from-analysis-to-clinical-interpretation",
+    "title": "Clinical Data Systems Overview",
+    "section": "From Analysis to Clinical Interpretation",
+    "text": "From Analysis to Clinical Interpretation\nClinical analysis does not end when a table or model is produced.\nThe final step is interpretation.\nA clinical interpretation should explain:\nwhat the analysis found\nwhich patients or encounters were included\nwhich outcome was studied\nwhich variables were used\nwhat was missing\nwhat assumptions were made\nwhat the results mean\nwhat the results do not mean\nwhat limitations should be considered\nThis is especially important for clinical models.\nA model can estimate risk, but it does not automatically make a clinical decision.\nClinical decision support requires careful governance, validation, monitoring, and human oversight.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#system-workflow",
+    "href": "01-clinical-data-systems-overview.html#system-workflow",
+    "title": "Clinical Data Systems Overview",
+    "section": "System Workflow",
+    "text": "System Workflow\nThe overall workflow for this guide is:\nClinical Question\n        ↓\nCohort Definition\n        ↓\nClinical Data Inputs\n        ↓\nData Quality Checks\n        ↓\nMissingness and Completeness\n        ↓\nClinical Variable Engineering\n        ↓\nAnalysis-Ready Dataset\n        ↓\nDescriptive Analysis\n        ↓\nRisk Stratification or Modeling\n        ↓\nModel Evaluation\n        ↓\nClinical Interpretation\n        ↓\nReproducible Report\nThis workflow is repeated throughout the guide.\nEach chapter expands one part of the system.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#how-this-chapter-connects-to-the-rest-of-the-guide",
+    "href": "01-clinical-data-systems-overview.html#how-this-chapter-connects-to-the-rest-of-the-guide",
+    "title": "Clinical Data Systems Overview",
+    "section": "How This Chapter Connects to the Rest of the Guide",
+    "text": "How This Chapter Connects to the Rest of the Guide\nThis chapter introduces the system view.\nThe next chapters move into the details.\n02 Healthcare Data Types\n        ↓\n03 Clinical Questions and Cohorts\n        ↓\n04 Data Governance, Privacy, and Ethics\n        ↓\n05 Patient Demographics and Encounters\n        ↓\n06 Diagnoses, Procedures, and Medications\n        ↓\n07 Laboratory and Vital Sign Results\n        ↓\n08 Clinical Outcomes and Follow-Up\nTogether, these chapters establish the clinical foundation needed before cleaning, validation, analysis, modeling, and reporting.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "01-clinical-data-systems-overview.html#summary",
+    "href": "01-clinical-data-systems-overview.html#summary",
+    "title": "Clinical Data Systems Overview",
+    "section": "Summary",
+    "text": "Summary\nClinical data systems help convert healthcare records into reliable clinical insight.\nThey do this by connecting clinical questions, cohort definitions, data inputs, quality checks, variable engineering, analysis-ready datasets, and interpretation.\nThe most important idea in this chapter is that clinical data analysis must preserve clinical meaning.\nBefore we analyze, we need to know what the records represent.\nBefore we model, we need to know what the outcome means.\nBefore we interpret, we need to know what was included, excluded, missing, transformed, and assumed.\nA clinical data system makes those decisions visible and reproducible.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Clinical Data Systems Overview</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html",
+    "href": "02-healthcare-data-types.html",
+    "title": "Healthcare Data Types",
+    "section": "",
+    "text": "Why Healthcare Data Types Matter\nClinical data does not come as one clean table.\nIt comes from many parts of the healthcare system.\nA patient may have demographic records, clinic visits, diagnoses, procedures, medications, laboratory tests, vital signs, imaging reports, discharge summaries, referrals, insurance claims, and follow-up outcomes.\nEach data type answers a different question.\nEach data type has different strengths.\nEach data type has different risks.\nBefore cleaning, modeling, or reporting clinical data, we need to understand what kind of healthcare data we are working with.\nThis chapter introduces the major healthcare data types used in clinical and medical data systems.\nIn many analytical projects, people begin by asking:\nIn clinical data systems, a better first question is:\nThis matters because clinical data is not created mainly for research.\nIt is often created during care delivery, billing, monitoring, documentation, or reporting.\nA diagnosis code may reflect a clinician’s assessment.\nA medication order may reflect an intended treatment.\nA laboratory result may reflect a biological measurement at a specific time.\nAn encounter record may reflect contact with the healthcare system.\nAn outcome field may reflect what was observed, documented, or followed up.\nThese are not interchangeable.\nA clinical data system must preserve these distinctions.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#why-healthcare-data-types-matter",
+    "href": "02-healthcare-data-types.html#why-healthcare-data-types-matter",
+    "title": "Healthcare Data Types",
+    "section": "",
+    "text": "What variables do we have?\n\n\n\nWhat kind of healthcare process created this data?",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#a-simple-map-of-healthcare-data",
+    "href": "02-healthcare-data-types.html#a-simple-map-of-healthcare-data",
+    "title": "Healthcare Data Types",
+    "section": "A Simple Map of Healthcare Data",
+    "text": "A Simple Map of Healthcare Data\nHealthcare data can be organized into several broad groups:\n\npatient identity and demographics,\nencounters and care episodes,\ndiagnoses and clinical conditions,\nprocedures and interventions,\nmedications and treatments,\nlaboratory and vital sign measurements,\nclinical notes and narrative records,\nimaging and diagnostic reports,\noutcomes and follow-up data,\nadministrative, billing, and claims data.\n\nThese categories are not perfect.\nReal systems often overlap.\nFor example, a hospital admission may include diagnoses, procedures, medications, labs, notes, imaging, and discharge outcomes.\nBut this map gives us a practical starting point.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#patient-identity-and-demographics",
+    "href": "02-healthcare-data-types.html#patient-identity-and-demographics",
+    "title": "Healthcare Data Types",
+    "section": "Patient Identity and Demographics",
+    "text": "Patient Identity and Demographics\nPatient demographic data describes who the patient is.\nCommon fields include:\n\npatient identifier,\nage or date of birth,\nsex or gender,\nresidence or region,\nmarital status,\noccupation,\ninsurance category,\nfacility or clinic identifier.\n\nDemographics are often used to describe a study population.\nThey are also used for stratification, adjustment, equity analysis, and risk modeling.\nFor example, age may be used to compare outcomes between younger and older patients.\nSex may be used to examine whether disease patterns differ across groups.\nRegion may help identify geographic differences in access or outcomes.\nHowever, demographic variables require care.\nThey may be incomplete.\nThey may be inconsistently recorded.\nThey may be sensitive.\nThey may also reflect social, administrative, or structural categories rather than purely biological ones.\nA clinical data system should treat demographic variables as important but not neutral.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#encounters-and-care-episodes",
+    "href": "02-healthcare-data-types.html#encounters-and-care-episodes",
+    "title": "Healthcare Data Types",
+    "section": "Encounters and Care Episodes",
+    "text": "Encounters and Care Episodes\nEncounter data describes contact between a patient and the healthcare system.\nAn encounter may be:\n\nan outpatient clinic visit,\nan emergency department visit,\nan inpatient admission,\na laboratory visit,\na pharmacy visit,\na telemedicine consultation,\na follow-up appointment.\n\nEncounter records are important because they define time and context.\nThey help answer questions such as:\n\nWhen did the patient receive care?\nWhere was the patient seen?\nWas the patient outpatient or inpatient?\nHow many visits did the patient have?\nWas the patient followed after treatment?\n\nEncounter data often provides the backbone of clinical analysis.\nMany clinical cohorts are built around index encounters.\nFor example, a study may define the first hospital admission for heart failure as the index encounter.\nFrom there, analysts may examine prior diagnoses, medications during admission, lab results, discharge status, and readmission.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#diagnoses-and-clinical-conditions",
+    "href": "02-healthcare-data-types.html#diagnoses-and-clinical-conditions",
+    "title": "Healthcare Data Types",
+    "section": "Diagnoses and Clinical Conditions",
+    "text": "Diagnoses and Clinical Conditions\nDiagnosis data records clinical conditions assigned to a patient.\nThese may come from:\n\nclinician documentation,\ncoded diagnosis fields,\ndischarge summaries,\nproblem lists,\nregistry forms,\nclaims records.\n\nDiagnosis data can support disease surveillance, cohort identification, risk adjustment, and outcome analysis.\nExamples include:\n\ndiabetes,\nhypertension,\ntuberculosis,\nHIV,\nchronic kidney disease,\npneumonia,\nsepsis,\npregnancy-related conditions.\n\nDiagnosis data is powerful, but it can be imperfect.\nA diagnosis code may not always mean confirmed disease.\nIt may indicate suspected disease, rule-out diagnosis, billing classification, historical condition, or active clinical problem.\nClinical data systems should therefore ask:\n\nWhat does this diagnosis field actually represent in this system?\n\nThis question is especially important when using diagnosis data to define cohorts.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#procedures-and-interventions",
+    "href": "02-healthcare-data-types.html#procedures-and-interventions",
+    "title": "Healthcare Data Types",
+    "section": "Procedures and Interventions",
+    "text": "Procedures and Interventions\nProcedure data describes actions performed for or on a patient.\nExamples include:\n\nsurgery,\ncesarean section,\ndialysis,\nimaging procedures,\nlaboratory procedures,\nvaccination,\ncatheter placement,\nwound care,\nscreening procedures.\n\nProcedure data helps describe what care was delivered.\nIt can also define exposures.\nFor example, a study may compare patients who received a procedure with those who did not.\nProcedure data may also be used to measure service utilization.\nHowever, procedure records may depend heavily on local documentation and coding practices.\nSome systems capture procedures in structured fields.\nOthers capture them only in clinical notes.\nSome record ordered procedures, while others record completed procedures.\nThat difference matters.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#medications-and-treatments",
+    "href": "02-healthcare-data-types.html#medications-and-treatments",
+    "title": "Healthcare Data Types",
+    "section": "Medications and Treatments",
+    "text": "Medications and Treatments\nMedication data describes drugs prescribed, ordered, dispensed, administered, or reported by the patient.\nThese are different events.\nA prescription does not always mean the patient took the medicine.\nA medication order does not always mean the drug was administered.\nA pharmacy dispensing record does not always prove adherence.\nMedication data may include:\n\ndrug name,\ndose,\nroute,\nfrequency,\nstart date,\nstop date,\nprescribing clinician,\ndispensing date,\nadministration time.\n\nMedication data is central to treatment analysis.\nIt can help answer:\n\nWhat treatment did the patient receive?\nWhen did treatment start?\nWas treatment changed?\nWas the patient exposed before an outcome occurred?\nWere there possible drug safety concerns?\n\nClinical systems should distinguish medication intention from medication exposure.\nThat distinction protects interpretation.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#laboratory-results",
+    "href": "02-healthcare-data-types.html#laboratory-results",
+    "title": "Healthcare Data Types",
+    "section": "Laboratory Results",
+    "text": "Laboratory Results\nLaboratory data contains measured biological results.\nExamples include:\n\nhemoglobin,\ncreatinine,\nblood glucose,\nviral load,\nCD4 count,\nliver enzymes,\nmalaria test results,\nculture results,\npregnancy tests.\n\nLaboratory data usually has several key components:\n\ntest name,\nresult value,\nunit,\nreference range,\nspecimen date,\nresult date,\nabnormal flag,\nfacility or laboratory source.\n\nLaboratory data is highly valuable because it can provide objective clinical measurements.\nBut laboratory data also requires careful cleaning.\nThe same test may appear under different names.\nUnits may differ.\nValues may include text such as positive, negative, &lt;5, or not detected.\nDates may reflect collection time, processing time, or reporting time.\nA clinical data system must standardize laboratory results before analysis.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#vital-signs-and-bedside-measurements",
+    "href": "02-healthcare-data-types.html#vital-signs-and-bedside-measurements",
+    "title": "Healthcare Data Types",
+    "section": "Vital Signs and Bedside Measurements",
+    "text": "Vital Signs and Bedside Measurements\nVital signs are common clinical measurements collected during care.\nExamples include:\n\ntemperature,\nblood pressure,\nheart rate,\nrespiratory rate,\noxygen saturation,\nweight,\nheight,\nbody mass index.\n\nVital signs are often repeated over time.\nThis makes them useful for monitoring disease severity, treatment response, and clinical deterioration.\nFor example, oxygen saturation may help identify respiratory compromise.\nBlood pressure may help monitor hypertension.\nWeight may help track nutritional status or fluid changes.\nVital signs can also be messy.\nThey may contain impossible values.\nThey may be recorded with inconsistent units.\nThey may be copied forward.\nThey may be missing when patients are stable or when systems are overloaded.\nClinical data readiness requires range checks, unit checks, and time checks.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#clinical-notes-and-narrative-data",
+    "href": "02-healthcare-data-types.html#clinical-notes-and-narrative-data",
+    "title": "Healthcare Data Types",
+    "section": "Clinical Notes and Narrative Data",
+    "text": "Clinical Notes and Narrative Data\nClinical notes are free-text records written by healthcare workers.\nThey may include:\n\nhistory and physical examination notes,\nprogress notes,\nnursing notes,\noperative notes,\ndischarge summaries,\nreferral notes,\nradiology narratives,\npathology narratives.\n\nClinical notes can contain rich information that structured fields miss.\nThey may describe symptoms, clinician reasoning, social context, disease severity, treatment plans, and patient preferences.\nBut notes are difficult to analyze.\nThey are unstructured.\nThey may contain abbreviations.\nThey may mix current and past information.\nThey may include sensitive details.\nThey may require natural language processing or careful manual abstraction.\nFor many clinical systems, notes are a valuable source of context, but they should not be treated as simple structured variables without validation.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#imaging-and-diagnostic-reports",
+    "href": "02-healthcare-data-types.html#imaging-and-diagnostic-reports",
+    "title": "Healthcare Data Types",
+    "section": "Imaging and Diagnostic Reports",
+    "text": "Imaging and Diagnostic Reports\nImaging data includes both images and reports.\nExamples include:\n\nX-ray,\nultrasound,\nCT scan,\nMRI,\nechocardiography,\npathology slides,\nradiology reports.\n\nFor many clinical analyses, the report is more accessible than the image itself.\nA radiology report may contain findings, impressions, recommendations, and diagnostic conclusions.\nImaging reports may help identify disease severity, complications, or outcomes.\nHowever, imaging data also has challenges.\nReports may use non-standard language.\nFindings may be uncertain.\nImages may require specialized storage, labeling, and interpretation.\nWhen imaging is used for machine learning, careful attention is needed to avoid leakage, biased labels, and poor generalization.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#outcomes-and-follow-up-data",
+    "href": "02-healthcare-data-types.html#outcomes-and-follow-up-data",
+    "title": "Healthcare Data Types",
+    "section": "Outcomes and Follow-Up Data",
+    "text": "Outcomes and Follow-Up Data\nOutcome data describes what happened to the patient.\nExamples include:\n\nrecovery,\ndeath,\ndischarge status,\nreadmission,\ndisease recurrence,\ntreatment failure,\nadverse event,\nloss to follow-up,\npregnancy outcome,\nlaboratory improvement,\nsymptom resolution.\n\nOutcome data is central to clinical interpretation.\nBut outcomes are not always directly observed.\nSome outcomes are recorded only if the patient returns.\nSome are captured only during hospitalization.\nSome are inferred from records.\nSome are missing because follow-up was incomplete.\nA clinical data system should always ask:\n\nWas this outcome actively measured, passively recorded, or inferred from available data?\n\nThat question affects how confidently we can interpret results.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#administrative-billing-and-claims-data",
+    "href": "02-healthcare-data-types.html#administrative-billing-and-claims-data",
+    "title": "Healthcare Data Types",
+    "section": "Administrative, Billing, and Claims Data",
+    "text": "Administrative, Billing, and Claims Data\nAdministrative and claims data are created for operations, reimbursement, reporting, or insurance processes.\nThey may include:\n\nfacility visits,\nbilling codes,\ninsurance claims,\nservice dates,\ndiagnosis codes,\nprocedure codes,\npayment information,\nprovider identifiers.\n\nThese data can cover large populations and long time periods.\nThey are useful for health services research, utilization analysis, cost analysis, and population-level monitoring.\nHowever, administrative data is shaped by payment and reporting rules.\nA code may reflect reimbursement needs as much as clinical reality.\nTherefore, claims-based definitions often need validation.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#structured-vs-unstructured-data",
+    "href": "02-healthcare-data-types.html#structured-vs-unstructured-data",
+    "title": "Healthcare Data Types",
+    "section": "Structured vs Unstructured Data",
+    "text": "Structured vs Unstructured Data\nHealthcare data may be structured, semi-structured, or unstructured.\nStructured data has defined fields.\nExamples include diagnosis codes, lab values, medication orders, and encounter dates.\nSemi-structured data has some organization but may still require parsing.\nExamples include forms, templated notes, and mixed text-result fields.\nUnstructured data is mostly free text or raw media.\nExamples include clinical notes, scanned documents, images, and audio recordings.\nThe more unstructured the data, the more interpretation work is required.\nBut structured data is not automatically correct.\nA clean-looking code can still be clinically misleading.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#time-in-healthcare-data",
+    "href": "02-healthcare-data-types.html#time-in-healthcare-data",
+    "title": "Healthcare Data Types",
+    "section": "Time in Healthcare Data",
+    "text": "Time in Healthcare Data\nTime is one of the most important dimensions in clinical data.\nClinical events happen in sequence.\nA diagnosis may occur before treatment.\nA lab test may occur before or after medication.\nAn outcome may occur after discharge.\nA model may accidentally use future information if timing is not handled carefully.\nClinical data systems should track:\n\ndate of birth,\nencounter dates,\ndiagnosis dates,\nprocedure dates,\nmedication start and stop dates,\nspecimen collection dates,\nresult dates,\noutcome dates,\nfollow-up windows.\n\nTemporal structure protects against false conclusions.\nIt also supports reproducible cohort definitions.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#data-type-analytical-role-and-interpretation",
+    "href": "02-healthcare-data-types.html#data-type-analytical-role-and-interpretation",
+    "title": "Healthcare Data Types",
+    "section": "Data Type, Analytical Role, and Interpretation",
+    "text": "Data Type, Analytical Role, and Interpretation\nThe same variable can play different analytical roles.\nFor example, a laboratory result may be:\n\nan inclusion criterion,\na baseline characteristic,\na predictor,\na monitoring variable,\nan outcome,\na safety signal.\n\nA diagnosis may be:\n\na cohort-defining condition,\na comorbidity,\nan exclusion criterion,\nan outcome,\na risk adjustment variable.\n\nA medication may be:\n\nan exposure,\na treatment group definition,\na confounder,\na marker of disease severity.\n\nThis means the analyst must define not only what a data field is, but how it is being used.\nClinical interpretation depends on analytical role.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#common-risks-across-healthcare-data-types",
+    "href": "02-healthcare-data-types.html#common-risks-across-healthcare-data-types",
+    "title": "Healthcare Data Types",
+    "section": "Common Risks Across Healthcare Data Types",
+    "text": "Common Risks Across Healthcare Data Types\nSeveral risks appear across many clinical data types:\n\nmissing data,\nduplicate records,\ninconsistent identifiers,\ninconsistent units,\nunclear dates,\ncoding variation,\ncopy-forward documentation,\nincomplete follow-up,\nfacility-specific workflows,\nsensitive personal information,\nchanges in clinical practice over time.\n\nThese risks do not mean the data is unusable.\nThey mean the data must be handled as clinical evidence, not just as spreadsheet content.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#cdi-principle-respect-the-source-process",
+    "href": "02-healthcare-data-types.html#cdi-principle-respect-the-source-process",
+    "title": "Healthcare Data Types",
+    "section": "CDI Principle: Respect the Source Process",
+    "text": "CDI Principle: Respect the Source Process\nA core CDI principle for clinical data systems is:\n\nDo not interpret a clinical variable without understanding the healthcare process that created it.\n\nThis principle applies to every data type.\nA lab result comes from a test order, specimen collection, analysis, and reporting process.\nA diagnosis comes from clinical assessment, documentation, and coding.\nA medication record comes from ordering, dispensing, administration, or reporting.\nAn outcome comes from observation, follow-up, or inference.\nWhen we respect the source process, our analysis becomes more defensible.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#practical-checklist",
+    "href": "02-healthcare-data-types.html#practical-checklist",
+    "title": "Healthcare Data Types",
+    "section": "Practical Checklist",
+    "text": "Practical Checklist\nBefore analyzing a clinical dataset, ask:\n\nWhat healthcare data types are included?\nWhich tables describe patients?\nWhich tables describe encounters?\nWhich tables describe diagnoses, procedures, and medications?\nWhich tables contain measurements such as labs and vital signs?\nWhich fields define outcomes?\nAre dates available for key clinical events?\nAre values coded, numeric, text, or mixed?\nWhich variables are sensitive?\nWhich variables require clinical interpretation?\nWhich variables require standardization before analysis?\n\nThis checklist helps move from raw clinical records to analysis-ready thinking.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "02-healthcare-data-types.html#chapter-summary",
+    "href": "02-healthcare-data-types.html#chapter-summary",
+    "title": "Healthcare Data Types",
+    "section": "Chapter Summary",
+    "text": "Chapter Summary\nHealthcare data systems contain many different types of data.\nPatient demographics describe who received care.\nEncounters describe contact with the healthcare system.\nDiagnoses describe clinical conditions.\nProcedures and medications describe care delivery.\nLaboratory results and vital signs describe measurements.\nClinical notes and imaging reports provide narrative and diagnostic context.\nOutcomes describe what happened after care.\nAdministrative and claims data describe operational and billing processes.\nEach data type has value.\nEach data type has limitations.\nA strong clinical data system begins by recognizing these differences before moving into cohort design, governance, cleaning, modeling, and reporting.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Healthcare Data Types</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html",
+    "href": "03-clinical-questions-and-cohorts.html",
+    "title": "Clinical Questions and Cohorts",
+    "section": "",
+    "text": "Why Clinical Questions Come First\nClinical data systems do not begin with a spreadsheet.\nThey begin with a question.\nA clinical question defines what we want to learn, improve, predict, monitor, or explain.\nA cohort defines who belongs in the analysis.\nWithout a clear question and a careful cohort definition, even a technically correct analysis can become misleading.\nThis chapter introduces the bridge between clinical intent and analysis-ready data.\nHealthcare data is complex because it is collected during care, billing, monitoring, documentation, and follow-up.\nThe same dataset can support many different questions.\nFor example, a hospital encounter table could be used to study:\nEach question requires a different cohort, different time window, different outcome, and different interpretation.\nA clinical data system must therefore make the question explicit before it prepares the dataset.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#why-clinical-questions-come-first",
+    "href": "03-clinical-questions-and-cohorts.html#why-clinical-questions-come-first",
+    "title": "Clinical Questions and Cohorts",
+    "section": "",
+    "text": "emergency department utilization\nhospital readmission\ninpatient mortality\nlength of stay\nmedication safety\nfollow-up completion\ncare access differences",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#from-clinical-concern-to-analytical-question",
+    "href": "03-clinical-questions-and-cohorts.html#from-clinical-concern-to-analytical-question",
+    "title": "Clinical Questions and Cohorts",
+    "section": "From Clinical Concern to Analytical Question",
+    "text": "From Clinical Concern to Analytical Question\nA clinical concern is usually broad.\nAn analytical question must be specific enough to convert into data logic.\nExample:\nClinical concern:\nSome patients return to the hospital soon after discharge.\n\nAnalytical question:\nAmong adult patients discharged alive from inpatient care, what proportion are readmitted within 30 days, and which baseline features are associated with readmission?\nThe second version is stronger because it defines:\n\nthe population\nthe index event\nthe follow-up window\nthe outcome\nthe analytical goal\n\nThis makes the question reproducible.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#core-elements-of-a-clinical-question",
+    "href": "03-clinical-questions-and-cohorts.html#core-elements-of-a-clinical-question",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Core Elements of a Clinical Question",
+    "text": "Core Elements of a Clinical Question\nA practical clinical question usually contains five elements.\n\n\n\n\n\n\n\n\nElement\nMeaning\nExample\n\n\n\n\nPopulation\nThe patients or encounters of interest\nAdults admitted to inpatient care\n\n\nExposure or predictor\nThe condition, treatment, measurement, or feature being studied\nDiabetes status, medication class, lab value\n\n\nComparator\nThe reference group, baseline, or alternative\nPatients without diabetes\n\n\nOutcome\nThe clinical event or endpoint\nReadmission, death, abnormal lab result\n\n\nTime window\nWhen eligibility, exposure, and outcome are assessed\nIndex admission through 30 days after discharge\n\n\n\nNot every question needs a formal comparator, but every clinical analysis needs clarity about population, outcome, and time.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#cohorts-as-data-contracts",
+    "href": "03-clinical-questions-and-cohorts.html#cohorts-as-data-contracts",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Cohorts as Data Contracts",
+    "text": "Cohorts as Data Contracts\nA cohort is more than a group of rows.\nA cohort is a data contract.\nIt states who is included, who is excluded, what event anchors the analysis, and what time period is valid.\nA weak cohort definition says:\nUse all patients with diabetes.\nA stronger cohort definition says:\nInclude patients aged 18 years or older who had at least one inpatient encounter between 2024-01-01 and 2024-12-31, had diabetes recorded before or during the index encounter, were discharged alive, and had at least 30 days of observable follow-up after discharge.\nThe stronger version can be implemented, reviewed, and repeated.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#index-events",
+    "href": "03-clinical-questions-and-cohorts.html#index-events",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Index Events",
+    "text": "Index Events\nMany clinical analyses need an index event.\nAn index event is the anchor point from which eligibility, baseline features, exposure, follow-up, and outcome timing are defined.\nCommon index events include:\n\nfirst clinic visit\nfirst diagnosis date\nhospital admission date\nhospital discharge date\nmedication start date\nprocedure date\nlaboratory test date\n\nThe index event should match the clinical question.\nFor a 30-day readmission study, discharge is often the natural anchor.\nFor treatment initiation, the medication start date may be the anchor.\nFor disease incidence, the first diagnosis date may be the anchor.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#lookback-and-follow-up-windows",
+    "href": "03-clinical-questions-and-cohorts.html#lookback-and-follow-up-windows",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Lookback and Follow-Up Windows",
+    "text": "Lookback and Follow-Up Windows\nClinical features are often measured relative to the index event.\nA lookback window defines how far backward the system searches for baseline information.\nA follow-up window defines how far forward the system searches for outcomes.\nExample timeline:\n\nLookback window             Index event              Follow-up window\n-365 days to -1 day          Discharge date           0 to 30 days after discharge\n\nBaseline features           Anchor                   Readmission outcome\nThis distinction prevents future information from leaking into baseline variables.\nThat is especially important for predictive modeling.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#inclusion-and-exclusion-criteria",
+    "href": "03-clinical-questions-and-cohorts.html#inclusion-and-exclusion-criteria",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Inclusion and Exclusion Criteria",
+    "text": "Inclusion and Exclusion Criteria\nInclusion criteria define who can enter the cohort.\nExclusion criteria define who should be removed because they do not fit the analytical purpose.\nExample:\nInclusion criteria:\n- Age 18 years or older\n- Inpatient admission during the study period\n- Discharged alive\n- Valid patient identifier\n- Valid admission and discharge dates\n\nExclusion criteria:\n- Missing discharge date\n- Same-day transfer to another acute facility\n- Death during index admission\n- Less than 30 days of observable follow-up\n- Duplicate or conflicting encounter records\nThese criteria should be written before analysis begins.\nChanging them after seeing results can introduce bias.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#patient-level-versus-encounter-level-cohorts",
+    "href": "03-clinical-questions-and-cohorts.html#patient-level-versus-encounter-level-cohorts",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Patient-Level Versus Encounter-Level Cohorts",
+    "text": "Patient-Level Versus Encounter-Level Cohorts\nClinical data can be organized around patients, encounters, visits, tests, prescriptions, or procedures.\nThe unit of analysis must be clear.\n\n\n\n\n\n\n\n\nUnit of analysis\nExample question\nTypical row meaning\n\n\n\n\nPatient-level\nWhich patients developed diabetes?\nOne row per patient\n\n\nEncounter-level\nWhich admissions resulted in readmission?\nOne row per encounter\n\n\nTest-level\nWhich lab results were abnormal?\nOne row per test result\n\n\nMedication-level\nWhich prescriptions were discontinued?\nOne row per medication order\n\n\nProcedure-level\nWhich procedures had complications?\nOne row per procedure\n\n\n\nA patient can have many encounters.\nAn encounter can have many tests, diagnoses, medications, and procedures.\nThe cohort table should match the unit of analysis.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#example-cohort-specification",
+    "href": "03-clinical-questions-and-cohorts.html#example-cohort-specification",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Example Cohort Specification",
+    "text": "Example Cohort Specification\nA simple cohort specification can be stored as a plain text or YAML-like planning file.\ncohort_name: adult_inpatient_readmission_30d\nclinical_question: What proportion of adult inpatient discharges are followed by readmission within 30 days?\nunit_of_analysis: encounter\nindex_event: inpatient discharge\nstudy_start_date: 2024-01-01\nstudy_end_date: 2024-12-31\nminimum_age: 18\ninclude:\n  - inpatient encounters\n  - discharged alive\n  - valid patient identifier\n  - valid admission and discharge timestamps\nexclude:\n  - death during index encounter\n  - missing discharge date\n  - less than 30 days observable follow-up\noutcome:\n  name: readmission_30d\n  definition: unplanned inpatient admission within 30 days after index discharge\nThis type of specification makes the analysis easier to audit.\nIt also helps separate clinical reasoning from code implementation.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#script-pattern-for-this-chapter",
+    "href": "03-clinical-questions-and-cohorts.html#script-pattern-for-this-chapter",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Script Pattern for This Chapter",
+    "text": "Script Pattern for This Chapter\nFor this chapter, the supporting scripts should help create and validate a cohort specification rather than perform advanced analysis.\nA typical project layout may include:\nscripts/\n├── bash/\n│   └── 03-check-cohort-specification.sh\n├── python/\n│   └── 03-create-example-cohort-specification.py\n└── R/\n    └── 03-summarize-cohort-specification.R\n\ndata/\n├── example/\n│   └── cohort-specification.yml\n└── results/\n    └── cohort-specification-summary.tsv\nThe chapter remains readable and non-executable.\nThe reproducible work belongs in the supporting scripts.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#modern-clinical-data-system-practice",
+    "href": "03-clinical-questions-and-cohorts.html#modern-clinical-data-system-practice",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Modern Clinical Data System Practice",
+    "text": "Modern Clinical Data System Practice\nModern clinical data systems should treat cohort definitions as versioned analytical assets.\nThis means the cohort definition should be:\n\nhuman-readable\nmachine-checkable\nstored in the project repository\nlinked to outputs and reports\nreviewed before modeling or interpretation\n\nThis reduces confusion when results are revised, shared, or reproduced later.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#common-cohort-mistakes",
+    "href": "03-clinical-questions-and-cohorts.html#common-cohort-mistakes",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Common Cohort Mistakes",
+    "text": "Common Cohort Mistakes\nClinical analyses often fail because cohort logic is unclear.\nCommon mistakes include:\n\nmixing patient-level and encounter-level records\nusing future data as baseline information\ndefining outcomes before defining the index event\nexcluding records after looking at results\nignoring missing dates\nfailing to distinguish planned and unplanned events\ntreating billing codes as perfect clinical truth\nusing one row per patient when the question is encounter-based\n\nThese mistakes can change the results more than the statistical method itself.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#cdi-interpretation-layer",
+    "href": "03-clinical-questions-and-cohorts.html#cdi-interpretation-layer",
+    "title": "Clinical Questions and Cohorts",
+    "section": "CDI Interpretation Layer",
+    "text": "CDI Interpretation Layer\nIn the CDI workflow, cohort construction sits between clinical reasoning and data engineering.\nThe cohort should answer three questions before analysis begins:\nWho is eligible?\nWhat event anchors the analysis?\nWhen are baseline features and outcomes measured?\nOnce those answers are stable, downstream cleaning, feature engineering, modeling, and reporting become much more defensible.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "03-clinical-questions-and-cohorts.html#chapter-summary",
+    "href": "03-clinical-questions-and-cohorts.html#chapter-summary",
+    "title": "Clinical Questions and Cohorts",
+    "section": "Chapter Summary",
+    "text": "Chapter Summary\nClinical analysis begins with a question, not a dataset.\nA strong clinical question defines the population, outcome, time window, and analytical purpose.\nA cohort definition converts that question into reproducible data logic.\nBefore moving to governance, privacy, and ethics, the analyst should be able to explain exactly who is included, who is excluded, and why.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Clinical Questions and Cohorts</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html",
+    "href": "04-data-governance-privacy-and-ethics.html",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "",
+    "text": "Learning Objectives\nClinical data is not ordinary data.\nIt describes people, illnesses, treatments, risks, encounters, and outcomes.\nThis means clinical data systems must be designed with more than technical accuracy in mind.\nThey must also protect patients, respect permissions, preserve trust, and prevent misuse.\nA clinical dataset may be clean, well-structured, and statistically useful, but still unsafe or inappropriate to analyze if governance, privacy, and ethics are weak.\nThis chapter introduces the governance layer that sits underneath every responsible clinical data workflow.\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#learning-objectives",
+    "href": "04-data-governance-privacy-and-ethics.html#learning-objectives",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "",
+    "text": "Explain why clinical data governance is part of analysis readiness.\nDistinguish privacy, confidentiality, security, consent, and ethical use.\nRecognize common risks in patient-level clinical datasets.\nDescribe practical safeguards such as de-identification, access control, audit trails, and data minimization.\nUnderstand why clinical interpretation must remain cautious, contextual, and accountable.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#why-governance-comes-before-analysis",
+    "href": "04-data-governance-privacy-and-ethics.html#why-governance-comes-before-analysis",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Why Governance Comes Before Analysis",
+    "text": "Why Governance Comes Before Analysis\nClinical data analysis often begins with a practical question:\n\nCan we use these data to answer this clinical question?\n\nBefore answering that, a safer question must come first:\n\nAre we allowed to use these data for this purpose, and can we do so responsibly?\n\nGovernance determines whether data use is appropriate.\nIt defines:\n\nwho can access the data,\nwhat they are allowed to do with it,\nwhich identifiers must be removed or protected,\nhow outputs should be reviewed,\nhow risks to patients and communities should be minimized,\nand who is accountable if something goes wrong.\n\nIn a CDI clinical data system, governance is not an administrative afterthought.\nIt is part of the analytical pipeline.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#governance-as-a-system-layer",
+    "href": "04-data-governance-privacy-and-ethics.html#governance-as-a-system-layer",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Governance as a System Layer",
+    "text": "Governance as a System Layer\nA clinical data system should treat governance as a visible layer between raw data and analysis.\nClinical Data Source\n        ↓\nGovernance and Permissions\n        ↓\nPrivacy and Security Controls\n        ↓\nData Cleaning and Validation\n        ↓\nAnalysis-Ready Dataset\n        ↓\nClinical Interpretation and Reporting\nThis ordering matters.\nIf governance is skipped, later steps may create harm even when the technical workflow is correct.\nFor example, a dashboard that displays rare diagnoses by facility may accidentally identify patients in small communities.\nA model trained on historical treatment patterns may reproduce inequities if the original care patterns were biased.\nA table with dates of admission, age, and diagnosis may appear harmless, but may still be re-identifiable when combined with other information.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#core-concepts",
+    "href": "04-data-governance-privacy-and-ethics.html#core-concepts",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Core Concepts",
+    "text": "Core Concepts\nSeveral terms are often used together, but they are not the same.\n\nPrivacy\nPrivacy concerns a patient’s right to control how personal information is collected, used, shared, and disclosed.\nA privacy question asks:\n\nShould this information be used in this way?\n\n\n\nConfidentiality\nConfidentiality concerns the duty of people and institutions to protect information that has been entrusted to them.\nA confidentiality question asks:\n\nAre we protecting the information we were trusted to hold?\n\n\n\nSecurity\nSecurity concerns the technical and operational controls that prevent unauthorized access, loss, misuse, or exposure.\nA security question asks:\n\nCan unauthorized people access, alter, or extract these data?\n\n\n\nConsent\nConsent concerns whether patients or participants agreed to a particular use of their information, often under specific conditions.\nA consent question asks:\n\nDid the person agree to this use, and does this use stay within that agreement?\n\n\n\nEthics\nEthics concerns whether the work is fair, respectful, justified, transparent, and beneficial relative to its risks.\nAn ethics question asks:\n\nEven if this is technically and legally possible, is it responsible?",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#common-clinical-data-risks",
+    "href": "04-data-governance-privacy-and-ethics.html#common-clinical-data-risks",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Common Clinical Data Risks",
+    "text": "Common Clinical Data Risks\nClinical datasets can create risk in several ways.\nSome risks are obvious.\nOthers emerge only after data are linked, filtered, visualized, or modeled.\n\n\n\n\n\n\n\n\nRisk\nExample\nWhy It Matters\n\n\n\n\nDirect identification\nNames, phone numbers, medical record numbers\nImmediately reveals patient identity\n\n\nIndirect identification\nAge, dates, location, rare diagnosis\nCan identify someone when combined with other data\n\n\nSensitive attribute exposure\nHIV status, pregnancy outcome, mental health diagnosis\nMay cause stigma, discrimination, or harm\n\n\nSmall cell disclosure\nReporting 1 or 2 cases in a small subgroup\nMakes individuals easier to infer\n\n\nPurpose drift\nData collected for care reused for unrelated analysis\nMay violate trust or permissions\n\n\nAlgorithmic bias\nModel learns from unequal historical care access\nMay amplify inequity\n\n\nMisleading interpretation\nAssociation presented as causal effect\nMay influence poor clinical decisions\n\n\n\nA responsible workflow anticipates these risks before analysis begins.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#data-minimization",
+    "href": "04-data-governance-privacy-and-ethics.html#data-minimization",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Data Minimization",
+    "text": "Data Minimization\nOne of the strongest privacy principles is simple:\n\nUse only the data needed for the question.\n\nThis is called data minimization.\nIf date of birth is not needed, use age group.\nIf exact visit date is not needed, use month or study day.\nIf facility name is not needed, use region or coded facility group.\nIf free-text notes are not needed, exclude them from the analysis dataset.\nData minimization reduces risk without weakening the analysis when done carefully.\nQuestion:\nWhich age groups have the highest 30-day readmission rate?\n\nPrefer:\nage_group, index_admission_date_group, readmission_status\n\nAvoid unless required:\nfull_date_of_birth, full_address, full medical record number, raw clinical notes\nThe goal is not to remove useful information blindly.\nThe goal is to preserve analytical meaning while reducing unnecessary exposure.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#de-identification-and-pseudonymization",
+    "href": "04-data-governance-privacy-and-ethics.html#de-identification-and-pseudonymization",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "De-identification and Pseudonymization",
+    "text": "De-identification and Pseudonymization\nClinical datasets often need identifiers removed or transformed before analysis.\nTwo common approaches are de-identification and pseudonymization.\n\nDe-identification\nDe-identification removes or generalizes information so that patients are no longer readily identifiable.\nExamples include removing names, replacing exact dates with relative study days, grouping ages, or suppressing rare categories.\n\n\nPseudonymization\nPseudonymization replaces direct identifiers with coded identifiers.\nFor example, a medical record number may be replaced by a generated patient ID.\nOriginal:\nmedical_record_number = MRN-884921\npatient_name = Jane Example\n\nPseudonymized:\npatient_id = P000184\npatient_name = removed\nPseudonymized data are still sensitive.\nIf a key exists that links the coded ID back to the person, the data must still be protected.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#small-cell-protection",
+    "href": "04-data-governance-privacy-and-ethics.html#small-cell-protection",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Small Cell Protection",
+    "text": "Small Cell Protection\nAggregated results can still reveal patient information.\nThis is especially true when subgroups are small.\nUnsafe output:\nFacility A, age 80+, rare condition X, mortality count = 1\n\nSafer output:\nFacility group, age 65+, rare condition group, count suppressed when n &lt; threshold\nSmall cell rules vary by institution and setting.\nThe principle is consistent:\n\nDo not publish or share outputs that make individual patients easy to infer.\n\nA clinical data system should check not only raw datasets, but also tables, figures, dashboards, and reports.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#access-control",
+    "href": "04-data-governance-privacy-and-ethics.html#access-control",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Access Control",
+    "text": "Access Control\nNot everyone needs the same level of access.\nA modern clinical data system should separate roles.\n\n\n\n\n\n\n\nRole\nTypical Access\n\n\n\n\nData custodian\nRaw identifiable data, linkage keys, governance oversight\n\n\nData engineer\nControlled access needed for extraction and transformation\n\n\nAnalyst\nDe-identified or limited dataset needed for analysis\n\n\nClinical reviewer\nResults, definitions, interpretation context\n\n\nExternal collaborator\nApproved limited outputs or governed shared dataset\n\n\n\nAccess should follow the least privilege principle.\nThis means each person receives only the access necessary for their role.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#audit-trails-and-reproducibility",
+    "href": "04-data-governance-privacy-and-ethics.html#audit-trails-and-reproducibility",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Audit Trails and Reproducibility",
+    "text": "Audit Trails and Reproducibility\nGovernance and reproducibility support each other.\nA reproducible clinical workflow should record:\n\nwhere the data came from,\nwhen the data were extracted,\nwho had access,\nwhich transformations were applied,\nwhich scripts produced which outputs,\nand which version of the dataset supported the final report.\n\nThis does not mean exposing private information in logs.\nLogs should document workflow behavior without leaking patient details.\nGood log entry:\n2026-06-27 09:15:03 | validation complete | input rows: 1204 | output rows: 1188\n\nUnsafe log entry:\n2026-06-27 09:15:03 | removed patient John Example, MRN-884921\nClinical reproducibility must be privacy-aware.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#ethics-in-clinical-analysis",
+    "href": "04-data-governance-privacy-and-ethics.html#ethics-in-clinical-analysis",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Ethics in Clinical Analysis",
+    "text": "Ethics in Clinical Analysis\nEthical clinical analysis requires more than compliance.\nA legally permitted analysis can still be misleading, unfair, or harmful.\nBefore producing claims, analysts should ask:\n\nIs the clinical question meaningful?\nAre the data appropriate for the question?\nAre important patient groups missing or underrepresented?\nCould the analysis reinforce unequal care patterns?\nAre limitations clearly stated?\nCould results be misused outside their intended context?\nWho should review the interpretation before it is shared?\n\nThis is especially important for predictive models and decision-support tools.\nA model that predicts risk is not automatically a clinical recommendation.\nA dashboard that shows variation is not automatically evidence of poor care.\nA statistically significant association is not automatically causal.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#responsible-use-of-modern-tools",
+    "href": "04-data-governance-privacy-and-ethics.html#responsible-use-of-modern-tools",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Responsible Use of Modern Tools",
+    "text": "Responsible Use of Modern Tools\nModern tools can make clinical workflows faster and more powerful.\nThey can also make errors scale faster.\nTools such as DuckDB, Arrow, Polars, tidyverse, Plotly, Altair, and dashboard frameworks are useful because they support efficient, transparent, and reproducible work.\nBut tooling does not replace governance.\nA modern clinical data system should combine strong tools with strong boundaries.\nModern clinical data workflow:\n- structured project folders\n- scripted data checks\n- reproducible transformations\n- privacy-aware outputs\n- reviewed clinical definitions\n- documented limitations\n- controlled sharing\nThe safest system is not the one with the most advanced technology.\nIt is the one where technology, clinical judgment, governance, and ethics work together.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#governance-checklist",
+    "href": "04-data-governance-privacy-and-ethics.html#governance-checklist",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Governance Checklist",
+    "text": "Governance Checklist\nBefore moving clinical data into analysis, ask:\n\nWhat is the approved purpose of this analysis?\nWhich data sources are being used?\nAre identifiers removed, transformed, or protected?\nIs the dataset limited to the variables needed?\nAre small cells protected in outputs?\nAre access permissions appropriate?\nAre transformations scripted and documented?\nAre clinical definitions reviewed?\nAre limitations visible in the final report?\nIs there a plan for secure storage, sharing, and disposal?\n\nIf these questions cannot be answered, the dataset is not yet analysis-ready.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#chapter-summary",
+    "href": "04-data-governance-privacy-and-ethics.html#chapter-summary",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Chapter Summary",
+    "text": "Chapter Summary\nClinical data governance is not separate from clinical data science.\nIt is one of the foundations that makes clinical analysis trustworthy.\nPrivacy protects patients.\nSecurity protects systems.\nConsent and permissions define appropriate use.\nEthics keeps the work connected to fairness, respect, and responsible interpretation.\nAs we move from foundations into clinical data inputs, every dataset should be viewed through this lens:\n\nClinical data analysis is only useful when it is technically sound, clinically meaningful, and responsibly governed.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "04-data-governance-privacy-and-ethics.html#transition-to-part-ii",
+    "href": "04-data-governance-privacy-and-ethics.html#transition-to-part-ii",
+    "title": "Data Governance, Privacy, and Ethics",
+    "section": "Transition to Part II",
+    "text": "Transition to Part II\nPart I introduced the clinical data system, the major types of healthcare data, how clinical questions become cohorts, and why governance must come before analysis.\nPart II now moves into the practical input tables that make clinical analysis possible.\nWe begin with patient demographics and encounters.",
+    "crumbs": [
+      "Part I: Clinical Data Foundations",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Data Governance, Privacy, and Ethics</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html",
+    "href": "05-patient-demographics-and-encounters.html",
+    "title": "Patient Demographics and Encounters",
+    "section": "",
+    "text": "Why This Layer Matters\nPatient demographics and encounters are the backbone of most clinical data systems.\nBefore diagnoses, medications, laboratory results, procedures, outcomes, or models can be interpreted, we need to know:\nThis chapter introduces the patient and encounter layer as a reusable foundation for clinical datasets.\nThe goal is not only to describe demographic and encounter fields.\nThe goal is to make them analysis-ready.\nIn clinical data, many downstream errors begin here.\nA laboratory result without an encounter date is difficult to interpret.\nA diagnosis without a patient identifier cannot be linked to outcomes.\nA medication order without an admission or visit context may be clinically misleading.\nA model trained on poorly defined index encounters may appear accurate but fail in real-world use.\nFor this reason, patient and encounter data should be treated as a formal system layer.\nThe patient table usually describes relatively stable characteristics.\nThe encounter table describes care episodes over time.\nTogether, they provide the basic clinical timeline.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#why-this-layer-matters",
+    "href": "05-patient-demographics-and-encounters.html#why-this-layer-matters",
+    "title": "Patient Demographics and Encounters",
+    "section": "",
+    "text": "Patient table\n  ↓\nEncounter table\n  ↓\nClinical events\n  ↓\nAnalysis-ready cohort\n  ↓\nClinical interpretation",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#core-patient-demographic-fields",
+    "href": "05-patient-demographics-and-encounters.html#core-patient-demographic-fields",
+    "title": "Patient Demographics and Encounters",
+    "section": "Core Patient Demographic Fields",
+    "text": "Core Patient Demographic Fields\nA patient demographic table usually contains one row per patient.\nAt minimum, it should support linkage, stratification, and basic quality checks.\nCommon fields include:\n\n\n\n\n\n\n\n\nField\nMeaning\nCommon Use\n\n\n\n\npatient_id\nDe-identified patient identifier\nLink records across tables\n\n\nbirth_date or age\nDate of birth or age at index\nAge calculation and stratification\n\n\nsex\nRecorded biological sex or administrative sex\nClinical stratification and adjustment\n\n\ngender\nGender identity where available and appropriate\nEquity-aware reporting\n\n\nrace_ethnicity\nRecorded race or ethnicity category\nEquity analysis and population description\n\n\nresidence_region\nRegion, district, ZIP, or facility catchment area\nGeographic description\n\n\ndeath_date\nDate of death if available\nMortality and follow-up censoring\n\n\n\nNot every project should use every demographic field.\nThe field should be included only when it is relevant, governed, ethically justified, and interpretable.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#core-encounter-fields",
+    "href": "05-patient-demographics-and-encounters.html#core-encounter-fields",
+    "title": "Patient Demographics and Encounters",
+    "section": "Core Encounter Fields",
+    "text": "Core Encounter Fields\nAn encounter table usually contains one row per visit, admission, or care episode.\nCommon fields include:\n\n\n\n\n\n\n\n\nField\nMeaning\nCommon Use\n\n\n\n\nencounter_id\nUnique encounter identifier\nLink visit-level events\n\n\npatient_id\nPatient identifier\nLink encounter to patient\n\n\nencounter_start\nStart date or date-time\nTime alignment\n\n\nencounter_end\nEnd date or date-time\nLength of stay and follow-up\n\n\nencounter_type\nOutpatient, inpatient, emergency, virtual, etc.\nCohort definition\n\n\nfacility_id\nFacility or site identifier\nSite-level analysis\n\n\ndepartment\nClinical department or service\nCare context\n\n\nadmission_source\nReferral, emergency, transfer, routine, etc.\nCase-mix interpretation\n\n\ndischarge_disposition\nHome, transfer, death, left against advice, etc.\nOutcome context\n\n\n\nThe exact fields differ across EHR systems, research datasets, claims systems, registries, and FHIR extracts.\nBut the system requirement is the same: encounters must define clinical time and context.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#patient-level-versus-encounter-level-data",
+    "href": "05-patient-demographics-and-encounters.html#patient-level-versus-encounter-level-data",
+    "title": "Patient Demographics and Encounters",
+    "section": "Patient-Level Versus Encounter-Level Data",
+    "text": "Patient-Level Versus Encounter-Level Data\nA common clinical data mistake is mixing patient-level and encounter-level variables without making the unit of analysis explicit.\nPatient-level data has one row per patient.\nEncounter-level data has one row per clinical encounter.\nA patient can have many encounters.\npatients\n  patient_id\n  birth_date\n  sex\n\nencounters\n  encounter_id\n  patient_id\n  encounter_start\n  encounter_type\nThis is a one-to-many relationship.\nOne patient → many encounters\nOne encounter → many diagnoses\nOne encounter → many labs\nOne encounter → many medications\nWhen building an analysis dataset, always ask:\n\nIs the row one patient?\nIs the row one encounter?\nIs the row one clinical event?\nIs the row one time interval?\n\nThe answer determines which joins, summaries, and denominators are valid.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#the-index-encounter",
+    "href": "05-patient-demographics-and-encounters.html#the-index-encounter",
+    "title": "Patient Demographics and Encounters",
+    "section": "The Index Encounter",
+    "text": "The Index Encounter\nMany clinical questions require an index encounter.\nThe index encounter is the anchor point for the analysis timeline.\nExamples include:\n\n\n\n\n\n\n\nClinical Question\nPossible Index Encounter\n\n\n\n\nWhat predicts 30-day readmission?\nHospital discharge encounter\n\n\nWhat predicts ICU transfer?\nAdmission encounter\n\n\nWhat predicts abnormal kidney function?\nFirst qualifying outpatient visit\n\n\nWhat is the mortality rate after sepsis?\nFirst sepsis-associated admission\n\n\nWhat is the follow-up rate after surgery?\nSurgical encounter\n\n\n\nThe index encounter should be defined before features and outcomes are created.\nOtherwise, data leakage becomes likely.\nFor example, using laboratory results collected after discharge to predict readmission risk would not be valid for a model intended to support discharge planning.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#recommended-data-layout",
+    "href": "05-patient-demographics-and-encounters.html#recommended-data-layout",
+    "title": "Patient Demographics and Encounters",
+    "section": "Recommended Data Layout",
+    "text": "Recommended Data Layout\nA clean project should keep raw input, examples, intermediate checks, and outputs separated.\ndata/\n  example/\n    patient-demographics.csv\n    patient-encounters.csv\n  input/\n    patient-demographics.csv\n    patient-encounters.csv\n  results/\n    demographics-summary.tsv\n    encounters-summary.tsv\n    patient-encounter-quality-report.tsv\n\nscripts/\n  bash/\n    05-run-patient-encounter-checks.sh\n  python/\n    05-create-example-patient-encounter-data.py\n    05-check-patient-encounter-data.py\nThe data/example/ files are small teaching datasets.\nThe data/input/ files represent real project inputs.\nThe results/ directory contains reproducible summaries and checks.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#example-patient-table",
+    "href": "05-patient-demographics-and-encounters.html#example-patient-table",
+    "title": "Patient Demographics and Encounters",
+    "section": "Example Patient Table",
+    "text": "Example Patient Table\npatient_id,birth_date,sex,race_ethnicity,residence_region\nP001,1971-04-12,Female,Black,Region A\nP002,1958-11-03,Male,Black,Region B\nP003,1986-07-22,Female,Unknown,Region A\nP004,1949-01-19,Male,Black,Region C\nP005,2001-09-30,Female,Black,Region B\nThis example uses de-identified IDs.\nIt includes only basic demographic fields.\nReal clinical systems may require stronger governance, additional consent restrictions, and local data dictionary alignment.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#example-encounter-table",
+    "href": "05-patient-demographics-and-encounters.html#example-encounter-table",
+    "title": "Patient Demographics and Encounters",
+    "section": "Example Encounter Table",
+    "text": "Example Encounter Table\nencounter_id,patient_id,encounter_start,encounter_end,encounter_type,facility_id,discharge_disposition\nE001,P001,2026-01-04,2026-01-08,inpatient,FAC01,home\nE002,P001,2026-02-15,2026-02-15,outpatient,FAC01,not_applicable\nE003,P002,2026-01-10,2026-01-13,inpatient,FAC02,transfer\nE004,P003,2026-02-01,2026-02-01,outpatient,FAC01,not_applicable\nE005,P004,2026-02-03,2026-02-12,inpatient,FAC03,deceased\nE006,P005,2026-02-07,2026-02-07,emergency,FAC02,home\nThe encounter table introduces time.\nOnce time is present, clinical interpretation becomes more powerful but also more fragile.\nDates must be checked carefully.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#modern-validation-mindset",
+    "href": "05-patient-demographics-and-encounters.html#modern-validation-mindset",
+    "title": "Patient Demographics and Encounters",
+    "section": "Modern Validation Mindset",
+    "text": "Modern Validation Mindset\nA modern clinical data workflow should validate patient and encounter data before downstream analysis.\nImportant checks include:\n\nduplicate patient identifiers,\nduplicate encounter identifiers,\nencounters without valid patients,\nencounter end dates before start dates,\nimpossible or implausible ages,\nmissing encounter types,\nunexpected facility identifiers,\nand unclear discharge disposition values.\n\nThe goal is not to make the data perfect.\nThe goal is to make data limitations visible before interpretation.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#run-the-example-workflow",
+    "href": "05-patient-demographics-and-encounters.html#run-the-example-workflow",
+    "title": "Patient Demographics and Encounters",
+    "section": "Run the Example Workflow",
+    "text": "Run the Example Workflow\nUse the supporting scripts to create example files and produce basic readiness checks.\npython scripts/python/05-create-example-patient-encounter-data.py\nbash scripts/bash/05-run-patient-encounter-checks.sh\nThe scripts create small example inputs and write quality summaries into results/.\nThe .qmd chapter stays non-executable.\nThe reusable logic lives in scripts.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#expected-outputs",
+    "href": "05-patient-demographics-and-encounters.html#expected-outputs",
+    "title": "Patient Demographics and Encounters",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs\nAfter running the workflow, the project should contain:\ndata/example/patient-demographics.csv\ndata/example/patient-encounters.csv\nresults/demographics-summary.tsv\nresults/encounters-summary.tsv\nresults/patient-encounter-quality-report.tsv\nThese files provide a simple but realistic foundation for later chapters.\nThe same structure can later be extended to diagnoses, procedures, medications, laboratory results, outcomes, and follow-up.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#practical-readiness-checklist",
+    "href": "05-patient-demographics-and-encounters.html#practical-readiness-checklist",
+    "title": "Patient Demographics and Encounters",
+    "section": "Practical Readiness Checklist",
+    "text": "Practical Readiness Checklist\nBefore using patient and encounter data for analysis, confirm that:\n\neach patient has a stable de-identified identifier,\neach encounter has a unique encounter identifier,\neach encounter links to one valid patient,\ndates are valid and ordered,\nencounter types are interpretable,\nthe intended index encounter is clearly defined,\ndemographic fields are ethically justified,\nand limitations are documented before modeling or reporting.\n\nThis checklist should be completed before building cohorts.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#cdi-interpretation-layer",
+    "href": "05-patient-demographics-and-encounters.html#cdi-interpretation-layer",
+    "title": "Patient Demographics and Encounters",
+    "section": "CDI Interpretation Layer",
+    "text": "CDI Interpretation Layer\nPatient and encounter data should not be treated as passive metadata.\nThey shape the clinical meaning of the entire analysis.\nThe same laboratory value may mean something different in an emergency visit, an outpatient follow-up, an ICU admission, or a post-operative encounter.\nThe same diagnosis may mean something different when it appears before admission, during hospitalization, or after discharge.\nClinical data systems become defensible when patient identity, care setting, and time are handled deliberately.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "05-patient-demographics-and-encounters.html#key-takeaways",
+    "href": "05-patient-demographics-and-encounters.html#key-takeaways",
+    "title": "Patient Demographics and Encounters",
+    "section": "Key Takeaways",
+    "text": "Key Takeaways\nPatient demographics and encounters form the first operational layer of clinical data.\nThe patient table defines who is in the system.\nThe encounter table defines when and where care occurred.\nTogether, they support cohort construction, time anchoring, denominator definition, and responsible interpretation.\nA clinical analysis that skips this layer may still produce results.\nBut it will be difficult to trust those results.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Patient Demographics and Encounters</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html",
+    "href": "06-diagnoses-procedures-and-medications.html",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html#learning-goals",
+    "href": "06-diagnoses-procedures-and-medications.html#learning-goals",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html#why-this-matters",
+    "href": "06-diagnoses-procedures-and-medications.html#why-this-matters",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html#expected-inputs",
+    "href": "06-diagnoses-procedures-and-medications.html#expected-inputs",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html#expected-outputs",
+    "href": "06-diagnoses-procedures-and-medications.html#expected-outputs",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "06-diagnoses-procedures-and-medications.html#code-organization",
+    "href": "06-diagnoses-procedures-and-medications.html#code-organization",
+    "title": "Diagnoses, Procedures, and Medications",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Diagnoses, Procedures, and Medications</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html",
+    "href": "07-laboratory-and-vital-sign-results.html",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html#learning-goals",
+    "href": "07-laboratory-and-vital-sign-results.html#learning-goals",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html#why-this-matters",
+    "href": "07-laboratory-and-vital-sign-results.html#why-this-matters",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html#expected-inputs",
+    "href": "07-laboratory-and-vital-sign-results.html#expected-inputs",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html#expected-outputs",
+    "href": "07-laboratory-and-vital-sign-results.html#expected-outputs",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "07-laboratory-and-vital-sign-results.html#code-organization",
+    "href": "07-laboratory-and-vital-sign-results.html#code-organization",
+    "title": "Laboratory and Vital Sign Results",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Laboratory and Vital Sign Results</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html",
+    "href": "08-clinical-outcomes-and-follow-up.html",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html#learning-goals",
+    "href": "08-clinical-outcomes-and-follow-up.html#learning-goals",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html#why-this-matters",
+    "href": "08-clinical-outcomes-and-follow-up.html#why-this-matters",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html#expected-inputs",
+    "href": "08-clinical-outcomes-and-follow-up.html#expected-inputs",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html#expected-outputs",
+    "href": "08-clinical-outcomes-and-follow-up.html#expected-outputs",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "08-clinical-outcomes-and-follow-up.html#code-organization",
+    "href": "08-clinical-outcomes-and-follow-up.html#code-organization",
+    "title": "Clinical Outcomes and Follow-Up",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part II: Clinical Data Inputs",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Clinical Outcomes and Follow-Up</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html",
+    "href": "09-clinical-data-quality-checks.html",
+    "title": "Clinical Data Quality Checks",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html#learning-goals",
+    "href": "09-clinical-data-quality-checks.html#learning-goals",
+    "title": "Clinical Data Quality Checks",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html#why-this-matters",
+    "href": "09-clinical-data-quality-checks.html#why-this-matters",
+    "title": "Clinical Data Quality Checks",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html#expected-inputs",
+    "href": "09-clinical-data-quality-checks.html#expected-inputs",
+    "title": "Clinical Data Quality Checks",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html#expected-outputs",
+    "href": "09-clinical-data-quality-checks.html#expected-outputs",
+    "title": "Clinical Data Quality Checks",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "09-clinical-data-quality-checks.html#code-organization",
+    "href": "09-clinical-data-quality-checks.html#code-organization",
+    "title": "Clinical Data Quality Checks",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Clinical Data Quality Checks</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html",
+    "href": "10-missingness-and-data-completeness.html",
+    "title": "Missingness and Data Completeness",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html#learning-goals",
+    "href": "10-missingness-and-data-completeness.html#learning-goals",
+    "title": "Missingness and Data Completeness",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html#why-this-matters",
+    "href": "10-missingness-and-data-completeness.html#why-this-matters",
+    "title": "Missingness and Data Completeness",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html#expected-inputs",
+    "href": "10-missingness-and-data-completeness.html#expected-inputs",
+    "title": "Missingness and Data Completeness",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html#expected-outputs",
+    "href": "10-missingness-and-data-completeness.html#expected-outputs",
+    "title": "Missingness and Data Completeness",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "10-missingness-and-data-completeness.html#code-organization",
+    "href": "10-missingness-and-data-completeness.html#code-organization",
+    "title": "Missingness and Data Completeness",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Missingness and Data Completeness</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html",
+    "href": "11-clinical-variable-engineering.html",
+    "title": "Clinical Variable Engineering",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html#learning-goals",
+    "href": "11-clinical-variable-engineering.html#learning-goals",
+    "title": "Clinical Variable Engineering",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html#why-this-matters",
+    "href": "11-clinical-variable-engineering.html#why-this-matters",
+    "title": "Clinical Variable Engineering",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html#expected-inputs",
+    "href": "11-clinical-variable-engineering.html#expected-inputs",
+    "title": "Clinical Variable Engineering",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html#expected-outputs",
+    "href": "11-clinical-variable-engineering.html#expected-outputs",
+    "title": "Clinical Variable Engineering",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "11-clinical-variable-engineering.html#code-organization",
+    "href": "11-clinical-variable-engineering.html#code-organization",
+    "title": "Clinical Variable Engineering",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Clinical Variable Engineering</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html",
+    "href": "12-analysis-ready-clinical-datasets.html",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html#learning-goals",
+    "href": "12-analysis-ready-clinical-datasets.html#learning-goals",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html#why-this-matters",
+    "href": "12-analysis-ready-clinical-datasets.html#why-this-matters",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html#expected-inputs",
+    "href": "12-analysis-ready-clinical-datasets.html#expected-inputs",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html#expected-outputs",
+    "href": "12-analysis-ready-clinical-datasets.html#expected-outputs",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "12-analysis-ready-clinical-datasets.html#code-organization",
+    "href": "12-analysis-ready-clinical-datasets.html#code-organization",
+    "title": "Analysis-Ready Clinical Datasets",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part III: Cleaning, Validation, and Readiness",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Analysis-Ready Clinical Datasets</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html",
+    "href": "13-descriptive-clinical-analysis.html",
+    "title": "Descriptive Clinical Analysis",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html#learning-goals",
+    "href": "13-descriptive-clinical-analysis.html#learning-goals",
+    "title": "Descriptive Clinical Analysis",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html#why-this-matters",
+    "href": "13-descriptive-clinical-analysis.html#why-this-matters",
+    "title": "Descriptive Clinical Analysis",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html#expected-inputs",
+    "href": "13-descriptive-clinical-analysis.html#expected-inputs",
+    "title": "Descriptive Clinical Analysis",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html#expected-outputs",
+    "href": "13-descriptive-clinical-analysis.html#expected-outputs",
+    "title": "Descriptive Clinical Analysis",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "13-descriptive-clinical-analysis.html#code-organization",
+    "href": "13-descriptive-clinical-analysis.html#code-organization",
+    "title": "Descriptive Clinical Analysis",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Descriptive Clinical Analysis</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html",
+    "href": "14-risk-stratification-and-clinical-models.html",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html#learning-goals",
+    "href": "14-risk-stratification-and-clinical-models.html#learning-goals",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html#why-this-matters",
+    "href": "14-risk-stratification-and-clinical-models.html#why-this-matters",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html#expected-inputs",
+    "href": "14-risk-stratification-and-clinical-models.html#expected-inputs",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html#expected-outputs",
+    "href": "14-risk-stratification-and-clinical-models.html#expected-outputs",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "14-risk-stratification-and-clinical-models.html#code-organization",
+    "href": "14-risk-stratification-and-clinical-models.html#code-organization",
+    "title": "Risk Stratification and Clinical Models",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Risk Stratification and Clinical Models</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html",
+    "href": "15-clinical-model-evaluation.html",
+    "title": "Clinical Model Evaluation",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html#learning-goals",
+    "href": "15-clinical-model-evaluation.html#learning-goals",
+    "title": "Clinical Model Evaluation",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html#why-this-matters",
+    "href": "15-clinical-model-evaluation.html#why-this-matters",
+    "title": "Clinical Model Evaluation",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html#expected-inputs",
+    "href": "15-clinical-model-evaluation.html#expected-inputs",
+    "title": "Clinical Model Evaluation",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html#expected-outputs",
+    "href": "15-clinical-model-evaluation.html#expected-outputs",
+    "title": "Clinical Model Evaluation",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "15-clinical-model-evaluation.html#code-organization",
+    "href": "15-clinical-model-evaluation.html#code-organization",
+    "title": "Clinical Model Evaluation",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Clinical Model Evaluation</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html",
+    "href": "16-clinical-interpretation-and-decision-support.html",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html#learning-goals",
+    "href": "16-clinical-interpretation-and-decision-support.html#learning-goals",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html#why-this-matters",
+    "href": "16-clinical-interpretation-and-decision-support.html#why-this-matters",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html#expected-inputs",
+    "href": "16-clinical-interpretation-and-decision-support.html#expected-inputs",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html#expected-outputs",
+    "href": "16-clinical-interpretation-and-decision-support.html#expected-outputs",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "16-clinical-interpretation-and-decision-support.html#code-organization",
+    "href": "16-clinical-interpretation-and-decision-support.html#code-organization",
+    "title": "Clinical Interpretation and Decision Support",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part IV: Clinical Analysis and Interpretation",
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Clinical Interpretation and Decision Support</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html",
+    "href": "17-reproducible-clinical-reports.html",
+    "title": "Reproducible Clinical Reports",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html#learning-goals",
+    "href": "17-reproducible-clinical-reports.html#learning-goals",
+    "title": "Reproducible Clinical Reports",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html#why-this-matters",
+    "href": "17-reproducible-clinical-reports.html#why-this-matters",
+    "title": "Reproducible Clinical Reports",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html#expected-inputs",
+    "href": "17-reproducible-clinical-reports.html#expected-inputs",
+    "title": "Reproducible Clinical Reports",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html#expected-outputs",
+    "href": "17-reproducible-clinical-reports.html#expected-outputs",
+    "title": "Reproducible Clinical Reports",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "17-reproducible-clinical-reports.html#code-organization",
+    "href": "17-reproducible-clinical-reports.html#code-organization",
+    "title": "Reproducible Clinical Reports",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Reproducible Clinical Reports</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html",
+    "href": "18-clinical-dashboard-readiness.html",
+    "title": "Clinical Dashboard Readiness",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html#learning-goals",
+    "href": "18-clinical-dashboard-readiness.html#learning-goals",
+    "title": "Clinical Dashboard Readiness",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html#why-this-matters",
+    "href": "18-clinical-dashboard-readiness.html#why-this-matters",
+    "title": "Clinical Dashboard Readiness",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html#expected-inputs",
+    "href": "18-clinical-dashboard-readiness.html#expected-inputs",
+    "title": "Clinical Dashboard Readiness",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html#expected-outputs",
+    "href": "18-clinical-dashboard-readiness.html#expected-outputs",
+    "title": "Clinical Dashboard Readiness",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "18-clinical-dashboard-readiness.html#code-organization",
+    "href": "18-clinical-dashboard-readiness.html#code-organization",
+    "title": "Clinical Dashboard Readiness",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Clinical Dashboard Readiness</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html#learning-goals",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html#learning-goals",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html#why-this-matters",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html#why-this-matters",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html#expected-inputs",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html#expected-inputs",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html#expected-outputs",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html#expected-outputs",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "19-ehr-fhir-and-interoperability-roadmap.html#code-organization",
+    "href": "19-ehr-fhir-and-interoperability-roadmap.html#code-organization",
+    "title": "EHR, FHIR, and Interoperability Roadmap",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>EHR, FHIR, and Interoperability Roadmap</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html",
+    "href": "20-end-to-end-case-study.html",
+    "title": "End-to-End Case Study",
+    "section": "",
+    "text": "Learning Goals\nBy the end of this chapter, you should be able to:",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html#learning-goals",
+    "href": "20-end-to-end-case-study.html#learning-goals",
+    "title": "End-to-End Case Study",
+    "section": "",
+    "text": "Understand the role of this step in a clinical data system.\nIdentify the expected input tables.\nRecognize common data-quality risks.\nDescribe the expected output for downstream analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html#why-this-matters",
+    "href": "20-end-to-end-case-study.html#why-this-matters",
+    "title": "End-to-End Case Study",
+    "section": "Why This Matters",
+    "text": "Why This Matters\nClinical data are not just numbers in tables.\nThey represent patients, care processes, measurements, diagnoses, treatments, and outcomes.\nA reliable clinical data workflow must preserve meaning while making the data ready for analysis.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html#expected-inputs",
+    "href": "20-end-to-end-case-study.html#expected-inputs",
+    "title": "End-to-End Case Study",
+    "section": "Expected Inputs",
+    "text": "Expected Inputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html#expected-outputs",
+    "href": "20-end-to-end-case-study.html#expected-outputs",
+    "title": "End-to-End Case Study",
+    "section": "Expected Outputs",
+    "text": "Expected Outputs",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "20-end-to-end-case-study.html#code-organization",
+    "href": "20-end-to-end-case-study.html#code-organization",
+    "title": "End-to-End Case Study",
+    "section": "Code Organization",
+    "text": "Code Organization\nRunnable code for this chapter should be placed in:\nCode shown in this chapter is for explanation unless explicitly stated otherwise.",
+    "crumbs": [
+      "Part V: Reporting and Real-World Systems",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>End-to-End Case Study</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html",
+    "href": "999-appendix.html",
+    "title": "Appendix A — Appendix",
+    "section": "",
+    "text": "Repository Layout",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#repository-layout",
+    "href": "999-appendix.html#repository-layout",
+    "title": "Appendix A — Appendix",
+    "section": "",
+    "text": "clinical-medical-data-systems/\n├── data/\n├── results/\n├── reports/\n├── scripts/\n├── assets/\n└── logs/",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#clinical-data-tables",
+    "href": "999-appendix.html#clinical-data-tables",
+    "title": "Appendix A — Appendix",
+    "section": "Clinical Data Tables",
+    "text": "Clinical Data Tables\nThe first version of this system uses privacy-safe synthetic clinical tables:\npatients.tsv\nencounters.tsv\ndiagnoses.tsv\nmedications.tsv\nlabs.tsv\nvitals.tsv\noutcomes.tsv",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#notes-on-executability",
+    "href": "999-appendix.html#notes-on-executability",
+    "title": "Appendix A — Appendix",
+    "section": "Notes on Executability",
+    "text": "Notes on Executability\nQuarto chapters are primarily instructional.\nRunnable scripts should be stored in scripts/.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  }
+]

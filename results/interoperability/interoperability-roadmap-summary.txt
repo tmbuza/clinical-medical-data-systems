@@ -1,0 +1,32 @@
+EHR, FHIR, and Interoperability Roadmap Summary
+================================================
+
+Mapping file: results/interoperability/fhir-resource-mapping.tsv
+Readiness checklist: results/interoperability/interoperability-readiness-checklist.tsv
+Example bundle: results/interoperability/example-fhir-patient-bundle.json
+
+Mapping status counts:
+- conceptual_mapping: 6
+- requires_semantic_review: 1
+- requires_clinical_definition: 1
+
+Checklist status counts:
+- present: 17
+- required_not_completed_by_script: 3
+- missing: 1
+
+Candidate FHIR resource counts:
+- Observation: 2
+- Patient: 1
+- Encounter: 1
+- Condition: 1
+- Procedure: 1
+- MedicationRequest or MedicationStatement: 1
+- Observation, Condition, Encounter, or project-specific outcome: 1
+
+Example bundle entries: 3
+
+Interpretation:
+These outputs provide a conceptual interoperability roadmap.
+They are not a production FHIR implementation, not a validated interface specification, and not an authorization to exchange clinical data.
+Production use requires terminology review, governance approval, privacy review, provenance documentation, and system-specific implementation testing.

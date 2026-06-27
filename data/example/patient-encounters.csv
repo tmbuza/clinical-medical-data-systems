@@ -1,0 +1,7 @@
+encounter_id,patient_id,encounter_start,encounter_end,encounter_type,facility_id,discharge_disposition
+E001,P001,2026-01-04,2026-01-08,inpatient,FAC01,home
+E002,P001,2026-02-15,2026-02-15,outpatient,FAC01,not_applicable
+E003,P002,2026-01-10,2026-01-13,inpatient,FAC02,transfer
+E004,P003,2026-02-01,2026-02-01,outpatient,FAC01,not_applicable
+E005,P004,2026-02-03,2026-02-12,inpatient,FAC03,deceased
+E006,P005,2026-02-07,2026-02-07,emergency,FAC02,home

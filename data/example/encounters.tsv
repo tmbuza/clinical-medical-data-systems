@@ -1,0 +1,6 @@
+encounter_id	patient_id	encounter_date	encounter_type
+E001	P001	2026-01-10	outpatient
+E002	P002	2026-01-12	emergency
+E003	P003	2026-01-14	inpatient
+E004	P004	2026-01-15	outpatient
+E005	P005	2026-01-18	outpatient

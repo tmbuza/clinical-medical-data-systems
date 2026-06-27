@@ -1,0 +1,3 @@
+issue_level	issue	file_path	dashboard_impact
+review_required	decision_support_items_unresolved	results/clinical-decision-support-readiness.tsv	7 readiness items require review before deployment.
+note	prototype_only	results/dashboard/clinical-dashboard-prototype.html	The HTML dashboard is a prototype for review, not a production clinical dashboard.

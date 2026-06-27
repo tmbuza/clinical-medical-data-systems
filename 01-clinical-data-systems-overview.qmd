@@ -1,0 +1,591 @@
+# Clinical Data Systems Overview {#clinical-data-systems-overview}
+
+:::cdi-message
+- **ID:** CMDS-001
+- **Type:** Core
+- **Audience:** Clinical data learners, analysts, researchers, health data professionals, and decision-support teams
+- **Theme:** Clinical data systems connect healthcare records, data quality, analysis readiness, and clinical interpretation
+:::
+
+Clinical data systems are the bridge between healthcare records and reliable clinical insight.
+
+They help answer questions such as:
+
+```text
+Which patients are included?
+
+Which encounters matter?
+
+Which diagnoses define the clinical condition?
+
+Which lab values are relevant?
+
+Which outcomes are being measured?
+
+Which data are missing?
+
+Which variables are safe to use for analysis?
+
+Which results can support interpretation?
+```
+
+A clinical data system is not just a database.
+
+It is a workflow for transforming healthcare information into evidence that can be checked, explained, repeated, and interpreted responsibly.
+
+This chapter introduces the overall structure of a clinical data system.
+
+It explains why clinical data need special handling, what the major data domains are, and how this guide will move from raw structured records to analysis-ready datasets.
+
+---
+
+## What Is a Clinical Data System?
+
+A clinical data system is an organized workflow for collecting, structuring, checking, transforming, analyzing, and reporting clinical data.
+
+In this guide, the word **system** does not mean only software.
+
+It includes:
+
+```text
+Clinical question
+        ↓
+Cohort definition
+        ↓
+Data source identification
+        ↓
+Data extraction or input
+        ↓
+Data quality checks
+        ↓
+Variable engineering
+        ↓
+Analysis-ready dataset
+        ↓
+Analysis or modeling
+        ↓
+Clinical interpretation
+        ↓
+Report or decision-support output
+```
+
+This matters because clinical data work is rarely a single step.
+
+A table may look simple, but the meaning behind it may be complex.
+
+For example, a row in a clinical dataset may represent:
+
+```text
+one patient
+one encounter
+one diagnosis
+one medication order
+one laboratory result
+one vital sign measurement
+one follow-up outcome
+```
+
+The first task in a clinical data system is to understand what each row means.
+
+---
+
+## Why Clinical Data Are Different
+
+Clinical data are different from many general-purpose datasets because they are created during care delivery, administration, monitoring, research, or reporting.
+
+They are not always created for analysis.
+
+A blood pressure value may be recorded because a nurse measured it during a visit.
+
+A diagnosis code may be entered for documentation, billing, surveillance, or clinical care.
+
+A medication may appear because it was prescribed, administered, dispensed, reconciled, or reported by the patient.
+
+A laboratory result may represent a screening test, a diagnostic test, follow-up monitoring, or an emergency measurement.
+
+This means the same data element can have different meanings depending on context.
+
+Clinical data often require interpretation before analysis.
+
+---
+
+## Common Clinical Data Domains
+
+Most clinical data systems are built from several major data domains.
+
+This guide begins with structured tables that represent these domains.
+
+```text
+patients.tsv
+encounters.tsv
+diagnoses.tsv
+medications.tsv
+labs.tsv
+vitals.tsv
+outcomes.tsv
+```
+
+Each table contributes a different part of the clinical story.
+
+### Patients
+
+The patient table describes the people in the dataset.
+
+It may include demographics such as:
+
+```text
+patient_id
+sex
+birth_year or age
+location category
+enrollment information
+```
+
+In privacy-safe teaching data, identifiers are synthetic.
+
+In real systems, patient identity must be handled with strict privacy and governance controls.
+
+### Encounters
+
+The encounter table describes healthcare contacts.
+
+An encounter may represent:
+
+```text
+outpatient visit
+emergency visit
+hospital admission
+clinic appointment
+telehealth contact
+follow-up visit
+```
+
+Encounters are important because much clinical information is time-dependent.
+
+A patient can have many encounters.
+
+Each encounter can contain many measurements, diagnoses, medications, and notes.
+
+### Diagnoses and Procedures
+
+Diagnosis and procedure tables describe clinical conditions and interventions.
+
+They may use coding systems such as ICD, SNOMED CT, CPT, or local hospital codes.
+
+In this guide, the first version uses simplified example codes and labels.
+
+The key idea is that diagnoses and procedures are not just labels.
+
+They often define cohorts, exposures, comorbidities, complications, or outcomes.
+
+### Medications
+
+Medication tables describe treatments.
+
+They may include:
+
+```text
+drug name
+drug class
+dose
+route
+start date
+stop date
+prescription status
+administration status
+```
+
+Medication data can be difficult because a medication record does not always mean the patient took the medication.
+
+The system must distinguish between what was ordered, dispensed, administered, or reported.
+
+### Laboratory Results
+
+Laboratory tables describe measured biological values.
+
+They may include:
+
+```text
+lab name
+result value
+unit
+reference range
+collection date
+result date
+abnormal flag
+```
+
+Laboratory values require careful unit checking.
+
+The same clinical measurement can be recorded in different units or with different naming conventions.
+
+### Vital Signs
+
+Vital signs describe bedside or clinical measurements such as:
+
+```text
+systolic blood pressure
+diastolic blood pressure
+heart rate
+temperature
+respiratory rate
+oxygen saturation
+body weight
+height
+body mass index
+```
+
+Vitals are often repeated many times.
+
+A clinical data system must decide whether to use the first value, last value, average value, worst value, baseline value, or value closest to an index date.
+
+### Outcomes
+
+Outcome tables describe what happened after the clinical observation period.
+
+They may include:
+
+```text
+recovery
+readmission
+mortality
+disease progression
+follow-up status
+treatment response
+complication
+review needed
+```
+
+Outcome definition is one of the most important steps in clinical analysis.
+
+A weak outcome definition can make the entire analysis unreliable.
+
+---
+
+## The Basic Clinical Data Architecture
+
+A simple clinical data system can be represented as a set of linked tables.
+
+```text
+patients
+    ↓
+encounters
+    ↓
+diagnoses
+    ↓
+medications
+    ↓
+labs
+    ↓
+vitals
+    ↓
+outcomes
+```
+
+In practice, the relationships are not always one-to-one.
+
+A patient can have many encounters.
+
+An encounter can have many diagnoses.
+
+An encounter can have many lab results.
+
+A patient can have medications across multiple encounters.
+
+An outcome may be measured after a specific follow-up period.
+
+A more realistic structure is:
+
+```text
+patients
+    ├── encounters
+    │       ├── diagnoses
+    │       ├── medications
+    │       ├── labs
+    │       └── vitals
+    └── outcomes
+```
+
+The `patient_id` usually links records across tables.
+
+The `encounter_id` usually links records within a visit or admission.
+
+The clinical data system must preserve these relationships.
+
+---
+
+## Unit of Analysis
+
+One of the most important decisions in clinical data work is the **unit of analysis**.
+
+The unit of analysis defines what one row means in the final dataset.
+
+Possible units include:
+
+```text
+one row per patient
+one row per encounter
+one row per diagnosis
+one row per lab result
+one row per medication
+one row per follow-up period
+```
+
+The unit of analysis depends on the clinical question.
+
+For example:
+
+```text
+Question:
+What proportion of patients have elevated blood pressure?
+
+Likely unit:
+one row per patient
+```
+
+```text
+Question:
+Which emergency encounters are followed by hospital admission?
+
+Likely unit:
+one row per encounter
+```
+
+```text
+Question:
+How often are abnormal glucose results observed after treatment?
+
+Likely unit:
+one row per lab result or one row per follow-up period
+```
+
+A reliable clinical data system does not begin analysis until the unit of analysis is clear.
+
+---
+
+## Cohort Definition
+
+A cohort is the group of patients, encounters, or records included in the analysis.
+
+A cohort definition usually specifies:
+
+```text
+who is included
+who is excluded
+the time period
+the index event or index date
+the required data elements
+the follow-up period
+the outcome definition
+```
+
+For example, a simple hypertension cohort might be described as:
+
+```text
+Adults with at least one outpatient encounter during the study period
+and at least one recorded blood pressure measurement.
+```
+
+A more specific cohort might be:
+
+```text
+Adults aged 40 years or older
+with two or more elevated blood pressure readings
+within a six-month period
+and at least 30 days of follow-up.
+```
+
+The more precise the cohort definition, the easier it is to interpret the results.
+
+---
+
+## Data Quality Before Analysis
+
+Clinical data quality checks are not optional.
+
+Before analysis, the system should check:
+
+```text
+Are required files present?
+
+Are required columns present?
+
+Are patient identifiers consistent?
+
+Are encounter identifiers consistent?
+
+Are dates valid?
+
+Are duplicate records present?
+
+Are numeric values plausible?
+
+Are units consistent?
+
+Are outcome values defined?
+
+Are missing values acceptable or concerning?
+```
+
+These checks prevent common errors.
+
+For example, if blood pressure values are imported as text, numeric summaries may fail or produce misleading results.
+
+If lab units are mixed, values may not be comparable.
+
+If the outcome is missing for most patients, a model may not be meaningful.
+
+If a future lab value is used to predict an earlier outcome, the model may leak information.
+
+The clinical data system must detect these problems early.
+
+---
+
+## Analysis-Ready Clinical Dataset
+
+An analysis-ready clinical dataset is a table prepared for a specific question.
+
+It is not simply a cleaned version of the raw data.
+
+It is a question-specific dataset where each row has a clear meaning.
+
+An analysis-ready clinical dataset should define:
+
+```text
+unit of analysis
+patient or encounter identifier
+inclusion and exclusion criteria
+time window
+baseline variables
+derived variables
+outcome variable
+missingness indicators where needed
+data provenance
+```
+
+For example, if the unit is one row per encounter, the table might include:
+
+```text
+encounter_id
+patient_id
+age_at_encounter
+sex
+encounter_type
+diagnosis_group
+baseline_systolic_bp
+baseline_diastolic_bp
+glucose_value
+comorbidity_count
+followup_days
+outcome_status
+```
+
+This table can then be used for descriptive analysis, modeling, reporting, or dashboard preparation.
+
+---
+
+## From Analysis to Clinical Interpretation
+
+Clinical analysis does not end when a table or model is produced.
+
+The final step is interpretation.
+
+A clinical interpretation should explain:
+
+```text
+what the analysis found
+which patients or encounters were included
+which outcome was studied
+which variables were used
+what was missing
+what assumptions were made
+what the results mean
+what the results do not mean
+what limitations should be considered
+```
+
+This is especially important for clinical models.
+
+A model can estimate risk, but it does not automatically make a clinical decision.
+
+Clinical decision support requires careful governance, validation, monitoring, and human oversight.
+
+---
+
+## System Workflow
+
+The overall workflow for this guide is:
+
+```text
+Clinical Question
+        ↓
+Cohort Definition
+        ↓
+Clinical Data Inputs
+        ↓
+Data Quality Checks
+        ↓
+Missingness and Completeness
+        ↓
+Clinical Variable Engineering
+        ↓
+Analysis-Ready Dataset
+        ↓
+Descriptive Analysis
+        ↓
+Risk Stratification or Modeling
+        ↓
+Model Evaluation
+        ↓
+Clinical Interpretation
+        ↓
+Reproducible Report
+```
+
+This workflow is repeated throughout the guide.
+
+Each chapter expands one part of the system.
+
+---
+
+## How This Chapter Connects to the Rest of the Guide
+
+This chapter introduces the system view.
+
+The next chapters move into the details.
+
+```text
+02 Healthcare Data Types
+        ↓
+03 Clinical Questions and Cohorts
+        ↓
+04 Data Governance, Privacy, and Ethics
+        ↓
+05 Patient Demographics and Encounters
+        ↓
+06 Diagnoses, Procedures, and Medications
+        ↓
+07 Laboratory and Vital Sign Results
+        ↓
+08 Clinical Outcomes and Follow-Up
+```
+
+Together, these chapters establish the clinical foundation needed before cleaning, validation, analysis, modeling, and reporting.
+
+---
+
+## Summary
+
+Clinical data systems help convert healthcare records into reliable clinical insight.
+
+They do this by connecting clinical questions, cohort definitions, data inputs, quality checks, variable engineering, analysis-ready datasets, and interpretation.
+
+The most important idea in this chapter is that clinical data analysis must preserve clinical meaning.
+
+Before we analyze, we need to know what the records represent.
+
+Before we model, we need to know what the outcome means.
+
+Before we interpret, we need to know what was included, excluded, missing, transformed, and assumed.
+
+A clinical data system makes those decisions visible and reproducible.

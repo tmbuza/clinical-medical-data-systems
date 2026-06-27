@@ -1,0 +1,7 @@
+domain	records_checked	unique_patients_in_domain	unknown_patient_record_count	unknown_patient_percent
+diagnoses	4	4	0	0.0
+procedures	3	3	0	0.0
+medications	3	3	0	0.0
+laboratory_results	4	3	0	0.0
+vital_sign_results	4	3	0	0.0
+outcomes	6	6	1	16.67

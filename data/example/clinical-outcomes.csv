@@ -1,0 +1,7 @@
+patient_id,outcome_name,outcome_status,outcome_date,index_date,follow_up_end_date,follow_up_days,outcome_source,censoring_reason
+P001,30_day_readmission,yes,2026-02-02,2026-01-10,2026-02-09,30,encounter_data,event_observed
+P002,30_day_readmission,no,,2026-01-12,2026-02-11,30,encounter_data,window_complete
+P003,30_day_readmission,unknown,,2026-01-18,2026-01-25,7,encounter_data,lost_to_follow_up
+P004,30_day_mortality,yes,2026-02-05,2026-01-20,2026-02-05,16,mortality_registry,event_observed
+P005,30_day_mortality,no,,2026-01-22,2026-02-21,30,mortality_registry,window_complete
+P006,aki_during_admission,no,,2026-01-24,2026-01-29,5,laboratory_results,discharged

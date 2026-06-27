@@ -1,0 +1,13 @@
+check	status	detail
+required_columns_present	PASS	All required columns present
+missing_patient_id	PASS	Missing or blank values: 0
+missing_encounter_id	PASS	Missing or blank values: 0
+missing_event_domain	PASS	Missing or blank values: 0
+missing_code_system	PASS	Missing or blank values: 0
+missing_code	PASS	Missing or blank values: 0
+missing_code_description	PASS	Missing or blank values: 0
+missing_event_date	PASS	Missing or blank values: 0
+missing_source_table	PASS	Missing or blank values: 0
+expected_event_domains	PASS	Observed: ['diagnosis', 'medication', 'procedure']; unexpected: []; missing: []
+valid_event_dates	PASS	Invalid dates: 0
+duplicate_patient_event_code_dates	PASS	Duplicate rows by patient/encounter/domain/code/date: 0

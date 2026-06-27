@@ -1,0 +1,7 @@
+outcome_name	outcome_status	patient_count
+30_day_mortality	no	1
+30_day_mortality	yes	1
+30_day_readmission	no	1
+30_day_readmission	unknown	1
+30_day_readmission	yes	1
+aki_during_admission	no	1

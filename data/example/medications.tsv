@@ -1,0 +1,6 @@
+encounter_id	patient_id	medication_name	medication_class
+E001	P001	Amlodipine	Antihypertensive
+E002	P002	Metformin	Antidiabetic
+E003	P003	Amoxicillin	Antibiotic
+E004	P004	Losartan	Antihypertensive
+E005	P005	None	None

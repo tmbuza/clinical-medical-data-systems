@@ -1,0 +1,9 @@
+dataset	domain	file_path	exists	rows	columns	missing_cells	total_cells	completeness_percent
+demographics	patient_identity_and_context	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/patient-demographics.csv	True	5	5	0.0	25.0	100.0
+encounters	care_contacts	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/clinical-encounters.csv	False	0	0			
+diagnoses	coded_clinical_events	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/diagnoses.csv	True	4	7	0.0	28.0	100.0
+procedures	coded_clinical_events	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/procedures.csv	True	3	7	0.0	21.0	100.0
+medications	coded_clinical_events	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/medications.csv	True	3	7	0.0	21.0	100.0
+laboratory_results	clinical_results	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/laboratory-results.csv	True	4	12	0.0	48.0	100.0
+vital_signs	clinical_results	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/vital-sign-results.csv	True	4	10	0.0	40.0	100.0
+outcomes	outcomes_and_follow_up	/Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/clinical-outcomes.csv	True	6	9	4.0	54.0	92.59

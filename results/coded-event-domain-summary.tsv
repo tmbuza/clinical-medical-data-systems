@@ -1,0 +1,4 @@
+event_domain	code_system	event_count	patient_count	encounter_count
+diagnosis	ICD-10-CM	4	4	4
+medication	RxNorm	3	3	3
+procedure	CPT	3	3	3

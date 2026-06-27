@@ -1,0 +1,18 @@
+Clinical Risk Stratification Model Summary
+==========================================
+
+Input file: results/analysis-ready-clinical-dataset.tsv
+Output file: results/clinical-risk-stratification-results.tsv
+
+Patients used for risk scoring: 6
+Predictor count: 3
+Outcome non-missing count: 0
+Outcome class count: 0
+Scoring method: rule_based_fallback_insufficient_outcome_classes_or_rows
+
+Risk group counts:
+- moderate: 6
+
+Interpretation:
+This workflow is a transparent risk stratification demonstration, not a validated clinical model.
+Real deployment requires clinical outcome review, external validation, calibration assessment, fairness review, and governance approval.

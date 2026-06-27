@@ -1,0 +1,48 @@
+variable	description	required_for_example_analysis	observed_dtype	missing_count	missing_percent
+patient_id	Stable patient-level identifier.	True	string	0	0.0
+age	Patient age at or near index encounter.	True	float64	6	100.0
+sex	Recorded patient sex.	True	string	6	100.0
+age_group	Categorical age band derived from age.	True	string	6	100.0
+encounter_count	Number of recorded encounters for the patient.	True	float64	6	100.0
+outcome_status	Recorded clinical outcome status.	True	string	6	100.0
+follow_up_days	Follow-up duration in days.	True	float64	6	100.0
+diagnosis_count	Number of diagnosis records linked to the patient.	False	float64	6	100.0
+procedure_count	Number of procedure records linked to the patient.	False	float64	6	100.0
+medication_count	Number of medication records linked to the patient.	False	float64	6	100.0
+abnormal_lab_count	Number of abnormal laboratory result indicators.	False	float64	6	100.0
+latest_systolic_bp	Most recent systolic blood pressure value available in the example data.	False	float64	6	100.0
+latest_diastolic_bp	Most recent diastolic blood pressure value available in the example data.	False	float64	6	100.0
+latest_bmi	Most recent body mass index value available in the example data.	False	float64	6	100.0
+has_diabetes_code	Patient has at least one diabetes-related diagnosis code in the example coded data.	False	bool	0	0.0
+has_hypertension_code	Patient has at least one hypertension-related diagnosis code in the example coded data.	False	bool	0	0.0
+has_ckd_code	Patient has at least one chronic kidney disease-related diagnosis code in the example coded data.	False	bool	0	0.0
+valid_patient_id_flag	Identifier validity flag used for analysis readiness.	False	bool	0	0.0
+valid_age_flag	Age validity flag used for analysis readiness.	False	bool	0	0.0
+valid_sex_flag	Sex completeness flag used for analysis readiness.	False	bool	0	0.0
+valid_outcome_flag	Outcome completeness flag used for analysis readiness.	False	bool	0	0.0
+valid_follow_up_flag	Follow-up validity flag used for analysis readiness.	False	bool	0	0.0
+analysis_inclusion_flag	Overall patient-level eligibility flag for downstream example analysis.	False	bool	0	0.0
+date_of_birth	Carried forward from the derived patient-level variable table.	False	str	1	16.67
+gender	Carried forward from the derived patient-level variable table.	False	str	1	16.67
+race_ethnicity	Carried forward from the derived patient-level variable table.	False	str	1	16.67
+insurance_type	Carried forward from the derived patient-level variable table.	False	float64	6	100.0
+age_at_index	Carried forward from the derived patient-level variable table.	False	float64	6	100.0
+diagnosis_record_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+has_diabetes	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+has_hypertension	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+has_chronic_kidney_disease	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+condition_indicator_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+medication_record_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+medication_class_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+baseline_creatinine	Carried forward from the derived patient-level variable table.	False	float64	5	83.33
+baseline_glucose	Carried forward from the derived patient-level variable table.	False	float64	5	83.33
+baseline_hemoglobin	Carried forward from the derived patient-level variable table.	False	float64	5	83.33
+baseline_lab_result_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+baseline_systolic_bp	Carried forward from the derived patient-level variable table.	False	float64	5	83.33
+baseline_diastolic_bp	Carried forward from the derived patient-level variable table.	False	float64	5	83.33
+baseline_bmi	Carried forward from the derived patient-level variable table.	False	float64	6	100.0
+baseline_vital_result_count	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+outcome_observed	Carried forward from the derived patient-level variable table.	False	int64	0	0.0
+outcome_type	Carried forward from the derived patient-level variable table.	False	float64	6	100.0
+outcome_date	Carried forward from the derived patient-level variable table.	False	str	4	66.67
+days_to_outcome	Carried forward from the derived patient-level variable table.	False	float64	6	100.0

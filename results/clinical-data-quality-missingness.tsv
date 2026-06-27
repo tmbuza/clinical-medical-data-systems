@@ -1,0 +1,25 @@
+domain	column	column_present	row_count	missing_count	missing_percent
+patients	patient_id	True	5	0.0	0.0
+patients	birth_date	True	5	0.0	0.0
+patients	sex	True	5	0.0	0.0
+diagnoses	patient_id	True	4	0.0	0.0
+diagnoses	diagnosis_date	False	4		
+diagnoses	diagnosis_code	False	4		
+procedures	patient_id	True	3	0.0	0.0
+procedures	procedure_date	False	3		
+procedures	procedure_code	False	3		
+medications	patient_id	True	3	0.0	0.0
+medications	medication_start_date	False	3		
+medications	medication_name	False	3		
+laboratory_results	patient_id	True	4	0.0	0.0
+laboratory_results	result_date	False	4		
+laboratory_results	test_name	False	4		
+laboratory_results	result_value	True	4	0.0	0.0
+vital_sign_results	patient_id	True	4	0.0	0.0
+vital_sign_results	result_date	False	4		
+vital_sign_results	vital_name	False	4		
+vital_sign_results	result_value	True	4	0.0	0.0
+outcomes	patient_id	True	6	0.0	0.0
+outcomes	index_date	True	6	0.0	0.0
+outcomes	follow_up_end_date	True	6	0.0	0.0
+outcomes	outcome_status	True	6	0.0	0.0

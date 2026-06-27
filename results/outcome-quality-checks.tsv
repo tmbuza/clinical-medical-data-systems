@@ -1,0 +1,9 @@
+check_name	status	issue_count	details
+required_columns_present	pass	0	All required columns present
+patient_id_not_missing	pass	0	No missing patient identifiers
+outcome_status_values_valid	pass	0	All outcome status values are valid
+follow_up_days_non_negative	pass	0	Follow-up days are non-negative
+observed_events_have_outcome_dates	pass	0	All observed events have outcome dates
+one_row_per_patient_outcome	pass	0	No duplicate patient-outcome rows
+outcome_date_not_before_index_date	pass	0	Outcome dates are valid
+follow_up_end_not_before_index_date	pass	0	Follow-up end dates are valid

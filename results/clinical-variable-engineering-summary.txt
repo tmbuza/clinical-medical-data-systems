@@ -1,0 +1,23 @@
+Clinical variable engineering summary
+=====================================
+
+Input domains checked: 8
+Input domains available: 7
+Patients in engineered dataset: 6
+Engineered variables: 26
+Dictionary rows: 24
+
+Highest missingness among engineered variables:
+- days_to_outcome: 100.0% missing
+- age_at_index: 100.0% missing
+- baseline_bmi: 100.0% missing
+- age_group: 100.0% missing
+- outcome_type: 100.0% missing
+- insurance_type: 100.0% missing
+- baseline_systolic_bp: 83.33% missing
+- baseline_diastolic_bp: 83.33% missing
+- baseline_creatinine: 83.33% missing
+- baseline_glucose: 83.33% missing
+
+Interpretation note:
+Engineered variables are example definitions for teaching. Review and adapt definitions before using them in a real clinical study.

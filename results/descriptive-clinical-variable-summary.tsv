@@ -1,0 +1,48 @@
+variable	observed_dtype	missing_count	missing_percent	unique_non_missing_values	example_values
+patient_id	str	0	0.0	6	P001, P002, P003, P004, P005
+age	float64	6	100.0	0	
+sex	float64	6	100.0	0	
+age_group	float64	6	100.0	0	
+encounter_count	float64	6	100.0	0	
+outcome_status	float64	6	100.0	0	
+follow_up_days	float64	6	100.0	0	
+diagnosis_count	float64	6	100.0	0	
+procedure_count	float64	6	100.0	0	
+medication_count	float64	6	100.0	0	
+abnormal_lab_count	float64	6	100.0	0	
+latest_systolic_bp	float64	6	100.0	0	
+latest_diastolic_bp	float64	6	100.0	0	
+latest_bmi	float64	6	100.0	0	
+has_diabetes_code	bool	0	0.0	1	False
+has_hypertension_code	bool	0	0.0	1	False
+has_ckd_code	bool	0	0.0	1	False
+valid_patient_id_flag	bool	0	0.0	1	True
+valid_age_flag	bool	0	0.0	1	False
+valid_sex_flag	bool	0	0.0	1	False
+valid_outcome_flag	bool	0	0.0	1	False
+valid_follow_up_flag	bool	0	0.0	1	False
+analysis_inclusion_flag	bool	0	0.0	1	False
+date_of_birth	str	1	16.67	5	1971-04-12, 1958-11-03, 1986-07-22, 1949-01-19, 2001-09-30
+gender	str	1	16.67	2	Female, Male
+race_ethnicity	str	1	16.67	2	Black, Unknown
+insurance_type	float64	6	100.0	0	
+age_at_index	float64	6	100.0	0	
+diagnosis_record_count	int64	0	0.0	2	1, 0
+has_diabetes	int64	0	0.0	2	1, 0
+has_hypertension	int64	0	0.0	2	0, 1
+has_chronic_kidney_disease	int64	0	0.0	1	0
+condition_indicator_count	int64	0	0.0	2	1, 0
+medication_record_count	int64	0	0.0	2	1, 0
+medication_class_count	int64	0	0.0	1	0
+baseline_creatinine	float64	5	83.33	1	1.1
+baseline_glucose	float64	5	83.33	1	186.0
+baseline_hemoglobin	float64	5	83.33	1	12.4
+baseline_lab_result_count	int64	0	0.0	3	2, 1, 0
+baseline_systolic_bp	float64	5	83.33	1	138.0
+baseline_diastolic_bp	float64	5	83.33	1	86.0
+baseline_bmi	float64	6	100.0	0	
+baseline_vital_result_count	int64	0	0.0	3	2, 1, 0
+outcome_observed	int64	0	0.0	2	1, 0
+outcome_type	float64	6	100.0	0	
+outcome_date	str	4	66.67	2	2026-02-02 00:00:00, 2026-02-05 00:00:00
+days_to_outcome	float64	6	100.0	0	

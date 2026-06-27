@@ -1,0 +1,4 @@
+feature	feature_type	non_missing_count	missing_count	mean	median	used_in_model
+has_diabetes_code	boolean	6	0	0.0	0.0	True
+has_hypertension_code	boolean	6	0	0.0	0.0	True
+has_ckd_code	boolean	6	0	0.0	0.0	True

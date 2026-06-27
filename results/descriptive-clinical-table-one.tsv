@@ -1,0 +1,17 @@
+group_variable	group_value	variable	variable_type	level	n_non_missing	mean	median	min	max	count	percent_within_group
+analysis_inclusion_flag	False	age	numeric		0						
+analysis_inclusion_flag	False	follow_up_days	numeric		0						
+analysis_inclusion_flag	False	encounter_count	numeric		0						
+analysis_inclusion_flag	False	diagnosis_count	numeric		0						
+analysis_inclusion_flag	False	procedure_count	numeric		0						
+analysis_inclusion_flag	False	medication_count	numeric		0						
+analysis_inclusion_flag	False	abnormal_lab_count	numeric		0						
+analysis_inclusion_flag	False	latest_systolic_bp	numeric		0						
+analysis_inclusion_flag	False	latest_diastolic_bp	numeric		0						
+analysis_inclusion_flag	False	latest_bmi	numeric		0						
+analysis_inclusion_flag	False	sex	categorical	Missing						6	100.0
+analysis_inclusion_flag	False	age_group	categorical	Missing						6	100.0
+analysis_inclusion_flag	False	outcome_status	categorical	Missing						6	100.0
+analysis_inclusion_flag	False	has_diabetes_code	categorical	False						6	100.0
+analysis_inclusion_flag	False	has_hypertension_code	categorical	False						6	100.0
+analysis_inclusion_flag	False	has_ckd_code	categorical	False						6	100.0

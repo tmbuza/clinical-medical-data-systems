@@ -1,0 +1,38 @@
+# Quarto
+/.quarto/
+/_freeze/
+_site/
+_book/
+
+# R
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# macOS
+.DS_Store
+
+# Logs
+logs/*.log
+
+# Large or private data
+data/input/*
+!data/input/.gitkeep
+
+# Keep folder structure
+data/example/.gitkeep
+data/input/.gitkeep
+data/intermediate/.gitkeep
+data/reference/.gitkeep
+results/tables/.gitkeep
+results/figures/.gitkeep
+results/models/.gitkeep
+reports/.gitkeep
+logs/.gitkeep

@@ -1,0 +1,355 @@
+# Clinical Data Quality Checks {#clinical-data-quality-checks}
+
+:::cdi-message
+- **ID:** CMDS-09
+- **Type:** Core workflow
+- **Audience:** Clinical data analysts, health data scientists, clinical informatics teams
+- **Theme:** Clinical analysis begins only after data quality has been checked across patients, encounters, events, results, and outcomes
+:::
+
+Clinical data quality checks are the bridge between raw clinical records and defensible analysis.
+
+A clinical dataset may look complete because it contains many rows.
+
+That does not mean it is ready.
+
+Rows can be duplicated.
+
+Dates can be impossible.
+
+Patients can appear in outcome files without encounters.
+
+Medication records can occur before the patient entered the system.
+
+Laboratory values can use mixed units.
+
+Outcome follow-up can be shorter than required for the clinical question.
+
+This chapter introduces a practical quality-checking layer for clinical data systems.
+
+The goal is not to make data perfect.
+
+The goal is to make quality visible, measurable, and actionable before analysis begins.
+
+---
+
+## Why Clinical Data Quality Is Different
+
+Clinical data quality is not only a technical issue.
+
+It is also a clinical interpretation issue.
+
+A missing value may mean different things depending on context.
+
+For example:
+
+- a missing diagnosis may mean the condition was not present;
+- the condition may have been present but not coded;
+- the patient may have received care outside the captured system;
+- the diagnosis may exist in notes but not structured fields;
+- the diagnosis may have been recorded after the analysis window.
+
+Because of this, clinical data quality checks should combine structural checks, temporal checks, clinical plausibility checks, and cohort-readiness checks.
+
+---
+
+## Core Quality Dimensions
+
+A clinical data readiness workflow should usually inspect these dimensions:
+
+| Dimension | Main question | Example check |
+|---|---|---|
+| Structure | Are required files and columns present? | `patient_id`, `encounter_id`, `event_date` exist |
+| Identity | Can records be linked safely? | Patient IDs match across domains |
+| Completeness | Are important fields populated? | Age, sex, dates, codes, result values |
+| Uniqueness | Are records unexpectedly duplicated? | Duplicate patient or encounter rows |
+| Temporal logic | Do dates happen in a valid order? | Outcome date after index date |
+| Domain validity | Are values allowed or plausible? | Sex category, encounter type, lab result range |
+| Cross-domain consistency | Do records agree across tables? | Lab results link to known patients |
+| Analysis readiness | Can the dataset support the question? | Enough follow-up and outcome definition clarity |
+
+A modern clinical data system should not rely on manual inspection alone.
+
+It should produce reusable, script-generated quality outputs.
+
+---
+
+## Recommended Project Inputs
+
+This chapter assumes the example files created in Part II are present.
+
+```text id="jql5ca"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv
+```
+
+These inputs represent common structured clinical data domains:
+
+- patient demographics;
+- clinical encounters;
+- diagnoses;
+- procedures;
+- medications;
+- laboratory results;
+- vital sign results;
+- outcomes and follow-up.
+
+In a real system, these tables may come from an EHR extract, registry, REDCap project, claims database, FHIR export, or curated research data mart.
+
+---
+
+## Quality Checks Used in This Chapter
+
+The script for this chapter performs cross-domain checks across the example clinical files.
+
+It checks whether required files exist.
+
+It checks whether required columns exist.
+
+It counts rows and unique patients.
+
+It evaluates missingness for key fields.
+
+It identifies duplicate rows.
+
+It checks whether domain records link back to the patient table.
+
+It checks simple temporal rules.
+
+It summarizes results into a single readiness report.
+
+The outputs are intentionally simple and portable.
+
+They can be reviewed in a spreadsheet, version controlled, or used as inputs for later reporting chapters.
+
+---
+
+## How to Run
+
+Run the workflow from the project root.
+
+```bash id="w5b4jf"
+python scripts/python/09-run-clinical-data-quality-checks.py
+bash scripts/bash/09-run-clinical-data-quality-checks.sh
+```
+
+The Python script can be run directly.
+
+The Bash script is a convenience runner that creates logs and runs the same check in a reproducible way.
+
+---
+
+## Expected Outputs
+
+The workflow writes quality outputs into `results/` and logs into `logs/`.
+
+```text id="owqg5o"
+results/clinical-data-quality-file-summary.tsv
+results/clinical-data-quality-column-checks.tsv
+results/clinical-data-quality-missingness.tsv
+results/clinical-data-quality-linkage-checks.tsv
+results/clinical-data-quality-temporal-checks.tsv
+results/clinical-data-quality-readiness-summary.txt
+logs/09-clinical-data-quality-checks.log
+```
+
+Each output answers a different question.
+
+| Output | Purpose |
+|---|---|
+| `clinical-data-quality-file-summary.tsv` | Shows which files were found and how many rows/columns they contain |
+| `clinical-data-quality-column-checks.tsv` | Shows whether required columns are present |
+| `clinical-data-quality-missingness.tsv` | Summarizes missing values in key fields |
+| `clinical-data-quality-linkage-checks.tsv` | Checks whether clinical domain records link to known patients |
+| `clinical-data-quality-temporal-checks.tsv` | Checks basic date-order problems |
+| `clinical-data-quality-readiness-summary.txt` | Provides a human-readable readiness summary |
+
+---
+
+## Example Readiness Interpretation
+
+A quality report should not simply say pass or fail.
+
+It should describe what is ready, what is questionable, and what needs review.
+
+```text id="va7tuj"
+Clinical Data Quality Readiness Summary
+
+Overall status: REVIEW NEEDED
+
+Major checks:
+- Required files: complete
+- Required columns: complete
+- Patient linkage: review needed
+- Missingness: acceptable for core identifiers, review needed for selected clinical fields
+- Temporal logic: review needed for records with dates outside expected order
+
+Recommended next step:
+Resolve linkage and temporal issues before creating analysis-ready clinical datasets.
+```
+
+This type of summary supports transparent decision-making.
+
+It does not hide uncertainty.
+
+It makes the readiness decision explicit.
+
+---
+
+## Cross-Domain Linkage Checks
+
+Clinical data systems are rarely one table.
+
+They are networks of related tables.
+
+A diagnosis, medication, laboratory result, or outcome record should usually link back to a known patient.
+
+In many workflows, it should also link to a known encounter.
+
+A basic linkage check asks:
+
+```text id="gy4n54"
+Are all patient_id values in each domain also present in the patient table?
+```
+
+A stricter check may ask:
+
+```text id="kd492r"
+Do encounter-level records link to a valid encounter_id for the same patient_id?
+```
+
+The stricter version is often better, but it requires consistent encounter identifiers across all data domains.
+
+In real EHR data, some records are patient-level while others are encounter-level.
+
+The quality-checking system should recognize that distinction.
+
+---
+
+## Temporal Quality Checks
+
+Clinical analysis depends heavily on time.
+
+Time defines exposure.
+
+Time defines baseline.
+
+Time defines follow-up.
+
+Time defines whether an outcome happened before or after an index event.
+
+Common temporal checks include:
+
+| Rule | Why it matters |
+|---|---|
+| Encounter date should not occur before birth date | Prevents impossible patient timelines |
+| Outcome date should not occur before index date | Prevents reverse causal interpretation |
+| Medication start date should not occur after medication stop date | Prevents invalid exposure windows |
+| Lab result date should fall inside the observation window | Prevents use of irrelevant measurements |
+| Follow-up end date should occur after cohort entry | Supports outcome ascertainment |
+
+Temporal checks do not solve all clinical design problems.
+
+They help prevent obvious timeline errors before deeper analysis begins.
+
+---
+
+## Missingness Is Not Always Simple
+
+Missingness in clinical data is often informative.
+
+A missing lab result may mean the test was not clinically indicated.
+
+A missing medication stop date may mean the medication was ongoing.
+
+A missing outcome date may mean no outcome occurred, or it may mean follow-up was incomplete.
+
+Therefore, missingness should be reported by domain and variable.
+
+It should not be silently removed.
+
+```text id="oiy27k"
+Variable-level missingness should be reviewed before filtering records.
+```
+
+Later chapters use missingness summaries to decide whether a variable is suitable for modeling, reporting, or dashboarding.
+
+---
+
+## Modern Quality-Checking Practice
+
+A modern clinical data quality workflow should be:
+
+- scripted;
+- repeatable;
+- version controlled;
+- readable by analysts and clinical reviewers;
+- separated from final analysis code;
+- able to produce both machine-readable and human-readable outputs.
+
+This chapter uses Python because it is well suited for portable data checks, file-system workflows, and structured output generation.
+
+For larger clinical datasets, the same logic can be extended with DuckDB, Polars, Arrow, database queries, or formal validation frameworks.
+
+The important principle is the same:
+
+```text id="lgv0jh"
+Do not analyze clinical data until its quality assumptions are visible.
+```
+
+---
+
+## Clinical Interpretation Rule
+
+A quality flag does not automatically mean a record is wrong.
+
+It means the record needs interpretation.
+
+For example, an outcome date before a recorded encounter date could mean:
+
+- the encounter table is incomplete;
+- the patient had prior care elsewhere;
+- the outcome was historical;
+- the index date was incorrectly defined;
+- the wrong date field was used.
+
+A clinical data system should help analysts identify these issues without pretending that code alone can resolve them.
+
+---
+
+## Readiness Checklist
+
+Before moving to missingness and completeness analysis, confirm that:
+
+- required clinical domain files exist;
+- required identifiers are present;
+- patient linkage has been checked;
+- duplicated records have been reviewed;
+- key fields have missingness summaries;
+- temporal checks have been run;
+- quality outputs are saved in `results/`;
+- quality logs are saved in `logs/`;
+- unresolved issues are documented rather than hidden.
+
+---
+
+## Connection to the Next Chapter
+
+This chapter introduced broad clinical data quality checks.
+
+The next chapter focuses more specifically on missingness and data completeness.
+
+That distinction matters.
+
+Data quality asks whether the clinical data system is structurally trustworthy.
+
+Completeness asks whether the available information is sufficient for a specific clinical question.
+
+A dataset can pass structural quality checks and still be incomplete for a particular analysis.
+

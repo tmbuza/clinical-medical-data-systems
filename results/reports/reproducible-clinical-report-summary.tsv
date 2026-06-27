@@ -1,0 +1,6 @@
+metric	value
+expected_files	8
+present_files	8
+missing_files	0
+report_file	results/reports/reproducible-clinical-report.md
+created_at	2026-06-27T12:46:18

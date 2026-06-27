@@ -1,0 +1,10 @@
+Clinical outcome and follow-up readiness summary
+================================================
+
+Input file: /Users/tmbmacbookair/Dropbox/GITHUB_REPOs/clinical-medical-data-systems/data/example/clinical-outcomes.csv
+Rows checked: 6
+Checks run: 8
+Failed checks: 0
+Review checks: 0
+
+Status: READY FOR BASIC OUTCOME SUMMARY

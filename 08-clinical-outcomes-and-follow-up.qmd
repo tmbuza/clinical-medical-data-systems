@@ -1,0 +1,358 @@
+# Clinical Outcomes and Follow-Up {#sec-clinical-outcomes-follow-up}
+
+:::cdi-message
+- **ID:** CMDS-08
+- **Type:** Guide Chapter
+- **Audience:** Clinical data analysts, health data scientists, clinical researchers, informatics teams
+- **Theme:** Outcomes become trustworthy only when events, timing, definitions, and follow-up are explicit
+:::
+
+Clinical data systems do not end with diagnoses, procedures, medications, laboratory results, and vital signs.
+
+Those inputs describe what happened to a patient.
+
+Outcome and follow-up data describe what those events led to.
+
+This chapter introduces the structure of clinical outcomes and follow-up data. The goal is not only to record whether an outcome occurred, but also to make the outcome usable for descriptive analysis, cohort reporting, risk stratification, and reproducible clinical interpretation.
+
+A clinical outcome should answer four questions:
+
+1. What event happened?
+2. Who experienced it?
+3. When did it happen?
+4. How much follow-up time was available to observe it?
+
+Without those four pieces, outcome analysis becomes fragile.
+
+---
+
+## Why Outcomes Are Different From Other Clinical Data
+
+Patient demographics are usually stable.
+
+Encounters describe visits.
+
+Diagnoses, procedures, medications, labs, and vitals describe clinical observations or actions.
+
+Outcomes are different because they are usually tied to a **clinical question**.
+
+For example:
+
+- Did the patient die within 30 days of admission?
+- Was the patient readmitted within 30 days of discharge?
+- Did the patient develop acute kidney injury after treatment?
+- Did the patient remain event-free during follow-up?
+- Did symptoms improve after an intervention?
+
+The same raw data can support different outcomes depending on the question.
+
+A discharge date can be used to define length of stay.
+
+The same discharge date can also anchor a readmission window.
+
+A creatinine result can be a lab observation.
+
+The same creatinine result can also help define acute kidney injury.
+
+This is why outcome definitions must be documented separately from raw clinical events.
+
+---
+
+## Core Outcome Table Structure
+
+A simple outcome table should include one row per patient per outcome definition.
+
+```text id="z657tn"
+patient_id,outcome_name,outcome_status,outcome_date,index_date,follow_up_end_date,follow_up_days,outcome_source
+P001,30_day_readmission,yes,2026-02-02,2026-01-10,2026-02-09,30,encounter_data
+P002,30_day_readmission,no,,2026-01-12,2026-02-11,30,encounter_data
+P003,mortality,no,,2026-01-15,2026-04-15,90,registry
+```
+
+This structure makes the outcome analysis-ready because it separates the event itself from the observation window.
+
+The `outcome_status` tells whether the event occurred.
+
+The `outcome_date` tells when the event occurred.
+
+The `index_date` tells when follow-up begins.
+
+The `follow_up_end_date` tells when observation ends.
+
+The `follow_up_days` tells how much time was available.
+
+The `outcome_source` tells where the evidence came from.
+
+---
+
+## Index Dates
+
+The index date is the starting point for outcome observation.
+
+Examples include:
+
+- admission date
+- discharge date
+- diagnosis date
+- procedure date
+- medication start date
+- enrollment date
+- baseline assessment date
+
+The index date must match the clinical question.
+
+For a 30-day readmission outcome, the index date is usually discharge date.
+
+For post-operative complications, the index date may be procedure date.
+
+For treatment response, the index date may be medication start date.
+
+For survival analysis, the index date may be diagnosis date or treatment initiation date.
+
+A weak outcome definition often starts with an unclear index date.
+
+---
+
+## Follow-Up Windows
+
+Follow-up is the period during which the outcome could be observed.
+
+A patient who was followed for 30 days and had no event is different from a patient who disappeared after 3 days and had no recorded event.
+
+Both may have `outcome_status = no`, but they do not carry the same evidence.
+
+That is why follow-up time should be stored explicitly.
+
+```text id="pk4yy5"
+patient_id,index_date,follow_up_end_date,follow_up_days,outcome_status
+P001,2026-01-10,2026-02-09,30,no
+P002,2026-01-10,2026-01-13,3,no
+```
+
+The first patient has complete 30-day observation.
+
+The second patient has incomplete follow-up.
+
+Clinical data systems should not treat those two rows as equally strong evidence.
+
+---
+
+## Outcome Status Values
+
+Outcome status should be standardized.
+
+Avoid mixing many free-text variants such as:
+
+```text id="lk6p7a"
+yes
+Yes
+Y
+1
+positive
+event
+occurred
+```
+
+Use a controlled set instead:
+
+```text id="euav5p"
+yes
+no
+unknown
+not_applicable
+```
+
+For modeling workflows, this can later be encoded as numeric values.
+
+But in the source outcome table, readable status values make validation and review easier.
+
+---
+
+## Censoring and Incomplete Observation
+
+In longitudinal clinical data, not every patient is observed for the same amount of time.
+
+A patient may transfer care.
+
+A study may end.
+
+A patient may be lost to follow-up.
+
+A registry may have delayed updates.
+
+This is why outcome tables should allow explicit censoring information.
+
+```text id="qbspqn"
+patient_id,outcome_name,outcome_status,outcome_date,index_date,follow_up_end_date,censoring_reason
+P001,mortality,no,,2026-01-10,2026-04-10,study_end
+P002,mortality,no,,2026-01-10,2026-01-25,lost_to_follow_up
+P003,mortality,yes,2026-02-12,2026-01-10,2026-02-12,event_observed
+```
+
+This makes the dataset more transparent and prepares it for survival analysis or time-to-event extensions later.
+
+---
+
+## Common Clinical Outcomes
+
+Outcome definitions vary across clinical domains, but several patterns are common.
+
+### Utilization Outcomes
+
+These describe healthcare use.
+
+Examples include:
+
+- readmission
+- emergency department visit
+- ICU admission
+- length of stay
+- outpatient follow-up visit
+
+### Disease Outcomes
+
+These describe disease progression, recurrence, improvement, or complication.
+
+Examples include:
+
+- disease recurrence
+- infection resolution
+- acute kidney injury
+- treatment failure
+- symptom improvement
+
+### Safety Outcomes
+
+These describe adverse events or harm.
+
+Examples include:
+
+- medication adverse reaction
+- procedure complication
+- bleeding event
+- hospital-acquired infection
+- fall during admission
+
+### Mortality Outcomes
+
+These describe death within a defined time window or during follow-up.
+
+Examples include:
+
+- in-hospital mortality
+- 30-day mortality
+- 90-day mortality
+- all-cause mortality
+- disease-specific mortality
+
+---
+
+## Outcome Definition Table
+
+A mature clinical data system should keep an outcome definition table separate from the patient-level outcome table.
+
+```text id="3w314m"
+outcome_name,definition,index_event,time_window_days,source_required,notes
+30_day_readmission,Unplanned inpatient admission within 30 days after discharge,discharge,30,encounter_data,Exclude planned admissions when available
+30_day_mortality,Death within 30 days after index admission,admission,30,mortality_registry,All-cause mortality
+aki_during_admission,Creatinine-defined AKI during admission,admission,length_of_stay,laboratory_results,Requires baseline creatinine rule
+```
+
+This table protects the analysis from undocumented assumptions.
+
+It also makes the work easier to review, update, and reuse.
+
+---
+
+## Readiness Checks for Outcome Data
+
+Outcome and follow-up data should be checked before analysis.
+
+Minimum checks include:
+
+- required columns are present
+- patient identifiers are not missing
+- outcome names are standardized
+- outcome status values are valid
+- outcome dates are not before index dates
+- follow-up end dates are not before index dates
+- follow-up days are non-negative
+- patients with observed outcomes have outcome dates
+- patients without observed outcomes do not have contradictory outcome dates
+- duplicate patient-outcome rows are reviewed
+
+These checks do not prove that the outcome definition is clinically perfect.
+
+They confirm that the dataset is structurally ready for analysis.
+
+---
+
+## Example Project Files
+
+This chapter uses a small synthetic example to demonstrate outcome and follow-up readiness checks.
+
+```text id="x9x92w"
+data/example/clinical-outcomes.csv
+results/outcome-quality-checks.tsv
+results/outcome-summary.tsv
+results/outcome-readiness-summary.txt
+logs/08-outcomes-and-follow-up-checks.log
+```
+
+---
+
+## How to Run
+
+Run the workflow from the project root.
+
+```bash id="q92s4r"
+python scripts/python/08-create-example-clinical-outcomes.py
+python scripts/python/08-check-clinical-outcomes.py
+bash scripts/bash/08-run-outcomes-and-follow-up-checks.sh
+```
+
+The first command creates synthetic example outcome data.
+
+The second command checks whether the outcome table is structurally ready for analysis.
+
+The Bash script runs the full workflow and writes a log file.
+
+Expected outputs:
+
+```text id="m044bn"
+data/example/clinical-outcomes.csv
+results/outcome-quality-checks.tsv
+results/outcome-summary.tsv
+results/outcome-readiness-summary.txt
+logs/08-outcomes-and-follow-up-checks.log
+```
+
+---
+
+## What This Chapter Adds to the Clinical Data System
+
+After this chapter, the project has clinical inputs for:
+
+- demographics
+- encounters
+- diagnoses
+- procedures
+- medications
+- laboratory results
+- vital signs
+- outcomes
+- follow-up windows
+
+This completes the main clinical input layer.
+
+The next part of the guide shifts from input structure to readiness: data quality checks, missingness, variable engineering, and analysis-ready clinical datasets.
+
+---
+
+## Key Takeaway
+
+Clinical outcomes are not just labels.
+
+They are event definitions anchored to patients, dates, sources, and follow-up windows.
+
+A defensible clinical data system makes these assumptions visible before analysis begins.

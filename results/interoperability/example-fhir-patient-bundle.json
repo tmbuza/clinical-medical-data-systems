@@ -1,0 +1,59 @@
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "meta": {
+    "profile": [
+      "CDI educational FHIR-like example; not production-valid"
+    ],
+    "generatedAt": "2026-06-27T12:46:20"
+  },
+  "entry": [
+    {
+      "resource": {
+        "resourceType": "Patient",
+        "id": "P001",
+        "identifier": [
+          {
+            "system": "https://complexdatainsights.com/example/patient-id",
+            "value": "P001"
+          }
+        ],
+        "gender": "female"
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "example-lab-observation",
+        "status": "final",
+        "code": {
+          "text": "creatinine"
+        },
+        "subject": {
+          "reference": "Patient/P001"
+        },
+        "valueQuantity": {
+          "value": "1.1",
+          "unit": "mg/dL"
+        }
+      }
+    },
+    {
+      "resource": {
+        "resourceType": "Observation",
+        "id": "example-vital-observation",
+        "status": "final",
+        "code": {
+          "text": "systolic_bp"
+        },
+        "subject": {
+          "reference": "Patient/P001"
+        },
+        "valueQuantity": {
+          "value": "138",
+          "unit": "mmHg"
+        }
+      }
+    }
+  ]
+}

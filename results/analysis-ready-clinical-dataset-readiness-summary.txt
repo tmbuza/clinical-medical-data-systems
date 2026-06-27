@@ -1,0 +1,31 @@
+Analysis-Ready Clinical Dataset Readiness Summary
+=================================================
+
+Input file: results/patient-level-derived-variables.tsv
+Output file: results/analysis-ready-clinical-dataset.tsv
+
+Rows: 6
+Unique patients: 6
+Duplicate patient rows: 0
+Analysis included rows: 0
+Analysis excluded rows: 6
+
+Required columns:
+- patient_id: present; missing = 0
+- age: missing; missing = 6
+- sex: missing; missing = 6
+- age_group: present; missing = 6
+- encounter_count: missing; missing = 6
+- outcome_status: missing; missing = 6
+- follow_up_days: missing; missing = 6
+
+Missing required columns:
+- age
+- sex
+- encounter_count
+- outcome_status
+- follow_up_days
+
+Interpretation:
+This file is structurally prepared for downstream example analysis when the inclusion flag is true.
+Clinical validity still depends on the appropriateness of the question, cohort definition, and outcome definition.

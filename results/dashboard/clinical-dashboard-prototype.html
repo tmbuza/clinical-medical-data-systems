@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Clinical Dashboard Readiness Prototype</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 2rem;
+      line-height: 1.5;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .card {
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 1rem;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+    }
+    .value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+    .note {
+      color: #475569;
+      font-size: 0.9rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      margin: 1rem 0 2rem;
+    }
+    th, td {
+      border: 1px solid #e2e8f0;
+      padding: 0.6rem;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #e2e8f0;
+    }
+    .warning {
+      background: #fff7ed;
+      border-left: 5px solid #f97316;
+      padding: 1rem;
+      margin: 1rem 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Clinical Dashboard Readiness Prototype</h1>
+  <p>Generated: <code>2026-06-27T12:46:19</code></p>
+
+  <div class="warning">
+    <strong>Prototype only.</strong>
+    This dashboard is a review artifact. It is not approved clinical decision support.
+  </div>
+
+  <h2>KPI Summary</h2>
+  <div class="grid">
+    
+            <section class="card">
+              <h3>Total patients</h3>
+              <p class="value">6.0</p>
+              <p class="note">Prepared patient-level cohort size.</p>
+            </section>
+            
+            <section class="card">
+              <h3>Analysis-included patients</h3>
+              <p class="value">0.0</p>
+              <p class="note">Patients meeting example analysis readiness rules.</p>
+            </section>
+            
+            <section class="card">
+              <h3>Observed event rate</h3>
+              <p class="value">nan</p>
+              <p class="note">Requires known outcomes and reviewed outcome definition.</p>
+            </section>
+            
+            <section class="card">
+              <h3>Mean predicted risk</h3>
+              <p class="value">nan</p>
+              <p class="note">Prediction summary only; not an action recommendation.</p>
+            </section>
+            
+            <section class="card">
+              <h3>High-risk patients</h3>
+              <p class="value">not_available</p>
+              <p class="note">High-risk group requires governance before workflow use.</p>
+            </section>
+            
+            <section class="card">
+              <h3>Decision-support readiness items present</h3>
+              <p class="value">5</p>
+              <p class="note">Present items are technical evidence, not deployment approval.</p>
+            </section>
+            
+            <section class="card">
+              <h3>Decision-support items requiring review</h3>
+              <p class="value">7</p>
+              <p class="note">Review-required items must be resolved before deployment.</p>
+            </section>
+            
+  </div>
+
+  <h2>Risk Group Summary</h2>
+  <table><thead><tr><th>risk_group</th><th>patient_count</th><th>known_outcome_count</th><th>positive_outcome_count</th><th>observed_event_rate</th><th>dashboard_note</th></tr></thead><tbody><tr><td>moderate</td><td>6</td><td>0</td><td>0</td><td>nan</td><td>Risk group summaries are review artifacts and require validation before clinical action.</td></tr></tbody></table>
+
+  <h2>Dashboard Readiness Issues</h2>
+  <table><thead><tr><th>issue_level</th><th>issue</th><th>file_path</th><th>dashboard_impact</th></tr></thead><tbody><tr><td>review_required</td><td>decision_support_items_unresolved</td><td>results/clinical-decision-support-readiness.tsv</td><td>7 readiness items require review before deployment.</td></tr><tr><td>note</td><td>prototype_only</td><td>results/dashboard/clinical-dashboard-prototype.html</td><td>The HTML dashboard is a prototype for review, not a production clinical dashboard.</td></tr></tbody></table>
+
+</body>
+</html>

@@ -1,0 +1,319 @@
+# Missingness and Data Completeness {#chapter10}
+
+:::cdi-message
+- **ID:** CMDS-010
+- **Type:** Core
+- **Audience:** Clinical data analysts, clinical researchers, informatics teams, and data stewards
+- **Theme:** Missingness is not only a data problem; it is a clinical, workflow, and interpretation problem
+:::
+
+Clinical data are rarely complete.
+
+Patients miss appointments.
+
+Laboratory tests are ordered only when clinically indicated.
+
+Vital signs may be recorded in some encounters but not others.
+
+Medication histories may be incomplete because prescriptions, dispensing records, and patient-reported use do not always agree.
+
+Outcome follow-up may stop when patients move, transfer care, die outside the system, or disengage from care.
+
+Because of this, missingness in clinical data should never be treated as a simple technical inconvenience.
+
+It is part of the clinical system that produced the dataset.
+
+---
+
+## Why Completeness Matters
+
+A clinical dataset can pass basic quality checks and still be unsafe for analysis.
+
+For example, a laboratory table may have valid patient identifiers, valid dates, and valid numeric values.
+
+But if creatinine values are mostly available only for very sick patients, an analysis using creatinine may accidentally compare a high-risk tested group against a lower-risk untested group.
+
+The dataset is not merely incomplete.
+
+It is selectively observed.
+
+That distinction matters.
+
+Completeness checks help answer practical questions such as:
+
+- Which variables are sufficiently populated for analysis?
+- Which patient groups have poorer data coverage?
+- Which domains are missing because of workflow rather than random absence?
+- Which variables should be used directly, engineered carefully, or excluded?
+- Which limitations must be reported clearly?
+
+---
+
+## Missingness Is a Signal
+
+In many clinical datasets, missingness may carry meaning.
+
+A missing laboratory result may mean that a test was not clinically indicated.
+
+A missing medication may mean that the patient was not prescribed the drug, that the prescription was outside the system, or that medication data were not captured.
+
+A missing outcome may mean no event occurred, follow-up was incomplete, or the event happened elsewhere.
+
+These meanings are not interchangeable.
+
+Before filling, dropping, or modeling missing values, the analyst should ask what the missingness represents clinically.
+
+---
+
+## Common Missingness Patterns
+
+Clinical missingness often appears in recognizable patterns.
+
+### Variable-level missingness
+
+A variable has many missing values across the dataset.
+
+Examples include race, insurance status, smoking status, medication stop date, or follow-up outcome.
+
+### Patient-level missingness
+
+Some patients have very sparse records.
+
+This may happen when patients have only one encounter, are new to the health system, or receive care elsewhere.
+
+### Encounter-level missingness
+
+Some encounters have incomplete clinical observations.
+
+For example, outpatient visits may lack vital signs, while inpatient encounters may have frequent measurements.
+
+### Domain-level missingness
+
+An entire domain may be absent or underrepresented.
+
+For example, medication data may exist, but procedures may be unavailable.
+
+### Time-dependent missingness
+
+Data completeness may change over calendar time.
+
+This can happen after a new electronic health record system, a coding change, a laboratory interface update, or a change in reporting policy.
+
+---
+
+## Completeness Is Context-Specific
+
+There is no universal threshold that makes a clinical variable usable.
+
+A variable with 40% completeness may be unacceptable for a primary exposure.
+
+The same variable may still be useful as a secondary descriptive characteristic if the missingness is clearly reported.
+
+A variable with 95% completeness may still be biased if the missing 5% are concentrated in a clinically important subgroup.
+
+Completeness should therefore be assessed at several levels:
+
+- overall dataset level
+- variable level
+- patient level
+- clinical domain level
+- time period level
+- subgroup level
+
+---
+
+## Example Completeness Review
+
+A practical review may begin with a simple inventory of the main clinical input files.
+
+```text id="input-files"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv
+```
+
+The goal is not only to count missing values.
+
+The goal is to decide whether the dataset is ready for responsible analysis.
+
+---
+
+## How to Run the Missingness Workflow
+
+From the project root, run the Python missingness profiler.
+
+```bash id="run-python-missingness"
+python scripts/python/10-profile-missingness-and-completeness.py
+```
+
+Then run the R visualization script.
+
+```bash id="run-r-visuals"
+Rscript scripts/R/10-visualize-missingness-and-completeness.R
+```
+
+Or run the full workflow with the Bash wrapper.
+
+```bash id="run-full-workflow"
+bash scripts/bash/10-run-missingness-and-completeness.sh
+```
+
+Expected outputs:
+
+```text id="expected-outputs"
+results/missingness-file-summary.tsv
+results/missingness-variable-summary.tsv
+results/missingness-domain-summary.tsv
+results/missingness-patient-summary.tsv
+results/missingness-completeness-readiness-summary.txt
+results/figures/missingness-domain-completeness.png
+results/figures/missingness-variable-top20.png
+logs/10-missingness-and-completeness.log
+```
+
+---
+
+## What the Python Script Does
+
+The Python script reads available example clinical input files from `data/example/`.
+
+It then produces four practical outputs.
+
+First, it creates a file-level summary.
+
+This checks whether each expected file exists, how many rows it has, how many columns it has, and how complete it appears overall.
+
+Second, it creates a variable-level missingness table.
+
+This identifies the number and percentage of missing values in each column of each input file.
+
+Third, it creates a domain-level completeness summary.
+
+This groups files into clinical domains such as demographics, encounters, coded events, results, and outcomes.
+
+Fourth, it creates a patient-level completeness summary where patient identifiers are available.
+
+This helps identify whether some patients have sparse cross-domain coverage.
+
+---
+
+## What the R Script Does
+
+The R script creates modern visual summaries from the Python output tables.
+
+It uses tidyverse-style data handling and `ggplot2` for clear, publication-ready plots.
+
+The goal is not decorative plotting.
+
+The goal is fast clinical review.
+
+The visual outputs help identify:
+
+- domains with weak completeness
+- variables with the highest missingness
+- files that may need additional cleaning before analysis
+
+---
+
+## Interpreting Completeness Results
+
+Completeness results should not be interpreted mechanically.
+
+A variable with high missingness is not automatically useless.
+
+A variable with low missingness is not automatically safe.
+
+Each variable should be interpreted according to its role in the analysis.
+
+### Primary exposure
+
+If a primary exposure has substantial missingness, the analysis question may need to be revised.
+
+The team may need to define a complete-case cohort, use an alternative exposure, or explicitly model missingness.
+
+### Primary outcome
+
+Missing outcome data are especially important.
+
+If follow-up is incomplete, the analysis may underestimate events or misclassify patients.
+
+### Adjustment variables
+
+Missing covariates can affect model stability and interpretation.
+
+The team should decide whether to use imputation, missingness indicators, complete-case analysis, or a simplified model.
+
+### Descriptive variables
+
+Some variables may be useful for context even if they are too incomplete for modeling.
+
+In that case, missingness should be reported clearly.
+
+---
+
+## Missingness and Bias
+
+The most important question is not whether data are missing.
+
+The most important question is whether missingness could change the interpretation.
+
+For example:
+
+```text id="missingness-interpretation-example"
+If follow-up outcome is missing mostly among younger patients, outcome rates may be biased toward older patients.
+
+If laboratory testing is more complete among severe cases, lab-based risk models may overrepresent high-acuity patients.
+
+If medication records are incomplete for patients receiving care outside the system, treatment exposure may be misclassified.
+```
+
+A clinical data system should make these risks visible before formal analysis begins.
+
+---
+
+## Completeness Readiness Decisions
+
+After reviewing missingness, each major variable or domain can be assigned a readiness decision.
+
+```text id="readiness-decisions"
+Ready for primary analysis
+Ready for secondary/descriptive analysis
+Requires clinical review
+Requires additional data extraction
+Exclude from current analysis
+```
+
+These decisions should be documented.
+
+They are part of the evidence trail for the final clinical report.
+
+---
+
+## Practical Checklist
+
+Before moving to clinical variable engineering, confirm that:
+
+- expected clinical input files are present
+- patient identifiers are usable where needed
+- required cohort variables are sufficiently complete
+- date variables are populated enough to support follow-up logic
+- outcome completeness has been reviewed
+- missingness is checked by domain and patient subgroup where possible
+- important limitations are documented before modeling
+
+---
+
+## Connection to the Next Chapter
+
+The next chapter moves from data completeness to clinical variable engineering.
+
+At that stage, raw clinical observations become analysis variables.
+
+That step should only happen after missingness has been reviewed.
+
+Otherwise, engineered variables may hide important gaps in the original data.

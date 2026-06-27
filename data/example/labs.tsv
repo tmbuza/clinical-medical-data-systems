@@ -1,0 +1,6 @@
+encounter_id	patient_id	lab_name	lab_value	lab_unit
+E001	P001	hemoglobin	13.1	g/dL
+E002	P002	glucose	188	mg/dL
+E003	P003	wbc	14.2	10^9/L
+E004	P004	creatinine	1.1	mg/dL
+E005	P005	hemoglobin	12.5	g/dL

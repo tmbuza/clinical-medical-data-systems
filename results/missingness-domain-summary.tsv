@@ -1,0 +1,5 @@
+domain	datasets	variables	average_completeness_percent	minimum_completeness_percent	maximum_missing_percent
+outcomes_and_follow_up	1	9	92.59	33.33	66.67
+clinical_results	2	22	100.0	100.0	0.0
+coded_clinical_events	3	21	100.0	100.0	0.0
+patient_identity_and_context	1	5	100.0	100.0	0.0

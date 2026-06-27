@@ -1,0 +1,9 @@
+check_name	status	details
+required_columns_present	PASS	All required columns present.
+patient_ids_populated	PASS	Patient identifiers are populated.
+encounter_ids_populated	PASS	Encounter identifiers are populated.
+measurement_datetimes_parseable	PASS	Parseable datetimes: 8 of 8.
+numeric_result_values	PASS	Numeric result values: 8 of 8.
+result_units_populated	PASS	Result units are populated.
+expected_units	PASS	All checked units match expected units.
+broad_plausibility_ranges	PASS	No broad plausibility flags found.

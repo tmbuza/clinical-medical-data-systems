@@ -1,0 +1,7 @@
+metric	value
+encounter_rows	6
+unique_encounters	6
+duplicate_encounter_ids	0
+orphan_encounters_without_patient	0
+encounters_with_end_before_start	0
+missing_required_encounter_columns	none

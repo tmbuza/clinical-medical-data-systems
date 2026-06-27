@@ -1,0 +1,9 @@
+file_path	role	exists	size_bytes	modified_time
+results/analysis-ready-clinical-dataset-readiness-summary.txt	Analysis-ready dataset readiness narrative	True	905	2026-06-27T12:46:14
+results/descriptive-clinical-analysis-summary.txt	Descriptive clinical analysis narrative	True	493	2026-06-27T12:46:14
+results/clinical-risk-model-summary.txt	Risk stratification model narrative	True	670	2026-06-27T12:46:15
+results/clinical-model-evaluation-summary.txt	Clinical model evaluation narrative	True	726	2026-06-27T12:46:16
+results/clinical-interpretation-and-decision-support-summary.txt	Clinical interpretation and decision-support narrative	True	844	2026-06-27T12:46:17
+results/descriptive-clinical-cohort-summary.tsv	Cohort summary metrics	True	361	2026-06-27T12:46:14
+results/clinical-model-evaluation-metrics.tsv	Model evaluation metrics	True	236	2026-06-27T12:46:16
+results/clinical-decision-support-readiness.tsv	Decision-support readiness checklist	True	2166	2026-06-27T12:46:17

@@ -1,0 +1,6 @@
+encounter_id	patient_id	diagnosis_code	diagnosis_label
+E001	P001	I10	Hypertension
+E002	P002	E11	Type 2 diabetes mellitus
+E003	P003	J18	Pneumonia
+E004	P004	I10	Hypertension
+E005	P005	Z00	General examination

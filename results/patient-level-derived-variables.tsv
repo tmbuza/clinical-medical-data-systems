@@ -1,0 +1,7 @@
+patient_id	date_of_birth	gender	race_ethnicity	insurance_type	age_at_index	age_group	diagnosis_record_count	has_diabetes	has_hypertension	has_chronic_kidney_disease	condition_indicator_count	medication_record_count	medication_class_count	baseline_creatinine	baseline_glucose	baseline_hemoglobin	baseline_lab_result_count	baseline_systolic_bp	baseline_diastolic_bp	baseline_bmi	baseline_vital_result_count	outcome_observed	outcome_type	outcome_date	days_to_outcome
+P001	1971-04-12	Female	Black				1	1	0	0	1	1	0	1.1		12.4	2	138.0	86.0		2	1		2026-02-02 00:00:00	
+P002	1958-11-03	Male	Black				1	0	1	0	1	0	0		186.0		1				1	0			
+P003	1986-07-22	Female	Unknown				1	0	0	0	0	1	0				1				1	0			
+P004	1949-01-19	Male	Black				1	0	0	0	0	1	0				0				0	1		2026-02-05 00:00:00	
+P005	2001-09-30	Female	Black				0	0	0	0	0	0	0				0				0	0			
+P006							0	0	0	0	0	0	0				0				0	0			

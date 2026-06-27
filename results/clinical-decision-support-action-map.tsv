@@ -1,0 +1,5 @@
+risk_group	decision_support_category	example_action_language	required_safeguard	deployment_status
+low	routine_review	Continue routine review according to existing clinical workflow.	Do not use low-risk status to deny clinically indicated care.	design_scaffold_only
+moderate	consider_review	Consider additional review if clinically appropriate and resources allow.	Clinical context should guide whether any action is needed.	design_scaffold_only
+high	prioritize_review	Prioritize for qualified clinical review under an approved protocol.	High-risk status should trigger review, not automatic treatment.	design_scaffold_only
+missing	insufficient_information	Risk group is missing or not interpretable; review data completeness.	Do not make risk-based decisions from missing or invalid model output.	design_scaffold_only

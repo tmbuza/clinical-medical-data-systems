@@ -1,0 +1,2 @@
+risk_group	patient_count	known_outcome_count	positive_outcome_count	observed_event_rate	dashboard_note
+moderate	6	0	0		Risk group summaries are review artifacts and require validation before clinical action.

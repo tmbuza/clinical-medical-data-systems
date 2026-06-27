@@ -1,0 +1,5 @@
+patient_id,encounter_id,code_system,code,code_description,event_date,diagnosis_position
+P001,E001,ICD-10-CM,E11.9,Type 2 diabetes mellitus without complications,2026-01-05,primary
+P002,E002,ICD-10-CM,I10,Essential hypertension,2026-01-09,secondary
+P003,E003,ICD-10-CM,J18.9,"Pneumonia, unspecified organism",2026-01-14,primary
+P004,E004,ICD-10-CM,N39.0,"Urinary tract infection, site not specified",2026-02-03,primary

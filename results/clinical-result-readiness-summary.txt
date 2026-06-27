@@ -1,0 +1,7 @@
+Clinical result readiness summary
+=================================
+Input file: data/example/clinical-results-combined.csv
+Rows checked: 8
+Checks passed: 8 of 8
+
+Review any rows marked REVIEW in results/clinical-result-quality-checks.tsv.

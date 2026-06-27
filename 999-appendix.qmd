@@ -1,0 +1,33 @@
+# Appendix
+
+## Repository Layout
+
+```text
+clinical-medical-data-systems/
+├── data/
+├── results/
+├── reports/
+├── scripts/
+├── assets/
+└── logs/
+```
+
+## Clinical Data Tables
+
+The first version of this system uses privacy-safe synthetic clinical tables:
+
+```text
+patients.tsv
+encounters.tsv
+diagnoses.tsv
+medications.tsv
+labs.tsv
+vitals.tsv
+outcomes.tsv
+```
+
+## Notes on Executability
+
+Quarto chapters are primarily instructional.
+
+Runnable scripts should be stored in `scripts/`.

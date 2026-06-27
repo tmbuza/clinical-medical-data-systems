@@ -1,0 +1,365 @@
+# Laboratory and Vital Sign Results {#sec-laboratory-and-vital-sign-results}
+
+:::cdi-message
+- **ID:** CMDS-07
+- **Type:** Core Clinical Data Input
+- **Audience:** Clinical data analysts, clinical researchers, informatics teams, data managers
+- **Theme:** Laboratory and vital sign results become useful only after units, timing, ranges, and clinical context are made explicit
+:::
+
+Laboratory and vital sign data are among the most clinically useful data sources in a medical data system.
+
+They often provide the closest structured view of a patient's physiological state.
+
+A diagnosis code may say that a patient has diabetes.
+
+A medication record may show that glucose-lowering treatment was prescribed.
+
+But laboratory and vital sign results show whether the condition is measurable, changing, improving, worsening, or unstable.
+
+This chapter focuses on two common clinical result domains:
+
+- laboratory results
+- vital sign measurements
+
+The goal is not only to store these values.
+
+The goal is to make them analysis-ready.
+
+---
+
+## Why Laboratory and Vital Sign Data Need Special Care
+
+Laboratory and vital sign data look simple at first.
+
+They often appear as rows with a patient identifier, a test name, a date, and a numeric value.
+
+But in real clinical systems, these data can be complicated.
+
+The same clinical concept may appear under multiple names.
+
+Units may differ across sites.
+
+Reference ranges may depend on age, sex, pregnancy status, laboratory method, or clinical setting.
+
+Values may include symbols such as `<`, `>`, `trace`, `positive`, or `negative`.
+
+Vital signs may be measured during triage, inpatient monitoring, outpatient visits, emergency care, or intensive care.
+
+A single blood pressure value may mean different things depending on whether it was recorded during routine clinic review or during acute illness.
+
+A clinical data system must preserve this context.
+
+---
+
+## Core Laboratory Result Fields
+
+A laboratory result table should usually include:
+
+```text id="lab-fields"
+patient_id
+encounter_id
+specimen_datetime
+result_datetime
+test_code
+test_name
+result_value
+result_unit
+reference_low
+reference_high
+abnormal_flag
+source_system
+```
+
+Not every project will have every field.
+
+But the system should make missing fields visible rather than hiding them.
+
+For example, a table with laboratory values but no unit column is risky.
+
+A creatinine value of `1.1` means something very different depending on whether the unit is `mg/dL` or `µmol/L`.
+
+---
+
+## Core Vital Sign Fields
+
+A vital sign table should usually include:
+
+```text id="vital-fields"
+patient_id
+encounter_id
+measurement_datetime
+vital_name
+vital_value
+vital_unit
+measurement_position
+care_setting
+source_system
+```
+
+Common vital signs include:
+
+- systolic blood pressure
+- diastolic blood pressure
+- heart rate
+- respiratory rate
+- temperature
+- oxygen saturation
+- weight
+- height
+- body mass index
+
+For analysis, it is helpful to store vital signs in a long format first.
+
+Each row represents one measurement.
+
+This makes validation, unit checks, and time-window selection easier.
+
+---
+
+## Long Format Before Wide Format
+
+Clinical results are often best stored in long format during cleaning.
+
+```text id="long-format-example"
+patient_id | encounter_id | result_datetime     | result_name | result_value | result_unit
+P001       | E001         | 2026-01-04 08:30:00 | creatinine  | 1.1          | mg/dL
+P001       | E001         | 2026-01-04 08:35:00 | systolic_bp | 138          | mmHg
+P001       | E001         | 2026-01-04 08:35:00 | heart_rate  | 88           | beats/min
+```
+
+Later, the data can be transformed into wide format for modeling or reporting.
+
+```text id="wide-format-example"
+patient_id | encounter_id | creatinine | systolic_bp | heart_rate
+P001       | E001         | 1.1        | 138         | 88
+```
+
+The wide table is useful for analysis.
+
+The long table is safer for validation.
+
+A mature workflow usually keeps both.
+
+---
+
+## Result Timing Matters
+
+Laboratory and vital sign values are rarely meaningful without timing.
+
+For example:
+
+- baseline creatinine before admission
+- peak creatinine during admission
+- latest hemoglobin before discharge
+- first oxygen saturation at triage
+- average blood pressure during follow-up
+
+Each of these represents a different clinical question.
+
+A data system should avoid vague variable names such as `creatinine` or `blood_pressure` when the timing rule is not clear.
+
+Better names include:
+
+```text id="timed-variable-names"
+baseline_creatinine_mg_dl
+peak_inpatient_creatinine_mg_dl
+latest_pre_discharge_hemoglobin_g_dl
+triage_oxygen_saturation_percent
+mean_followup_systolic_bp_mm_hg
+```
+
+The variable name should carry enough meaning to prevent misuse.
+
+---
+
+## Unit Harmonization
+
+Unit harmonization is one of the most important steps in laboratory readiness.
+
+A project should define accepted units for each analyte.
+
+```text id="unit-map-example"
+creatinine -> mg/dL
+hemoglobin -> g/dL
+glucose -> mg/dL
+sodium -> mmol/L
+potassium -> mmol/L
+systolic_bp -> mmHg
+diastolic_bp -> mmHg
+temperature -> Celsius
+oxygen_saturation -> percent
+```
+
+When multiple units exist, conversion rules should be explicit.
+
+The workflow should not silently combine incompatible values.
+
+---
+
+## Plausibility Checks
+
+Laboratory and vital sign values should be checked for impossible or implausible values.
+
+Examples:
+
+```text id="plausibility-examples"
+heart_rate < 20 or > 250
+systolic_bp < 50 or > 300
+temperature_c < 30 or > 45
+oxygen_saturation_percent < 50 or > 100
+hemoglobin_g_dl < 2 or > 25
+creatinine_mg_dl < 0.1 or > 20
+```
+
+These ranges are not universal clinical rules.
+
+They are project-level readiness checks.
+
+The purpose is to identify values that need review.
+
+---
+
+## Abnormal Flags Are Helpful but Not Enough
+
+Many laboratory systems provide abnormal flags such as:
+
+```text id="abnormal-flags"
+L
+H
+LL
+HH
+NORMAL
+ABNORMAL
+```
+
+These flags can be useful.
+
+But they should not replace numeric interpretation.
+
+A low hemoglobin flag depends on the reference range used by the laboratory.
+
+A high creatinine flag may have different meaning depending on baseline kidney function.
+
+A clinical analysis should preserve the flag while also keeping the numeric value, unit, and reference range.
+
+---
+
+## Analysis-Ready Result Tables
+
+An analysis-ready laboratory or vital sign table should answer these questions:
+
+- What was measured?
+- When was it measured?
+- Who was it measured for?
+- During which encounter or care episode?
+- What unit was used?
+- Is the value numeric, categorical, or textual?
+- Is the value plausible?
+- Is the value clinically interpretable for the planned question?
+
+A result table is not analysis-ready simply because it has numbers.
+
+It is analysis-ready when those numbers are clinically located.
+
+---
+
+## Example Workflow
+
+This chapter includes a small example workflow that creates synthetic laboratory and vital sign data, checks readiness, and writes summary outputs.
+
+The example files are intentionally small.
+
+They are designed to demonstrate structure, not to represent real patients.
+
+---
+
+## How to Run
+
+From the project root, save the scripts into the following paths:
+
+```text id="save-paths"
+scripts/python/07-create-example-labs-and-vitals.py
+scripts/python/07-check-labs-and-vitals.py
+scripts/bash/07-run-labs-and-vitals-checks.sh
+```
+
+Then run:
+
+```bash id="run-07-workflow"
+python scripts/python/07-create-example-labs-and-vitals.py
+python scripts/python/07-check-labs-and-vitals.py
+bash scripts/bash/07-run-labs-and-vitals-checks.sh
+```
+
+Expected outputs:
+
+```text id="expected-07-outputs"
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-results-combined.csv
+results/clinical-result-quality-checks.tsv
+results/clinical-result-domain-summary.tsv
+results/clinical-result-readiness-summary.txt
+logs/07-labs-and-vitals-checks.log
+```
+
+---
+
+## What the Checks Look For
+
+The validation script checks whether:
+
+- required columns are present
+- patient and encounter identifiers are populated
+- result names are populated
+- result values are numeric where expected
+- result units are present
+- common unit expectations are met
+- measurement timestamps are parseable
+- selected values fall within broad plausibility ranges
+
+The checks are not a substitute for clinical review.
+
+They are a readiness screen.
+
+---
+
+## CDI Interpretation
+
+Laboratory and vital sign results often drive clinical conclusions.
+
+That makes them powerful.
+
+It also makes them dangerous when poorly prepared.
+
+A single wrong unit, missing timestamp, duplicated result, or implausible value can change the interpretation of a cohort.
+
+In the CDI approach, clinical result data should move through a clear readiness pathway:
+
+```text id="result-readiness-pathway"
+raw result table
+  -> standardized result names
+  -> unit checks
+  -> timestamp checks
+  -> plausibility checks
+  -> clinical timing rules
+  -> analysis-ready variables
+  -> interpretation
+```
+
+This pathway protects the analysis from treating raw clinical measurements as if they were already meaningful variables.
+
+---
+
+## Key Takeaways
+
+Laboratory and vital sign data are central to clinical analysis.
+
+They require careful handling of timing, units, reference ranges, plausibility, and clinical context.
+
+Long-format result tables are useful during cleaning and validation.
+
+Wide-format derived tables are useful later for reporting and modeling.
+
+The safest clinical data systems preserve both the raw measurement structure and the derived analysis-ready variables.

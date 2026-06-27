@@ -1,0 +1,346 @@
+# Diagnoses, Procedures, and Medications {#sec-diagnoses-procedures-medications}
+
+:::cdi-message
+- **ID:** CLIN-006
+- **Type:** Core Workflow
+- **Audience:** Clinical analysts, data scientists, informatics teams, public health analysts
+- **Theme:** Clinical meaning depends on coded events being interpreted in context
+:::
+
+Diagnoses, procedures, and medications are among the most important structured inputs in clinical data systems.
+
+They describe what conditions were recognized, what care was delivered, and what treatments were ordered, dispensed, or administered.
+
+But these tables are not simple facts.
+
+A diagnosis code may represent active disease, history of disease, billing justification, suspected disease, rule-out disease, or a problem carried forward from a previous visit.
+
+A medication order may not mean the patient actually took the medication.
+
+A procedure code may describe a major intervention, a diagnostic test, a routine screening, or a billing artifact.
+
+This chapter treats diagnoses, procedures, and medications as **clinical event data** that require careful validation before analysis.
+
+---
+
+## Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- distinguish diagnosis, procedure, and medication tables;
+- recognize common coding systems used in clinical datasets;
+- structure coded clinical events in a consistent long-table format;
+- identify basic quality issues in coded event data;
+- prepare these inputs for cohort definition, phenotyping, and downstream analysis.
+
+---
+
+## Why These Inputs Matter
+
+Clinical questions often depend on coded events.
+
+For example:
+
+- Does the patient have diabetes?
+- Was the patient admitted for heart failure?
+- Did the patient receive surgery?
+- Was the patient prescribed antibiotics?
+- Did the patient receive chemotherapy before an outcome occurred?
+
+Each question depends on structured clinical records.
+
+But answering these questions safely requires knowing where the code came from, when it occurred, and what it means.
+
+A clinical data system should not treat codes as isolated labels.
+
+It should treat them as events connected to patients, encounters, time, coding systems, and clinical context.
+
+---
+
+## Core Data Domains
+
+This chapter focuses on three common clinical input domains.
+
+| Domain | Typical content | Common use |
+|---|---|---|
+| Diagnoses | Conditions, symptoms, history, billing diagnoses | Cohorts, comorbidity flags, risk adjustment |
+| Procedures | Surgeries, imaging, diagnostic tests, interventions | Exposure definition, care pathways, utilization |
+| Medications | Orders, prescriptions, administrations, dispensations | Treatment exposure, medication history, safety studies |
+
+These domains are usually stored separately in EHR exports, claims datasets, registries, or clinical data warehouses.
+
+For analysis readiness, they should be harmonized into consistent event-level structures.
+
+---
+
+## A Practical Long-Table Pattern
+
+A useful structure for coded clinical events is a long table where each row is one event for one patient.
+
+```text id="coded-event-table-pattern"
+patient_id | encounter_id | event_domain | code_system | code | code_description | event_date | source_table
+P001       | E001         | diagnosis    | ICD-10-CM   | E11.9 | Type 2 diabetes  | 2026-01-05 | diagnoses
+P001       | E001         | medication   | RxNorm      | 860975| Metformin        | 2026-01-05 | medications
+P002       | E004         | procedure    | CPT         | 93000 | ECG              | 2026-02-14 | procedures
+```
+
+This structure makes it easier to validate, filter, summarize, and reuse clinical events.
+
+It also keeps clinical meaning explicit.
+
+The analyst can ask:
+
+- Which coding system was used?
+- Was the event tied to an encounter?
+- Did the event occur before or after the outcome?
+- Was the code from diagnosis, procedure, or medication data?
+
+---
+
+## Common Coding Systems
+
+Different clinical systems use different vocabularies.
+
+| Coding system | Common use |
+|---|---|
+| ICD-10-CM | Diagnoses and conditions |
+| ICD-10-PCS | Inpatient procedures in some systems |
+| CPT / HCPCS | Procedures, services, billing events |
+| RxNorm | Medication concepts |
+| NDC | Drug products and packages |
+| SNOMED CT | Clinical concepts and problem lists |
+| LOINC | Laboratory tests and clinical observations |
+
+A clinical data system should preserve the original coding system whenever possible.
+
+Code lists should be versioned and documented, especially when they define cohorts or outcomes.
+
+---
+
+## Diagnosis Data Are Not Always Disease Truth
+
+Diagnosis codes are often used as evidence of disease, but they are not always definitive.
+
+A diagnosis table may contain:
+
+- primary diagnosis codes;
+- secondary diagnosis codes;
+- encounter diagnoses;
+- billing diagnoses;
+- problem-list entries;
+- historical conditions;
+- suspected or rule-out diagnoses.
+
+The meaning depends on the source.
+
+For example, a diabetes cohort may require more than one diagnosis code, a diagnosis plus medication evidence, or diagnosis evidence within a defined time window.
+
+```text id="example-diagnosis-rule"
+Possible diabetes phenotype rule:
+
+Include patient if:
+- at least 2 outpatient ICD-10-CM diabetes codes on different dates, OR
+- at least 1 inpatient diabetes code, OR
+- diabetes medication evidence plus supporting diagnosis evidence.
+```
+
+The exact rule depends on the project and clinical context.
+
+The important principle is that codes should be translated into phenotype logic carefully.
+
+---
+
+## Procedure Data Need Context
+
+Procedure codes can represent many kinds of care events.
+
+Some procedures are major exposures.
+
+Others are routine tests or billing services.
+
+A procedure table should ideally include:
+
+- patient identifier;
+- encounter identifier;
+- procedure code;
+- coding system;
+- procedure date;
+- provider or facility context when available;
+- description or mapped concept.
+
+Procedure timing is especially important.
+
+A procedure before an outcome may be an exposure.
+
+A procedure after an outcome may be part of treatment or follow-up.
+
+---
+
+## Medication Data Need Source Awareness
+
+Medication data are especially sensitive to interpretation.
+
+Medication evidence may come from:
+
+- orders;
+- prescriptions;
+- pharmacy fills;
+- medication administrations;
+- medication reconciliation lists;
+- discharge medication lists.
+
+These are not the same.
+
+A medication order means a clinician ordered the medication.
+
+A pharmacy fill suggests the medication was dispensed.
+
+An administration record suggests the medication was given in a clinical setting.
+
+A medication list may reflect reported or historical use.
+
+```text id="medication-source-interpretation"
+Medication order        = intended treatment
+Pharmacy fill           = medication dispensed
+Administration record   = medication given
+Medication list         = reported or reconciled medication history
+```
+
+For exposure analyses, the source of medication evidence should be explicit.
+
+---
+
+## Minimum Required Fields
+
+A practical coded event dataset should include these fields.
+
+| Field | Purpose |
+|---|---|
+| patient_id | Links event to patient |
+| encounter_id | Links event to visit or admission when available |
+| event_domain | Diagnosis, procedure, medication |
+| code_system | ICD-10-CM, CPT, RxNorm, NDC, etc. |
+| code | Original clinical code |
+| code_description | Human-readable meaning when available |
+| event_date | Date of diagnosis, procedure, order, fill, or administration |
+| source_table | Original table or extract source |
+
+Some projects may also need provider, facility, route, dose, quantity, diagnosis position, or medication status.
+
+But these minimum fields provide a stable foundation.
+
+---
+
+## Example Project Files
+
+For this chapter, we create a small synthetic coded clinical event dataset.
+
+The workflow produces diagnosis, procedure, medication, and combined event files.
+
+```text id="chapter-06-files"
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/coded-clinical-events.csv
+results/coded-event-quality-checks.tsv
+results/coded-event-domain-summary.tsv
+results/coded-event-readiness-summary.txt
+```
+
+---
+
+## How to Run
+
+Run the commands from the project root.
+
+```bash id="run-chapter-06-workflow"
+python scripts/python/06-create-example-coded-clinical-events.py
+python scripts/python/06-check-coded-clinical-events.py
+bash scripts/bash/06-run-coded-clinical-event-checks.sh
+```
+
+The bash script runs the same workflow end to end.
+
+```bash id="run-chapter-06-bash-only"
+bash scripts/bash/06-run-coded-clinical-event-checks.sh
+```
+
+Expected outputs:
+
+```text id="expected-chapter-06-outputs"
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/coded-clinical-events.csv
+results/coded-event-quality-checks.tsv
+results/coded-event-domain-summary.tsv
+results/coded-event-readiness-summary.txt
+```
+
+---
+
+## Quality Checks
+
+At minimum, coded clinical event checks should ask:
+
+- Are required columns present?
+- Are patient identifiers missing?
+- Are event dates missing or invalid?
+- Are coding systems present?
+- Are event domains restricted to expected values?
+- Are there duplicate patient-event-code-date records?
+- Are diagnosis, procedure, and medication domains all represented?
+
+These checks do not prove the clinical logic is correct.
+
+They confirm that the data are structurally ready for clinical reasoning.
+
+---
+
+## Analysis-Ready Thinking
+
+A coded clinical event table becomes useful when it can support questions such as:
+
+```text id="analysis-ready-coded-event-questions"
+Which patients had evidence of diabetes before baseline?
+Which patients had antibiotic exposure within 30 days of admission?
+Which procedures occurred during the index encounter?
+Which medications were ordered after discharge?
+Which diagnoses should be treated as comorbidities rather than outcomes?
+```
+
+These questions require both technical structure and clinical interpretation.
+
+The goal is not only to clean codes.
+
+The goal is to make coded events reliable enough to support defensible clinical claims.
+
+---
+
+## CDI Interpretation Rule
+
+A code is not a conclusion.
+
+A code is evidence.
+
+Clinical data systems should preserve the evidence, document the rule used to interpret it, and make the resulting variable traceable.
+
+```text id="cdi-coded-event-rule"
+Clinical code → documented rule → derived clinical variable → interpreted result
+```
+
+This pattern protects the analysis from overclaiming.
+
+It also makes the workflow easier to review, reproduce, and improve.
+
+---
+
+## Key Takeaways
+
+Diagnoses, procedures, and medications are essential clinical data inputs, but they must be interpreted carefully.
+
+A robust clinical data system should preserve event domain, coding system, source, date, patient linkage, and encounter linkage.
+
+Medication and diagnosis evidence should never be treated as self-explanatory.
+
+The safest workflow is to validate coded events first, then translate them into project-specific clinical variables using documented logic.

@@ -1,0 +1,13 @@
+stage	expected_files	present_files	missing_files	completion_percent	status
+input_generation	8	7	1	87.5	partial
+input_validation	6	6	0	100.0	complete
+missingness_and_readiness	5	5	0	100.0	complete
+variable_engineering	3	3	0	100.0	complete
+analysis_ready_dataset	3	3	0	100.0	complete
+descriptive_analysis	5	5	0	100.0	complete
+risk_stratification	3	3	0	100.0	complete
+model_evaluation	5	5	0	100.0	complete
+clinical_interpretation	4	4	0	100.0	complete
+reporting	3	3	0	100.0	complete
+dashboard_readiness	5	5	0	100.0	complete
+interoperability	4	4	0	100.0	complete

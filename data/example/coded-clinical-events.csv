@@ -1,0 +1,11 @@
+patient_id,encounter_id,event_domain,code_system,code,code_description,event_date,source_table
+P001,E001,diagnosis,ICD-10-CM,E11.9,Type 2 diabetes mellitus without complications,2026-01-05,diagnoses
+P002,E002,diagnosis,ICD-10-CM,I10,Essential hypertension,2026-01-09,diagnoses
+P003,E003,diagnosis,ICD-10-CM,J18.9,"Pneumonia, unspecified organism",2026-01-14,diagnoses
+P004,E004,diagnosis,ICD-10-CM,N39.0,"Urinary tract infection, site not specified",2026-02-03,diagnoses
+P001,E001,procedure,CPT,83036,Hemoglobin A1c test,2026-01-05,procedures
+P002,E002,procedure,CPT,93000,Electrocardiogram,2026-01-09,procedures
+P003,E003,procedure,CPT,71046,"Chest X-ray, two views",2026-01-14,procedures
+P001,E001,medication,RxNorm,860975,Metformin hydrochloride 500 MG oral tablet,2026-01-05,medications
+P003,E003,medication,RxNorm,308182,Amoxicillin 500 MG oral capsule,2026-01-14,medications
+P004,E004,medication,RxNorm,197361,Ciprofloxacin 500 MG oral tablet,2026-02-03,medications

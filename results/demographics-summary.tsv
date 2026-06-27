@@ -1,0 +1,5 @@
+metric	value
+patient_rows	5
+unique_patients	5
+duplicate_patient_ids	0
+missing_required_patient_columns	none

@@ -1,0 +1,22 @@
+readiness_domain	item	status	evidence	interoperability_note
+input_availability	patient-demographics.csv available for Patient mapping	present	data/example/patient-demographics.csv	Input availability is required before field-level mapping can be validated.
+input_structure	patient-demographics.csv readable as tabular data	present	rows=5; columns=5	Readable structure is necessary but not sufficient for interoperability.
+input_availability	clinical-encounters.csv available for Encounter mapping	missing	data/example/clinical-encounters.csv	Input availability is required before field-level mapping can be validated.
+input_availability	diagnoses.csv available for Condition mapping	present	data/example/diagnoses.csv	Input availability is required before field-level mapping can be validated.
+input_structure	diagnoses.csv readable as tabular data	present	rows=4; columns=7	Readable structure is necessary but not sufficient for interoperability.
+input_availability	procedures.csv available for Procedure mapping	present	data/example/procedures.csv	Input availability is required before field-level mapping can be validated.
+input_structure	procedures.csv readable as tabular data	present	rows=3; columns=7	Readable structure is necessary but not sufficient for interoperability.
+input_availability	medications.csv available for MedicationRequest or MedicationStatement mapping	present	data/example/medications.csv	Input availability is required before field-level mapping can be validated.
+input_structure	medications.csv readable as tabular data	present	rows=3; columns=7	Readable structure is necessary but not sufficient for interoperability.
+input_availability	laboratory-results.csv available for Observation mapping	present	data/example/laboratory-results.csv	Input availability is required before field-level mapping can be validated.
+input_structure	laboratory-results.csv readable as tabular data	present	rows=4; columns=12	Readable structure is necessary but not sufficient for interoperability.
+input_availability	vital-sign-results.csv available for Observation mapping	present	data/example/vital-sign-results.csv	Input availability is required before field-level mapping can be validated.
+input_structure	vital-sign-results.csv readable as tabular data	present	rows=4; columns=10	Readable structure is necessary but not sufficient for interoperability.
+input_availability	clinical-outcomes.csv available for Observation, Condition, Encounter, or project-specific outcome mapping	present	data/example/clinical-outcomes.csv	Input availability is required before field-level mapping can be validated.
+input_structure	clinical-outcomes.csv readable as tabular data	present	rows=6; columns=9	Readable structure is necessary but not sufficient for interoperability.
+mapping_status	Mapping rows with status conceptual_mapping	present	count=6	Rows requiring semantic or clinical review should be resolved before production exchange.
+mapping_status	Mapping rows with status requires_semantic_review	present	count=1	Rows requiring semantic or clinical review should be resolved before production exchange.
+mapping_status	Mapping rows with status requires_clinical_definition	present	count=1	Rows requiring semantic or clinical review should be resolved before production exchange.
+governance	Privacy and minimum necessary data review	required_not_completed_by_script	Institutional review required.	FHIR mapping does not remove privacy obligations.
+provenance	Source system and transformation provenance documented	required_not_completed_by_script	Project metadata required.	Receiving systems need provenance to interpret exchanged data safely.
+terminology	Terminology and code-system mapping reviewed	required_not_completed_by_script	Terminology review required.	Local codes should be mapped to documented systems before exchange.

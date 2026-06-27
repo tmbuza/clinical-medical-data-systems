@@ -1,0 +1,307 @@
+# End-to-End Case Study
+
+:::cdi-message
+- **ID:** CDMS-20
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, clinical research teams, and CDI learners
+- **Theme:** A clinical data system becomes real when the full workflow can run from example inputs to analysis-ready outputs, reports, dashboards, and interoperability artifacts
+:::
+
+This final chapter brings the Clinical & Medical Data Systems guide together.
+
+The previous chapters built the system in layers:
+
+- clinical data foundations
+- clinical data inputs
+- cleaning, validation, and readiness
+- descriptive analysis
+- risk stratification
+- model evaluation
+- clinical interpretation
+- reproducible reporting
+- dashboard readiness
+- interoperability planning
+
+This chapter connects those layers into one end-to-end case study.
+
+The goal is not to prove a clinical claim.
+
+The goal is to demonstrate a complete, reproducible clinical data workflow.
+
+---
+
+## Case Study Purpose
+
+The case study answers a practical systems question:
+
+**Can we start from structured example clinical data and produce documented, analysis-ready, interpretation-ready, report-ready, dashboard-ready, and interoperability-aware outputs?**
+
+A clinical data system is credible when it can be rebuilt.
+
+This chapter shows that rebuild path.
+
+---
+
+## End-to-End Workflow
+
+The workflow follows the guide sequence.
+
+```text id="case-study-workflow"
+01 clinical system concepts
+02 healthcare data types
+03 clinical questions and cohorts
+04 governance, privacy, and ethics
+
+05 demographics and encounters
+06 diagnoses, procedures, medications
+07 labs and vital signs
+08 outcomes and follow-up
+
+09 clinical data quality checks
+10 missingness and completeness
+11 clinical variable engineering
+12 analysis-ready dataset
+
+13 descriptive clinical analysis
+14 risk stratification and clinical models
+15 clinical model evaluation
+16 clinical interpretation and decision support
+
+17 reproducible clinical reports
+18 clinical dashboard readiness
+19 EHR, FHIR, and interoperability roadmap
+20 end-to-end case study
+```
+
+The case study runner focuses on the executable workflow from Chapter 05 onward.
+
+---
+
+## Input Layer
+
+The example input layer is created by earlier scripts.
+
+```text id="case-study-input-layer"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv
+```
+
+These files represent simplified structured clinical data.
+
+They are educational examples, not real patient data.
+
+---
+
+## Readiness Layer
+
+The readiness layer checks whether the inputs can support analysis.
+
+```text id="case-study-readiness-layer"
+results/clinical-data-quality-readiness-summary.txt
+results/missingness-completeness-readiness-summary.txt
+results/clinical-variable-engineering-summary.txt
+results/analysis-ready-clinical-dataset-readiness-summary.txt
+```
+
+This layer protects the downstream workflow from hidden structural problems.
+
+---
+
+## Analysis Layer
+
+The analysis layer describes the cohort and creates model-oriented outputs.
+
+```text id="case-study-analysis-layer"
+results/descriptive-clinical-analysis-summary.txt
+results/clinical-risk-model-summary.txt
+results/clinical-model-evaluation-summary.txt
+```
+
+The purpose is not to create a validated model.
+
+The purpose is to demonstrate a transparent clinical analysis workflow.
+
+---
+
+## Interpretation and System Layer
+
+The final layers prepare outputs for real-world review.
+
+```text id="case-study-system-layer"
+results/clinical-interpretation-and-decision-support-summary.txt
+results/reports/reproducible-clinical-report.md
+results/dashboard/clinical-dashboard-prototype.html
+results/interoperability/interoperability-roadmap-summary.txt
+```
+
+These artifacts show how analysis outputs can be translated into communication, dashboard, and interoperability planning outputs.
+
+---
+
+## Outputs
+
+This chapter creates a case-study summary package.
+
+```text id="chapter20-outputs"
+results/case-study/end-to-end-case-study-file-inventory.tsv
+results/case-study/end-to-end-case-study-stage-summary.tsv
+results/case-study/end-to-end-case-study-summary.md
+results/case-study/end-to-end-case-study-readiness-summary.txt
+logs/20-end-to-end-case-study.log
+```
+
+The runner also calls prior chapter scripts to regenerate the workflow.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-end-to-end-case-study"
+python scripts/python/20-build-end-to-end-case-study-summary-safe.py
+bash scripts/bash/20-run-end-to-end-case-study.sh
+```
+
+To run the full end-to-end workflow:
+
+```bash id="run-end-to-end-bash-only"
+bash scripts/bash/20-run-end-to-end-case-study.sh
+```
+
+---
+
+## What the Bash Runner Does
+
+The bash runner executes the workflow in order.
+
+It runs the example data creators first.
+
+Then it runs validation, readiness, analysis, interpretation, reporting, dashboard, and interoperability scripts.
+
+Finally, it runs the Chapter 20 summary script.
+
+The runner is designed to keep going only when each step completes successfully.
+
+If a step fails, the log shows where the workflow stopped.
+
+---
+
+## What the Python Summary Script Does
+
+The Python summary script does not rerun every analysis.
+
+It checks the outputs and builds a final case-study package.
+
+It creates:
+
+- a file inventory
+- a stage summary
+- a Markdown case-study summary
+- a text readiness summary
+
+The script is safe and dependency-light.
+
+It does not require external reporting packages.
+
+---
+
+## Case Study Stages
+
+The case study is organized into stages.
+
+```text id="case-study-stages"
+input_generation
+input_validation
+missingness_and_readiness
+variable_engineering
+analysis_ready_dataset
+descriptive_analysis
+risk_stratification
+model_evaluation
+clinical_interpretation
+reporting
+dashboard_readiness
+interoperability
+case_study_summary
+```
+
+Each stage has expected files.
+
+The summary script reports which files are present and which are missing.
+
+---
+
+## Interpreting the Case Study
+
+A successful run means:
+
+- scripts executed
+- expected files were created
+- outputs are traceable
+- the workflow is reproducible
+- downstream artifacts can be reviewed
+
+It does not mean:
+
+- the model is clinically valid
+- the example data represent real patients
+- the dashboard is production-ready
+- the FHIR mapping is implementation-ready
+- clinical deployment is approved
+
+This distinction is essential.
+
+---
+
+## Why This Matters
+
+Many clinical analytics workflows fail because they are fragmented.
+
+One person creates input files.
+
+Another cleans them.
+
+Another builds a model.
+
+Another writes a report.
+
+Another builds a dashboard.
+
+Another tries to map outputs to an EHR.
+
+Without a reproducible system, assumptions get lost.
+
+This guide shows a safer pattern: each layer writes outputs that the next layer can inspect and reuse.
+
+---
+
+## Final CDI Principle
+
+A clinical data system is not a single script, model, table, or dashboard.
+
+It is a chain of defensible transformations.
+
+The chain begins with clinical questions and governance.
+
+It continues through validation and analysis readiness.
+
+It ends with interpretation, reporting, dashboard readiness, and interoperability planning.
+
+Each layer should be understandable, reproducible, and honest about its limitations.
+
+---
+
+## Chapter Summary
+
+In this final chapter, we connected the Clinical & Medical Data Systems guide into an end-to-end reproducible case study.
+
+We created a final runner and summary outputs that show whether the system can rebuild itself from structured example clinical inputs.
+
+This completes the main guide.

@@ -1,0 +1,7 @@
+patient_id	outcome_status	binary_outcome	predicted_risk_score	risk_group	scoring_method
+P001			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows
+P002			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows
+P003			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows
+P004			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows
+P005			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows
+P006			0.5	moderate	rule_based_fallback_insufficient_outcome_classes_or_rows

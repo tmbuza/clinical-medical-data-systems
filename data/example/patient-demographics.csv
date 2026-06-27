@@ -1,0 +1,6 @@
+patient_id,birth_date,sex,race_ethnicity,residence_region
+P001,1971-04-12,Female,Black,Region A
+P002,1958-11-03,Male,Black,Region B
+P003,1986-07-22,Female,Unknown,Region A
+P004,1949-01-19,Male,Black,Region C
+P005,2001-09-30,Female,Black,Region B

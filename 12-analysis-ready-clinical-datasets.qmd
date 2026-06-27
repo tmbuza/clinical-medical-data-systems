@@ -1,0 +1,359 @@
+# Analysis-Ready Clinical Datasets
+
+:::cdi-message
+- **ID:** CDMS-12
+- **Type:** Premium
+- **Audience:** Clinical analysts, data scientists, health informatics teams, and applied researchers
+- **Theme:** Clinical analysis begins only after inputs are converted into a documented, patient-level, analysis-ready dataset
+:::
+
+Raw clinical data rarely arrives in a form that can be analyzed directly.
+
+Demographics may live in one table.
+
+Encounters may live in another.
+
+Diagnoses, procedures, medications, laboratory results, vital signs, outcomes, and follow-up information may all be recorded at different time scales.
+
+Before descriptive analysis, risk modeling, dashboards, or decision support, these sources must be converted into an **analysis-ready clinical dataset**.
+
+This chapter shows how to define, assemble, check, and document that dataset.
+
+---
+
+## Why Analysis-Ready Does Not Mean Perfect
+
+An analysis-ready dataset is not a perfect dataset.
+
+It is a dataset that is sufficiently prepared, documented, and validated for a specific analytical purpose.
+
+In clinical work, this distinction matters.
+
+A dataset may be ready for describing patient demographics but not ready for survival analysis.
+
+A dataset may be ready for quality improvement monitoring but not ready for causal inference.
+
+A dataset may be ready for internal dashboarding but not ready for external publication.
+
+Analysis readiness is therefore tied to the clinical question.
+
+---
+
+## What Makes a Clinical Dataset Analysis-Ready?
+
+A clinical dataset becomes analysis-ready when it has:
+
+- one clear unit of analysis
+- stable patient identifiers
+- documented inclusion and exclusion rules
+- clinically meaningful variables
+- defined index dates
+- defined follow-up windows
+- documented outcome definitions
+- clear handling of missingness
+- data quality checks
+- a variable dictionary
+- reproducible scripts that can rebuild the dataset
+
+For many clinical analyses, the unit of analysis is one row per patient.
+
+For some analyses, it may be one row per encounter, one row per medication exposure, one row per laboratory result, or one row per follow-up period.
+
+The important point is that the unit must be explicit.
+
+---
+
+## Recommended Dataset Layers
+
+A modern clinical data system should not jump directly from raw inputs to the final analysis file.
+
+A cleaner workflow separates the layers.
+
+```text id="clinical-dataset-layers"
+data/example/
+  patient-demographics.csv
+  clinical-encounters.csv
+  diagnoses.csv
+  procedures.csv
+  medications.csv
+  laboratory-results.csv
+  vital-sign-results.csv
+  clinical-outcomes.csv
+
+results/
+  patient-level-derived-variables.tsv
+  clinical-variable-dictionary.tsv
+  analysis-ready-clinical-dataset.tsv
+  analysis-ready-clinical-dataset-data-dictionary.tsv
+  analysis-ready-clinical-dataset-readiness-summary.txt
+```
+
+The final analysis-ready dataset should be reproducible from earlier checked inputs.
+
+It should not be manually edited.
+
+---
+
+## The Role of the Derived Variable Table
+
+In the previous chapter, we created patient-level derived variables.
+
+That table is the bridge between clinical data inputs and formal analysis.
+
+It may include variables such as:
+
+- age group
+- sex
+- encounter count
+- diagnosis burden
+- medication count
+- abnormal laboratory indicators
+- latest vital sign values
+- outcome status
+- follow-up days
+- completeness indicators
+
+In this chapter, we turn that derived table into a more explicit analysis-ready dataset.
+
+---
+
+## Analysis-Ready Dataset Contract
+
+Before creating the final dataset, define a dataset contract.
+
+The contract should answer:
+
+1. What is the unit of analysis?
+2. What is the index date?
+3. What patients are included?
+4. What patients are excluded?
+5. Which variables are required?
+6. Which variables are optional?
+7. Which outcome definition is used?
+8. How is follow-up measured?
+9. How is missingness documented?
+10. What outputs should be produced?
+
+A simple contract can be stored as a plain text or YAML-style file.
+
+```text id="analysis-ready-contract"
+unit_of_analysis: patient
+index_date: first eligible encounter date
+included_population: patients with valid demographic and encounter information
+required_variables:
+  - patient_id
+  - age
+  - sex
+  - age_group
+  - encounter_count
+  - outcome_status
+  - follow_up_days
+primary_output:
+  - results/analysis-ready-clinical-dataset.tsv
+```
+
+---
+
+## Example Workflow
+
+This chapter uses the outputs generated in Chapter 11.
+
+The main input is:
+
+```text id="chapter12-input"
+results/patient-level-derived-variables.tsv
+```
+
+The workflow then creates:
+
+```text id="chapter12-outputs"
+results/analysis-ready-clinical-dataset.tsv
+results/analysis-ready-clinical-dataset-data-dictionary.tsv
+results/analysis-ready-clinical-dataset-readiness-summary.txt
+results/figures/analysis-ready-age-group-distribution.png
+results/figures/analysis-ready-follow-up-distribution.png
+logs/12-analysis-ready-clinical-dataset.log
+```
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-analysis-ready-dataset"
+python scripts/python/12-build-analysis-ready-clinical-dataset.py
+Rscript scripts/R/12-visualize-analysis-ready-clinical-dataset.R
+bash scripts/bash/12-run-analysis-ready-clinical-dataset.sh
+```
+
+If you want the bash script to run the full chapter workflow, use:
+
+```bash id="run-analysis-ready-bash-only"
+bash scripts/bash/12-run-analysis-ready-clinical-dataset.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script reads the patient-level derived variables table and applies a readiness contract.
+
+It checks that required columns exist.
+
+It standardizes selected column names.
+
+It creates explicit analysis flags.
+
+It writes the final dataset and a data dictionary.
+
+```python id="python-script-purpose"
+input_file = "results/patient-level-derived-variables.tsv"
+output_file = "results/analysis-ready-clinical-dataset.tsv"
+dictionary_file = "results/analysis-ready-clinical-dataset-data-dictionary.tsv"
+summary_file = "results/analysis-ready-clinical-dataset-readiness-summary.txt"
+```
+
+The script is deliberately conservative.
+
+It does not silently invent missing clinical facts.
+
+If a required variable is missing, it records that issue in the readiness summary.
+
+---
+
+## What the R Script Does
+
+The R script creates modern summary visuals from the final analysis-ready dataset.
+
+It uses tidyverse-style data handling and ggplot2-based visualization.
+
+```r id="r-script-purpose"
+readr::read_tsv("results/analysis-ready-clinical-dataset.tsv")
+```
+
+The figures are intended to confirm that the dataset is structurally reasonable before analysis begins.
+
+---
+
+## Readiness Checks
+
+The readiness checks focus on whether the dataset can support downstream analysis.
+
+Key checks include:
+
+- row count
+- patient identifier uniqueness
+- required variable availability
+- missingness by required variable
+- age validity
+- follow-up validity
+- outcome availability
+- analysis inclusion flag counts
+
+These checks do not prove that the clinical definitions are correct.
+
+They help prevent obvious structural errors from reaching the analysis stage.
+
+---
+
+## Analysis Inclusion Flag
+
+Not every patient in a cleaned dataset should automatically enter every analysis.
+
+For this reason, the script creates an `analysis_inclusion_flag`.
+
+A patient is analysis-ready when the core required fields are available and valid.
+
+```text id="analysis-inclusion-logic"
+analysis_inclusion_flag = true when:
+  patient_id is present
+  age is present and non-negative
+  sex is present
+  outcome_status is present
+  follow_up_days is present and non-negative
+```
+
+Patients that do not meet the flag are retained in the file.
+
+They are not deleted automatically.
+
+This allows transparent reporting of how many records were excluded from a specific analysis.
+
+---
+
+## Why Retain Excluded Records?
+
+Removing excluded records too early can hide important data issues.
+
+A better clinical workflow keeps the full prepared dataset and labels analytic eligibility explicitly.
+
+This makes it possible to answer:
+
+- how many patients were available before analysis restrictions
+- how many were excluded
+- which variables caused exclusion
+- whether exclusions were clinically meaningful
+- whether exclusion could bias interpretation
+
+Transparency is more important than silently producing a clean-looking table.
+
+---
+
+## Variable Dictionary
+
+Every analysis-ready dataset should have a variable dictionary.
+
+The dictionary should include:
+
+- variable name
+- description
+- expected type
+- allowed values where relevant
+- whether the variable is required
+- source or derivation rule
+
+This is essential for clinical review.
+
+A dataset without a dictionary may still be technically analyzable, but it is not defensible.
+
+---
+
+## Common Failure Modes
+
+Clinical datasets often fail analysis readiness because of:
+
+- duplicate patient rows
+- inconsistent patient identifiers
+- missing index dates
+- impossible ages
+- negative follow-up times
+- outcomes recorded before index dates
+- unclear outcome definitions
+- mixed coding systems
+- undocumented derived variables
+- mismatched denominators across tables
+
+The purpose of this chapter is to catch these issues before formal interpretation.
+
+---
+
+## CDI Principle
+
+A clinical dataset is analysis-ready when another person can understand what each row means, how each variable was created, and why the dataset is appropriate for the stated clinical question.
+
+The dataset should not depend on memory.
+
+It should depend on structure, documentation, and reproducible code.
+
+---
+
+## Chapter Summary
+
+In this chapter, we converted patient-level derived variables into a documented analysis-ready clinical dataset.
+
+We introduced the idea of a dataset contract, retained exclusion information transparently, created a data dictionary, and generated readiness outputs.
+
+This completes Part III.
+
+The next part moves from data readiness into clinical analysis and interpretation.

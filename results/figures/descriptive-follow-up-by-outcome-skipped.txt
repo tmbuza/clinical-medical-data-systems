@@ -1,0 +1,1 @@
+Skipped follow-up by outcome plot because follow_up_days contained no numeric non-missing values.

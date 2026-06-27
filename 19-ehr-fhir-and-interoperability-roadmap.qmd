@@ -1,0 +1,355 @@
+# EHR, FHIR, and Interoperability Roadmap
+
+:::cdi-message
+- **ID:** CDMS-19
+- **Type:** Premium
+- **Audience:** Clinical analysts, health informatics teams, EHR data teams, interoperability teams, clinical data scientists, and implementation stakeholders
+- **Theme:** Clinical data systems become scalable when local data structures are mapped toward interoperable standards such as FHIR
+:::
+
+Clinical data systems rarely live in isolation.
+
+A useful system often needs to connect with electronic health records, registries, data warehouses, dashboards, research systems, quality reporting workflows, or decision-support tools.
+
+This is where interoperability matters.
+
+Interoperability is not only about moving data from one place to another.
+
+It is about preserving meaning.
+
+---
+
+## Why Interoperability Matters
+
+A patient age, diagnosis, laboratory result, medication, or encounter may appear simple in a table.
+
+But in real health systems, every data element has context.
+
+For example:
+
+- Which patient does it belong to?
+- Which encounter produced it?
+- Which code system was used?
+- Which unit was used?
+- Which time was recorded?
+- Was it ordered, resulted, administered, or documented?
+- Was the value corrected?
+- Is the field local, standardized, or mapped?
+
+Interoperability helps make these meanings explicit.
+
+---
+
+## EHR Data Are Not Automatically Analysis-Ready
+
+Electronic health records are designed primarily for clinical care, billing, operations, and documentation.
+
+They are not automatically designed for analysis.
+
+EHR data may contain:
+
+- duplicated events
+- local codes
+- changing workflows
+- missing timestamps
+- inconsistent units
+- free-text documentation
+- multiple encounter types
+- medication orders that differ from administrations
+- laboratory panels with local naming conventions
+
+This is why the earlier chapters focused on validation, variable engineering, analysis readiness, and reporting before interoperability planning.
+
+---
+
+## What FHIR Provides
+
+FHIR stands for Fast Healthcare Interoperability Resources.
+
+It is a modern healthcare interoperability standard organized around resources such as:
+
+- Patient
+- Encounter
+- Condition
+- Procedure
+- MedicationRequest
+- Observation
+- DiagnosticReport
+- CarePlan
+
+FHIR does not automatically solve data quality problems.
+
+But it provides a common structure for exchanging and representing healthcare data.
+
+---
+
+## Local Tables to FHIR Resources
+
+The clinical data inputs used in this guide can be mapped conceptually to FHIR resources.
+
+```text id="local-to-fhir-concept"
+patient-demographics.csv        -> Patient
+clinical-encounters.csv         -> Encounter
+diagnoses.csv                   -> Condition
+procedures.csv                  -> Procedure
+medications.csv                 -> MedicationRequest or MedicationStatement
+laboratory-results.csv          -> Observation
+vital-sign-results.csv          -> Observation
+clinical-outcomes.csv           -> Observation, Condition, Encounter, or custom outcome definition
+```
+
+The correct mapping depends on the clinical use case and source system.
+
+---
+
+## Input Files
+
+This chapter uses the example clinical data inputs created earlier in the guide.
+
+```text id="chapter19-inputs"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv
+```
+
+The workflow does not require a live EHR or FHIR server.
+
+Instead, it creates an interoperability readiness roadmap.
+
+---
+
+## Outputs
+
+The chapter creates mapping and readiness artifacts.
+
+```text id="chapter19-outputs"
+results/interoperability/fhir-resource-mapping.tsv
+results/interoperability/interoperability-readiness-checklist.tsv
+results/interoperability/example-fhir-patient-bundle.json
+results/interoperability/interoperability-roadmap-summary.txt
+results/figures/fhir-resource-mapping-summary.png
+logs/19-ehr-fhir-and-interoperability-roadmap.log
+```
+
+The example FHIR-like bundle is intentionally minimal.
+
+It is for learning and mapping orientation, not for production exchange.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-fhir-interoperability-roadmap"
+python scripts/python/19-build-fhir-interoperability-roadmap-safe.py
+Rscript scripts/R/19-visualize-fhir-interoperability-readiness-safe.R
+bash scripts/bash/19-run-ehr-fhir-and-interoperability-roadmap.sh
+```
+
+To run the full workflow with logging:
+
+```bash id="run-fhir-interoperability-bash-only"
+bash scripts/bash/19-run-ehr-fhir-and-interoperability-roadmap.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script creates:
+
+- a local-table-to-FHIR resource mapping
+- a readiness checklist
+- a small example FHIR-like patient bundle
+- a text roadmap summary
+
+The script checks whether expected input files exist and records missing files as readiness issues.
+
+It does not require external packages beyond pandas.
+
+---
+
+## What the R Script Does
+
+The R script reads the mapping table and creates a simple resource coverage figure.
+
+It writes:
+
+```text id="chapter19-r-output"
+results/figures/fhir-resource-mapping-summary.png
+```
+
+If the mapping table is missing or empty, it writes a skip note instead of stopping.
+
+---
+
+## Interoperability Readiness Questions
+
+Before connecting a clinical data system to an EHR or FHIR workflow, ask:
+
+1. Are patient identifiers stable and linkable?
+2. Are encounter identifiers available?
+3. Are dates and timestamps reliable?
+4. Are diagnosis codes mapped to a known system?
+5. Are medication fields structured?
+6. Are laboratory units standardized?
+7. Are vital signs distinguishable from other observations?
+8. Are outcomes defined consistently?
+9. Is provenance available?
+10. Are privacy and access controls defined?
+
+A system is not interoperable merely because it can export a file.
+
+---
+
+## Patient Resource Mapping
+
+A local patient demographics table may map to a FHIR Patient resource.
+
+Common fields include:
+
+```text id="patient-resource-mapping"
+patient_id       -> Patient.identifier
+sex              -> Patient.gender
+birth_date       -> Patient.birthDate
+age              -> derived, not usually stored directly as Patient.age
+```
+
+Age is often derived from birth date and index date.
+
+In real systems, storing only age can limit interoperability.
+
+---
+
+## Encounter Resource Mapping
+
+Encounter data are central to clinical context.
+
+```text id="encounter-resource-mapping"
+encounter_id     -> Encounter.identifier
+patient_id       -> Encounter.subject
+encounter_date   -> Encounter.period.start
+encounter_type   -> Encounter.class or Encounter.type
+```
+
+Many clinical variables only make sense when tied to an encounter.
+
+---
+
+## Condition and Procedure Mapping
+
+Diagnoses can map to Condition resources.
+
+Procedures can map to Procedure resources.
+
+```text id="condition-procedure-mapping"
+diagnosis_code   -> Condition.code
+diagnosis_date   -> Condition.recordedDate or onsetDateTime
+procedure_code   -> Procedure.code
+procedure_date   -> Procedure.performedDateTime
+```
+
+The code system should be documented.
+
+For example, ICD-10, SNOMED CT, CPT, or a local coding system.
+
+---
+
+## Observation Mapping
+
+Laboratory results and vital signs commonly map to Observation resources.
+
+```text id="observation-resource-mapping"
+result_name      -> Observation.code
+result_value     -> Observation.valueQuantity.value
+result_unit      -> Observation.valueQuantity.unit
+result_date      -> Observation.effectiveDateTime
+abnormal_flag    -> Observation.interpretation
+```
+
+Observation mapping is powerful but requires careful unit and code handling.
+
+A potassium value, blood pressure, and body mass index are all observations, but they require different interpretation.
+
+---
+
+## Medication Mapping
+
+Medication data are often complex.
+
+A medication may represent:
+
+- an order
+- a request
+- a prescription
+- an administration
+- a dispense event
+- patient-reported use
+
+FHIR has different resources for these patterns.
+
+This guide uses a simplified mapping toward MedicationRequest or MedicationStatement.
+
+A production system should clarify exactly what the local medication table represents.
+
+---
+
+## Provenance and Auditability
+
+Interoperability should preserve provenance.
+
+A receiving system should know:
+
+- source system
+- extraction date
+- transformation logic
+- code mapping version
+- data owner
+- refresh schedule
+- known limitations
+
+Without provenance, data can travel while meaning is lost.
+
+---
+
+## Privacy and Minimum Necessary Data
+
+FHIR and EHR integration must respect privacy rules and institutional governance.
+
+Before exchanging data, define:
+
+- intended use
+- minimum necessary fields
+- access controls
+- de-identification needs
+- audit logging
+- retention policy
+- patient consent requirements where applicable
+
+Interoperability is not permission by itself.
+
+---
+
+## CDI Principle
+
+Interoperability is not just connection.
+
+It is meaning-preserving exchange.
+
+A clinical data system becomes interoperable when local variables, identifiers, timestamps, code systems, provenance, and governance are mapped clearly enough for another system or team to understand them.
+
+---
+
+## Chapter Summary
+
+In this chapter, we created an interoperability roadmap for the clinical data system.
+
+We mapped local clinical tables to FHIR resource concepts, created a readiness checklist, generated a small example FHIR-like bundle, and produced a mapping visualization.
+
+The final chapter brings the guide together in an end-to-end case study.

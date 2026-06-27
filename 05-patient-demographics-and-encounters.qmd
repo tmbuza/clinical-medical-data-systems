@@ -1,0 +1,352 @@
+# Patient Demographics and Encounters {#sec-patient-demographics-and-encounters}
+
+:::cdi-message
+- **ID:** CLIN-005
+- **Type:** Core
+- **Audience:** Clinical data analysts, health informatics teams, research data teams, and implementation leads
+- **Theme:** Reliable clinical analysis begins with correctly structured patient and encounter data
+:::
+
+Patient demographics and encounters are the backbone of most clinical data systems.
+
+Before diagnoses, medications, laboratory results, procedures, outcomes, or models can be interpreted, we need to know:
+
+- who the patient is,
+- when they entered care,
+- where care occurred,
+- what type of visit happened,
+- how encounters relate to patients,
+- and which time windows define the clinical question.
+
+This chapter introduces the patient and encounter layer as a reusable foundation for clinical datasets.
+
+The goal is not only to describe demographic and encounter fields.
+
+The goal is to make them analysis-ready.
+
+---
+
+## Why This Layer Matters
+
+In clinical data, many downstream errors begin here.
+
+A laboratory result without an encounter date is difficult to interpret.
+
+A diagnosis without a patient identifier cannot be linked to outcomes.
+
+A medication order without an admission or visit context may be clinically misleading.
+
+A model trained on poorly defined index encounters may appear accurate but fail in real-world use.
+
+For this reason, patient and encounter data should be treated as a formal system layer.
+
+```text
+Patient table
+  ↓
+Encounter table
+  ↓
+Clinical events
+  ↓
+Analysis-ready cohort
+  ↓
+Clinical interpretation
+```
+
+The patient table usually describes relatively stable characteristics.
+
+The encounter table describes care episodes over time.
+
+Together, they provide the basic clinical timeline.
+
+---
+
+## Core Patient Demographic Fields
+
+A patient demographic table usually contains one row per patient.
+
+At minimum, it should support linkage, stratification, and basic quality checks.
+
+Common fields include:
+
+| Field | Meaning | Common Use |
+|---|---|---|
+| `patient_id` | De-identified patient identifier | Link records across tables |
+| `birth_date` or `age` | Date of birth or age at index | Age calculation and stratification |
+| `sex` | Recorded biological sex or administrative sex | Clinical stratification and adjustment |
+| `gender` | Gender identity where available and appropriate | Equity-aware reporting |
+| `race_ethnicity` | Recorded race or ethnicity category | Equity analysis and population description |
+| `residence_region` | Region, district, ZIP, or facility catchment area | Geographic description |
+| `death_date` | Date of death if available | Mortality and follow-up censoring |
+
+Not every project should use every demographic field.
+
+The field should be included only when it is relevant, governed, ethically justified, and interpretable.
+
+---
+
+## Core Encounter Fields
+
+An encounter table usually contains one row per visit, admission, or care episode.
+
+Common fields include:
+
+| Field | Meaning | Common Use |
+|---|---|---|
+| `encounter_id` | Unique encounter identifier | Link visit-level events |
+| `patient_id` | Patient identifier | Link encounter to patient |
+| `encounter_start` | Start date or date-time | Time alignment |
+| `encounter_end` | End date or date-time | Length of stay and follow-up |
+| `encounter_type` | Outpatient, inpatient, emergency, virtual, etc. | Cohort definition |
+| `facility_id` | Facility or site identifier | Site-level analysis |
+| `department` | Clinical department or service | Care context |
+| `admission_source` | Referral, emergency, transfer, routine, etc. | Case-mix interpretation |
+| `discharge_disposition` | Home, transfer, death, left against advice, etc. | Outcome context |
+
+The exact fields differ across EHR systems, research datasets, claims systems, registries, and FHIR extracts.
+
+But the system requirement is the same: encounters must define clinical time and context.
+
+---
+
+## Patient-Level Versus Encounter-Level Data
+
+A common clinical data mistake is mixing patient-level and encounter-level variables without making the unit of analysis explicit.
+
+Patient-level data has one row per patient.
+
+Encounter-level data has one row per clinical encounter.
+
+A patient can have many encounters.
+
+```text
+patients
+  patient_id
+  birth_date
+  sex
+
+encounters
+  encounter_id
+  patient_id
+  encounter_start
+  encounter_type
+```
+
+This is a one-to-many relationship.
+
+```text
+One patient → many encounters
+One encounter → many diagnoses
+One encounter → many labs
+One encounter → many medications
+```
+
+When building an analysis dataset, always ask:
+
+- Is the row one patient?
+- Is the row one encounter?
+- Is the row one clinical event?
+- Is the row one time interval?
+
+The answer determines which joins, summaries, and denominators are valid.
+
+---
+
+## The Index Encounter
+
+Many clinical questions require an index encounter.
+
+The index encounter is the anchor point for the analysis timeline.
+
+Examples include:
+
+| Clinical Question | Possible Index Encounter |
+|---|---|
+| What predicts 30-day readmission? | Hospital discharge encounter |
+| What predicts ICU transfer? | Admission encounter |
+| What predicts abnormal kidney function? | First qualifying outpatient visit |
+| What is the mortality rate after sepsis? | First sepsis-associated admission |
+| What is the follow-up rate after surgery? | Surgical encounter |
+
+The index encounter should be defined before features and outcomes are created.
+
+Otherwise, data leakage becomes likely.
+
+For example, using laboratory results collected after discharge to predict readmission risk would not be valid for a model intended to support discharge planning.
+
+---
+
+## Recommended Data Layout
+
+A clean project should keep raw input, examples, intermediate checks, and outputs separated.
+
+```text
+data/
+  example/
+    patient-demographics.csv
+    patient-encounters.csv
+  input/
+    patient-demographics.csv
+    patient-encounters.csv
+  results/
+    demographics-summary.tsv
+    encounters-summary.tsv
+    patient-encounter-quality-report.tsv
+
+scripts/
+  bash/
+    05-run-patient-encounter-checks.sh
+  python/
+    05-create-example-patient-encounter-data.py
+    05-check-patient-encounter-data.py
+```
+
+The `data/example/` files are small teaching datasets.
+
+The `data/input/` files represent real project inputs.
+
+The `results/` directory contains reproducible summaries and checks.
+
+---
+
+## Example Patient Table
+
+```text
+patient_id,birth_date,sex,race_ethnicity,residence_region
+P001,1971-04-12,Female,Black,Region A
+P002,1958-11-03,Male,Black,Region B
+P003,1986-07-22,Female,Unknown,Region A
+P004,1949-01-19,Male,Black,Region C
+P005,2001-09-30,Female,Black,Region B
+```
+
+This example uses de-identified IDs.
+
+It includes only basic demographic fields.
+
+Real clinical systems may require stronger governance, additional consent restrictions, and local data dictionary alignment.
+
+---
+
+## Example Encounter Table
+
+```text
+encounter_id,patient_id,encounter_start,encounter_end,encounter_type,facility_id,discharge_disposition
+E001,P001,2026-01-04,2026-01-08,inpatient,FAC01,home
+E002,P001,2026-02-15,2026-02-15,outpatient,FAC01,not_applicable
+E003,P002,2026-01-10,2026-01-13,inpatient,FAC02,transfer
+E004,P003,2026-02-01,2026-02-01,outpatient,FAC01,not_applicable
+E005,P004,2026-02-03,2026-02-12,inpatient,FAC03,deceased
+E006,P005,2026-02-07,2026-02-07,emergency,FAC02,home
+```
+
+The encounter table introduces time.
+
+Once time is present, clinical interpretation becomes more powerful but also more fragile.
+
+Dates must be checked carefully.
+
+---
+
+## Modern Validation Mindset
+
+A modern clinical data workflow should validate patient and encounter data before downstream analysis.
+
+Important checks include:
+
+- duplicate patient identifiers,
+- duplicate encounter identifiers,
+- encounters without valid patients,
+- encounter end dates before start dates,
+- impossible or implausible ages,
+- missing encounter types,
+- unexpected facility identifiers,
+- and unclear discharge disposition values.
+
+The goal is not to make the data perfect.
+
+The goal is to make data limitations visible before interpretation.
+
+---
+
+## Run the Example Workflow
+
+Use the supporting scripts to create example files and produce basic readiness checks.
+
+```bash
+python scripts/python/05-create-example-patient-encounter-data.py
+```
+
+```bash
+bash scripts/bash/05-run-patient-encounter-checks.sh
+```
+
+The scripts create small example inputs and write quality summaries into `results/`.
+
+The `.qmd` chapter stays non-executable.
+
+The reusable logic lives in scripts.
+
+---
+
+## Expected Outputs
+
+After running the workflow, the project should contain:
+
+```text
+data/example/patient-demographics.csv
+data/example/patient-encounters.csv
+results/demographics-summary.tsv
+results/encounters-summary.tsv
+results/patient-encounter-quality-report.tsv
+```
+
+These files provide a simple but realistic foundation for later chapters.
+
+The same structure can later be extended to diagnoses, procedures, medications, laboratory results, outcomes, and follow-up.
+
+---
+
+## Practical Readiness Checklist
+
+Before using patient and encounter data for analysis, confirm that:
+
+- each patient has a stable de-identified identifier,
+- each encounter has a unique encounter identifier,
+- each encounter links to one valid patient,
+- dates are valid and ordered,
+- encounter types are interpretable,
+- the intended index encounter is clearly defined,
+- demographic fields are ethically justified,
+- and limitations are documented before modeling or reporting.
+
+This checklist should be completed before building cohorts.
+
+---
+
+## CDI Interpretation Layer
+
+Patient and encounter data should not be treated as passive metadata.
+
+They shape the clinical meaning of the entire analysis.
+
+The same laboratory value may mean something different in an emergency visit, an outpatient follow-up, an ICU admission, or a post-operative encounter.
+
+The same diagnosis may mean something different when it appears before admission, during hospitalization, or after discharge.
+
+Clinical data systems become defensible when patient identity, care setting, and time are handled deliberately.
+
+---
+
+## Key Takeaways
+
+Patient demographics and encounters form the first operational layer of clinical data.
+
+The patient table defines who is in the system.
+
+The encounter table defines when and where care occurred.
+
+Together, they support cohort construction, time anchoring, denominator definition, and responsible interpretation.
+
+A clinical analysis that skips this layer may still produce results.
+
+But it will be difficult to trust those results.

@@ -1,0 +1,12 @@
+metric	value
+total_rows	6.0
+known_outcome_rows	0.0
+usable_evaluation_rows	0.0
+positive_outcome_count	0.0
+negative_outcome_count	0.0
+observed_event_rate	
+mean_predicted_risk	
+median_predicted_risk	
+auroc	
+average_precision	
+brier_score	

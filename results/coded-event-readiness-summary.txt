@@ -1,0 +1,12 @@
+Coded Clinical Event Readiness Summary
+======================================
+Input file: data/example/coded-clinical-events.csv
+Rows: 10
+Columns: 8
+Quality checks requiring review: 0
+Readiness status: READY_FOR_REVIEW
+
+Generated outputs:
+- results/coded-event-quality-checks.tsv
+- results/coded-event-domain-summary.tsv
+- results/coded-event-readiness-summary.txt

@@ -1,0 +1,335 @@
+# Clinical Questions and Cohorts {#sec-clinical-questions-and-cohorts}
+
+:::cdi-message
+- **ID:** CLINICAL-03
+- **Type:** Core
+- **Audience:** Clinical data analysts, data scientists, informaticians, and translational research teams
+- **Theme:** Clinical analysis begins by translating a real-world care question into a defensible cohort definition
+:::
+
+Clinical data systems do not begin with a spreadsheet.
+
+They begin with a question.
+
+A clinical question defines what we want to learn, improve, predict, monitor, or explain.
+
+A cohort defines who belongs in the analysis.
+
+Without a clear question and a careful cohort definition, even a technically correct analysis can become misleading.
+
+This chapter introduces the bridge between clinical intent and analysis-ready data.
+
+---
+
+## Why Clinical Questions Come First
+
+Healthcare data is complex because it is collected during care, billing, monitoring, documentation, and follow-up.
+
+The same dataset can support many different questions.
+
+For example, a hospital encounter table could be used to study:
+
+- emergency department utilization
+- hospital readmission
+- inpatient mortality
+- length of stay
+- medication safety
+- follow-up completion
+- care access differences
+
+Each question requires a different cohort, different time window, different outcome, and different interpretation.
+
+A clinical data system must therefore make the question explicit before it prepares the dataset.
+
+---
+
+## From Clinical Concern to Analytical Question
+
+A clinical concern is usually broad.
+
+An analytical question must be specific enough to convert into data logic.
+
+Example:
+
+```text
+Clinical concern:
+Some patients return to the hospital soon after discharge.
+
+Analytical question:
+Among adult patients discharged alive from inpatient care, what proportion are readmitted within 30 days, and which baseline features are associated with readmission?
+```
+
+The second version is stronger because it defines:
+
+- the population
+- the index event
+- the follow-up window
+- the outcome
+- the analytical goal
+
+This makes the question reproducible.
+
+---
+
+## Core Elements of a Clinical Question
+
+A practical clinical question usually contains five elements.
+
+| Element | Meaning | Example |
+|---|---|---|
+| Population | The patients or encounters of interest | Adults admitted to inpatient care |
+| Exposure or predictor | The condition, treatment, measurement, or feature being studied | Diabetes status, medication class, lab value |
+| Comparator | The reference group, baseline, or alternative | Patients without diabetes |
+| Outcome | The clinical event or endpoint | Readmission, death, abnormal lab result |
+| Time window | When eligibility, exposure, and outcome are assessed | Index admission through 30 days after discharge |
+
+Not every question needs a formal comparator, but every clinical analysis needs clarity about population, outcome, and time.
+
+---
+
+## Cohorts as Data Contracts
+
+A cohort is more than a group of rows.
+
+A cohort is a data contract.
+
+It states who is included, who is excluded, what event anchors the analysis, and what time period is valid.
+
+A weak cohort definition says:
+
+```text
+Use all patients with diabetes.
+```
+
+A stronger cohort definition says:
+
+```text
+Include patients aged 18 years or older who had at least one inpatient encounter between 2024-01-01 and 2024-12-31, had diabetes recorded before or during the index encounter, were discharged alive, and had at least 30 days of observable follow-up after discharge.
+```
+
+The stronger version can be implemented, reviewed, and repeated.
+
+---
+
+## Index Events
+
+Many clinical analyses need an index event.
+
+An index event is the anchor point from which eligibility, baseline features, exposure, follow-up, and outcome timing are defined.
+
+Common index events include:
+
+- first clinic visit
+- first diagnosis date
+- hospital admission date
+- hospital discharge date
+- medication start date
+- procedure date
+- laboratory test date
+
+The index event should match the clinical question.
+
+For a 30-day readmission study, discharge is often the natural anchor.
+
+For treatment initiation, the medication start date may be the anchor.
+
+For disease incidence, the first diagnosis date may be the anchor.
+
+---
+
+## Lookback and Follow-Up Windows
+
+Clinical features are often measured relative to the index event.
+
+A lookback window defines how far backward the system searches for baseline information.
+
+A follow-up window defines how far forward the system searches for outcomes.
+
+```text
+Example timeline:
+
+Lookback window             Index event              Follow-up window
+-365 days to -1 day          Discharge date           0 to 30 days after discharge
+
+Baseline features           Anchor                   Readmission outcome
+```
+
+This distinction prevents future information from leaking into baseline variables.
+
+That is especially important for predictive modeling.
+
+---
+
+## Inclusion and Exclusion Criteria
+
+Inclusion criteria define who can enter the cohort.
+
+Exclusion criteria define who should be removed because they do not fit the analytical purpose.
+
+Example:
+
+```text
+Inclusion criteria:
+- Age 18 years or older
+- Inpatient admission during the study period
+- Discharged alive
+- Valid patient identifier
+- Valid admission and discharge dates
+
+Exclusion criteria:
+- Missing discharge date
+- Same-day transfer to another acute facility
+- Death during index admission
+- Less than 30 days of observable follow-up
+- Duplicate or conflicting encounter records
+```
+
+These criteria should be written before analysis begins.
+
+Changing them after seeing results can introduce bias.
+
+---
+
+## Patient-Level Versus Encounter-Level Cohorts
+
+Clinical data can be organized around patients, encounters, visits, tests, prescriptions, or procedures.
+
+The unit of analysis must be clear.
+
+| Unit of analysis | Example question | Typical row meaning |
+|---|---|---|
+| Patient-level | Which patients developed diabetes? | One row per patient |
+| Encounter-level | Which admissions resulted in readmission? | One row per encounter |
+| Test-level | Which lab results were abnormal? | One row per test result |
+| Medication-level | Which prescriptions were discontinued? | One row per medication order |
+| Procedure-level | Which procedures had complications? | One row per procedure |
+
+A patient can have many encounters.
+
+An encounter can have many tests, diagnoses, medications, and procedures.
+
+The cohort table should match the unit of analysis.
+
+---
+
+## Example Cohort Specification
+
+A simple cohort specification can be stored as a plain text or YAML-like planning file.
+
+```text
+cohort_name: adult_inpatient_readmission_30d
+clinical_question: What proportion of adult inpatient discharges are followed by readmission within 30 days?
+unit_of_analysis: encounter
+index_event: inpatient discharge
+study_start_date: 2024-01-01
+study_end_date: 2024-12-31
+minimum_age: 18
+include:
+  - inpatient encounters
+  - discharged alive
+  - valid patient identifier
+  - valid admission and discharge timestamps
+exclude:
+  - death during index encounter
+  - missing discharge date
+  - less than 30 days observable follow-up
+outcome:
+  name: readmission_30d
+  definition: unplanned inpatient admission within 30 days after index discharge
+```
+
+This type of specification makes the analysis easier to audit.
+
+It also helps separate clinical reasoning from code implementation.
+
+---
+
+## Script Pattern for This Chapter
+
+For this chapter, the supporting scripts should help create and validate a cohort specification rather than perform advanced analysis.
+
+A typical project layout may include:
+
+```text
+scripts/
+├── bash/
+│   └── 03-check-cohort-specification.sh
+├── python/
+│   └── 03-create-example-cohort-specification.py
+└── R/
+    └── 03-summarize-cohort-specification.R
+
+data/
+├── example/
+│   └── cohort-specification.yml
+└── results/
+    └── cohort-specification-summary.tsv
+```
+
+The chapter remains readable and non-executable.
+
+The reproducible work belongs in the supporting scripts.
+
+---
+
+## Modern Clinical Data System Practice
+
+Modern clinical data systems should treat cohort definitions as versioned analytical assets.
+
+This means the cohort definition should be:
+
+- human-readable
+- machine-checkable
+- stored in the project repository
+- linked to outputs and reports
+- reviewed before modeling or interpretation
+
+This reduces confusion when results are revised, shared, or reproduced later.
+
+---
+
+## Common Cohort Mistakes
+
+Clinical analyses often fail because cohort logic is unclear.
+
+Common mistakes include:
+
+- mixing patient-level and encounter-level records
+- using future data as baseline information
+- defining outcomes before defining the index event
+- excluding records after looking at results
+- ignoring missing dates
+- failing to distinguish planned and unplanned events
+- treating billing codes as perfect clinical truth
+- using one row per patient when the question is encounter-based
+
+These mistakes can change the results more than the statistical method itself.
+
+---
+
+## CDI Interpretation Layer
+
+In the CDI workflow, cohort construction sits between clinical reasoning and data engineering.
+
+The cohort should answer three questions before analysis begins:
+
+```text
+Who is eligible?
+What event anchors the analysis?
+When are baseline features and outcomes measured?
+```
+
+Once those answers are stable, downstream cleaning, feature engineering, modeling, and reporting become much more defensible.
+
+---
+
+## Chapter Summary
+
+Clinical analysis begins with a question, not a dataset.
+
+A strong clinical question defines the population, outcome, time window, and analytical purpose.
+
+A cohort definition converts that question into reproducible data logic.
+
+Before moving to governance, privacy, and ethics, the analyst should be able to explain exactly who is included, who is excluded, and why.
+

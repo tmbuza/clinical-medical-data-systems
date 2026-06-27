@@ -1,0 +1,526 @@
+# Preface and Overview {#preface-and-overview}
+
+:::cdi-message
+- **ID:** CMDS-000
+- **Type:** Core
+- **Audience:** Clinical data learners, analysts, researchers, health data professionals, and decision-support teams
+- **Theme:** Clinical data systems turn healthcare records into reliable, analysis-ready evidence
+:::
+
+Clinical and medical data are among the most valuable data sources in real-world decision-making.
+
+They describe people.
+
+They describe care.
+
+They describe measurements, diagnoses, treatments, outcomes, follow-up, and risk.
+
+But clinical data are rarely ready for analysis when they first arrive.
+
+They may come from electronic health records, hospital systems, laboratory systems, registries, spreadsheets, claims databases, public health programs, or research studies.
+
+They may contain repeated visits.
+
+They may contain missing values.
+
+They may use different coding systems.
+
+They may include values recorded in different units.
+
+They may mix clinical observations with administrative records.
+
+They may describe the same patient across many encounters.
+
+And most importantly, they are connected to human health.
+
+That means clinical and medical data must be handled carefully, ethically, and reproducibly.
+
+This guide introduces a practical system for working with clinical and medical data from structured records to reliable clinical insight.
+
+---
+
+## Purpose of This Guide
+
+The purpose of **Clinical & Medical Data Systems** is to teach a reproducible workflow for transforming healthcare records into analysis-ready clinical datasets.
+
+The guide is not focused on one hospital system, one software vendor, or one disease area.
+
+Instead, it focuses on the data thinking needed across many clinical and medical contexts.
+
+The central question is:
+
+> How do we move from healthcare records to reliable clinical insight?
+
+To answer that question, this guide follows a system-level workflow:
+
+```text
+Clinical Question
+        ↓
+Cohort Definition
+        ↓
+Clinical Data Inputs
+        ↓
+Data Quality Checks
+        ↓
+Missingness and Completeness Review
+        ↓
+Clinical Variable Engineering
+        ↓
+Analysis-Ready Dataset
+        ↓
+Descriptive Clinical Analysis
+        ↓
+Clinical Modeling and Evaluation
+        ↓
+Clinical Interpretation
+        ↓
+Reproducible Report
+```
+
+This workflow is intentionally practical.
+
+It reflects the reality that clinical insight depends not only on statistical methods or machine learning models, but also on the quality, meaning, and structure of the underlying data.
+
+---
+
+## What This System Covers
+
+This guide begins with structured clinical data tables.
+
+That means the starting point is not a raw hospital database.
+
+The starting point is a set of privacy-safe tables that represent common clinical data domains.
+
+Examples include:
+
+```text
+patients.tsv
+encounters.tsv
+diagnoses.tsv
+medications.tsv
+labs.tsv
+vitals.tsv
+outcomes.tsv
+```
+
+These tables allow us to teach the core logic of clinical data systems without exposing real patient information.
+
+The guide covers:
+
+- clinical questions and cohort definition
+- patient demographics
+- encounters and visits
+- diagnoses and procedures
+- medications
+- laboratory results
+- vital signs
+- outcomes and follow-up
+- data quality checks
+- missingness and completeness
+- clinical variable engineering
+- analysis-ready clinical datasets
+- descriptive analysis
+- risk stratification
+- clinical model evaluation
+- interpretation and decision support
+- reproducible reporting
+- dashboard readiness
+- EHR, FHIR, and interoperability roadmap
+
+The first version focuses on structured data because most clinical analytics work eventually depends on well-prepared tables.
+
+More advanced systems can later connect this foundation to EHR exports, FHIR resources, claims data, imaging metadata, wearable data, or clinical text.
+
+---
+
+## What This Guide Does Not Do
+
+This guide does not teach clinical diagnosis.
+
+It does not provide medical advice.
+
+It does not replace clinical judgment.
+
+It does not claim that a model output is automatically a clinical recommendation.
+
+Clinical data analysis can support decision-making, but it must be interpreted in context.
+
+A clinical model may identify risk.
+
+A dashboard may summarize trends.
+
+A table may reveal missingness.
+
+A report may communicate findings.
+
+But clinical decisions require domain knowledge, patient context, ethical judgment, and appropriate governance.
+
+This guide focuses on building reliable data systems that support responsible clinical interpretation.
+
+---
+
+## Why Clinical Data Need a System
+
+Clinical data are different from many other datasets.
+
+In a simple business dataset, each row may represent a sale.
+
+In a simple experiment, each row may represent one observation.
+
+In clinical data, the structure is often more complex.
+
+One patient can have many encounters.
+
+One encounter can have many diagnoses.
+
+One diagnosis can be coded in different ways.
+
+One laboratory test can be repeated many times.
+
+One medication can be prescribed, changed, stopped, restarted, or recorded inconsistently.
+
+One outcome can depend on follow-up time.
+
+This creates important questions:
+
+```text
+What is the unit of analysis?
+
+Is one row a patient?
+
+Is one row an encounter?
+
+Is one row a lab result?
+
+Is one row a diagnosis?
+
+Is one row a follow-up period?
+```
+
+Before analysis begins, these questions must be answered clearly.
+
+A clinical data system helps make these decisions explicit.
+
+---
+
+## Core Principle: Meaning Before Modeling
+
+A model can only be as reliable as the clinical meaning of the data behind it.
+
+Before building a model, we need to understand:
+
+```text
+Who is included?
+Who is excluded?
+What time period is being studied?
+What outcome is being predicted or described?
+Which variables are available before the outcome?
+Which variables may leak future information?
+Which values are missing?
+Which measurements are clinically plausible?
+Which codes define the condition or exposure?
+```
+
+This is why the workflow does not begin with modeling.
+
+It begins with the clinical question.
+
+Then it defines the cohort.
+
+Then it inspects the data inputs.
+
+Only after those steps does it move toward analysis, modeling, and interpretation.
+
+---
+
+## Relationship to Data Science Foundations
+
+This guide builds on the CDI **Data Science Foundations** layer.
+
+Once clinical data have been cleaned, validated, and converted into an analysis-ready table, many general data science principles apply.
+
+For example:
+
+```text
+Analysis-Ready Clinical Dataset
+        ↓
+Exploratory Analysis
+        ↓
+Feature Engineering
+        ↓
+Model Building
+        ↓
+Model Evaluation
+        ↓
+Interpretation
+        ↓
+Communication
+```
+
+The difference is that clinical data require additional care before reaching that stage.
+
+The clinical pathway adds healthcare-specific thinking around:
+
+- patient identity and privacy
+- encounter structure
+- clinical coding
+- time and follow-up
+- measurement units
+- missingness patterns
+- outcome definition
+- clinical plausibility
+- decision-support context
+
+In other words, the Data Science Foundations layer teaches how to analyze data.
+
+This Clinical & Medical Data Systems layer teaches how to make clinical data safe, meaningful, and ready for that analysis.
+
+---
+
+## Repository Design Pattern
+
+This guide follows the CDI project structure.
+
+The `.qmd` files are used for explanation, teaching, documentation, and interpretation.
+
+Runnable code is stored in the `scripts/` directory.
+
+This keeps the book readable while also keeping the workflow reproducible.
+
+```text
+clinical-medical-data-systems/
+├── index.qmd
+├── 00-preface-and-overview.qmd
+├── 01-clinical-data-systems-overview.qmd
+├── ...
+├── 20-end-to-end-case-study.qmd
+│
+├── data/
+│   ├── example/
+│   ├── input/
+│   ├── intermediate/
+│   └── reference/
+│
+├── results/
+│   ├── tables/
+│   ├── figures/
+│   └── models/
+│
+├── reports/
+│
+├── scripts/
+│   ├── bash/
+│   ├── R/
+│   └── python/
+│
+├── assets/
+│   ├── css/
+│   ├── images/
+│   └── diagrams/
+│
+└── library/
+    └── references.bib
+```
+
+The guiding rule is:
+
+```text
+.qmd files explain the system.
+scripts/ contains the runnable workflow.
+data/ contains inputs and intermediate datasets.
+results/ contains analytical outputs.
+reports/ contains summaries and final reports.
+```
+
+---
+
+## Code Execution Philosophy
+
+Code blocks shown in the chapters are primarily instructional.
+
+For example, a chapter may show a command like this:
+
+```bash
+bash scripts/bash/09-check-clinical-data-quality.sh
+```
+
+Or an R script call like this:
+
+```bash
+Rscript scripts/R/12-build-analysis-ready-dataset.R
+```
+
+Or a Python script call like this:
+
+```bash
+python scripts/python/15-evaluate-clinical-model.py
+```
+
+These examples show how the workflow is intended to run.
+
+The actual code should live in the corresponding script files.
+
+This pattern makes the guide easier to maintain because the teaching narrative and the runnable workflow remain connected but not mixed together.
+
+---
+
+## Privacy-Safe Learning Data
+
+The first version of this system uses synthetic clinical data.
+
+Synthetic data are used because clinical and medical records are sensitive.
+
+The example data are designed to be realistic enough for learning, but they are not real patient records.
+
+The purpose is to teach the structure and workflow, not to represent a real clinical population.
+
+A typical example dataset may include:
+
+```text
+data/example/patients.tsv
+data/example/encounters.tsv
+data/example/diagnoses.tsv
+data/example/medications.tsv
+data/example/labs.tsv
+data/example/vitals.tsv
+data/example/outcomes.tsv
+```
+
+These files allow learners to practice:
+
+- joining patient and encounter records
+- checking identifiers
+- summarizing missingness
+- validating clinical ranges
+- building derived variables
+- creating an analysis-ready dataset
+- generating reproducible summaries
+
+This privacy-safe starting point also makes the guide easier to run on any machine.
+
+---
+
+## End-to-End Direction
+
+The final chapter brings the workflow together into a complete case study.
+
+The end-to-end case study will show how to move from a clinical question to a reproducible report.
+
+The intended workflow is:
+
+```text
+Create Example Clinical Data
+        ↓
+Inspect Input Tables
+        ↓
+Check Data Quality
+        ↓
+Summarize Missingness
+        ↓
+Engineer Clinical Variables
+        ↓
+Build Analysis-Ready Dataset
+        ↓
+Run Descriptive Analysis
+        ↓
+Evaluate Model Readiness
+        ↓
+Interpret Findings
+        ↓
+Generate Report
+```
+
+In the repository, this workflow should be represented by a script such as:
+
+```bash
+bash scripts/bash/20-end-to-end-case-study.sh
+```
+
+That script should call the smaller workflow scripts in sequence.
+
+---
+
+## How to Read This Guide
+
+This guide is designed to be read sequentially.
+
+Part I introduces the foundations.
+
+Part II introduces the major clinical data inputs.
+
+Part III focuses on cleaning, validation, missingness, and analysis readiness.
+
+Part IV moves into descriptive analysis, modeling, evaluation, interpretation, and decision support.
+
+Part V connects the workflow to reporting, dashboards, interoperability, and end-to-end implementation.
+
+The structure is:
+
+```text
+Part I: Clinical Data Foundations
+Part II: Clinical Data Inputs
+Part III: Cleaning, Validation, and Readiness
+Part IV: Clinical Analysis and Interpretation
+Part V: Reporting and Real-World Systems
+```
+
+Each chapter should answer four questions:
+
+```text
+What is this step?
+Why does it matter?
+What inputs are needed?
+What outputs should be produced?
+```
+
+---
+
+## The CDI Clinical Data Mindset
+
+The CDI approach is not simply to run code.
+
+The goal is to build systems that make data work defensible.
+
+For clinical data, this means:
+
+```text
+Do not analyze before defining the cohort.
+
+Do not model before understanding the outcome.
+
+Do not interpret before checking data quality.
+
+Do not communicate results without explaining limitations.
+
+Do not confuse prediction with clinical decision-making.
+```
+
+A good clinical data system should make the workflow transparent.
+
+It should show what was included.
+
+It should show what was excluded.
+
+It should show what was missing.
+
+It should show what was transformed.
+
+It should show what was assumed.
+
+It should show what the results mean and what they do not mean.
+
+---
+
+## Summary
+
+Clinical and medical data can support powerful insights, but only when handled with care.
+
+This guide provides a structured pathway from healthcare records to reliable clinical insight.
+
+It begins with clinical questions and structured data inputs.
+
+It then moves through data quality, missingness, variable engineering, analysis-ready datasets, descriptive analysis, modeling, interpretation, and reporting.
+
+The goal is not just to produce outputs.
+
+The goal is to build a reproducible clinical data system that supports trustworthy evidence.

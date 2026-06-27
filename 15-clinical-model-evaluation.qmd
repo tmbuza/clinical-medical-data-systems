@@ -1,0 +1,310 @@
+# Clinical Model Evaluation
+
+:::cdi-message
+- **ID:** CDMS-15
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, and clinical decision-support teams
+- **Theme:** Clinical model evaluation must assess discrimination, calibration, thresholds, and clinical consequences rather than accuracy alone
+:::
+
+A clinical model is not useful simply because it produces a score.
+
+It must be evaluated.
+
+In clinical settings, evaluation is not only a technical exercise. It is a clinical safety step.
+
+A model can appear accurate overall while performing poorly for the patients who matter most.
+
+A model can rank patients well but produce poorly calibrated risk estimates.
+
+A model can improve a metric while creating workflow burden or unfairness.
+
+For this reason, clinical model evaluation must go beyond a single number.
+
+---
+
+## Why Accuracy Is Not Enough
+
+Accuracy can be misleading in clinical data.
+
+If only 5% of patients experience an adverse outcome, a model that predicts “no event” for everyone can reach 95% accuracy.
+
+That model is not clinically useful.
+
+Clinical evaluation must consider:
+
+- outcome prevalence
+- sensitivity
+- specificity
+- positive predictive value
+- negative predictive value
+- discrimination
+- calibration
+- threshold behavior
+- subgroup performance
+- clinical actionability
+
+The right evaluation depends on the clinical decision the model is meant to support.
+
+---
+
+## Evaluation Starts With the Intended Use
+
+Before choosing metrics, define how the model will be used.
+
+For example:
+
+```text id="clinical-model-use-cases"
+Use case A:
+  Identify high-risk patients for manual clinical review.
+
+Use case B:
+  Prioritize patients for follow-up calls.
+
+Use case C:
+  Support early warning dashboarding.
+
+Use case D:
+  Estimate risk for patient-level counseling.
+```
+
+Each use case may require different thresholds and metrics.
+
+A triage model may prioritize sensitivity.
+
+A limited-resource intervention may prioritize positive predictive value.
+
+A counseling model may require strong calibration.
+
+---
+
+## Input Dataset
+
+This chapter evaluates the risk stratification output created in Chapter 14.
+
+```text id="chapter15-input"
+results/clinical-risk-stratification-results.tsv
+```
+
+The file should contain:
+
+- `patient_id`
+- `binary_outcome`
+- `predicted_risk_score`
+- `risk_group`
+- `scoring_method`
+
+The evaluation script is defensive.
+
+If the dataset does not contain enough outcome variation for formal evaluation, it still writes a transparent summary explaining what could and could not be evaluated.
+
+---
+
+## Core Evaluation Questions
+
+A clinical model evaluation should ask:
+
+1. How many patients were evaluated?
+2. How many had known outcomes?
+3. What was the observed event rate?
+4. Does the model separate higher-risk from lower-risk patients?
+5. Are risk groups associated with different outcome rates?
+6. What happens at possible clinical thresholds?
+7. Are predicted risks calibrated to observed risk?
+8. Which limitations prevent interpretation?
+
+This chapter creates a compact evaluation package that answers these questions.
+
+---
+
+## Evaluation Outputs
+
+The workflow creates:
+
+```text id="chapter15-outputs"
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-model-threshold-evaluation.tsv
+results/clinical-model-risk-group-evaluation.tsv
+results/clinical-model-calibration-table.tsv
+results/clinical-model-evaluation-summary.txt
+results/figures/model-risk-by-outcome.png
+results/figures/model-calibration-plot.png
+results/figures/model-threshold-sensitivity-specificity.png
+logs/15-clinical-model-evaluation.log
+```
+
+If one of the plots cannot be created safely, the R script writes a skip note.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-clinical-model-evaluation"
+python scripts/python/15-clinical-model-evaluation-safe.py
+Rscript scripts/R/15-visualize-clinical-model-evaluation-safe.R
+bash scripts/bash/15-run-clinical-model-evaluation.sh
+```
+
+To run the full chapter workflow with logging:
+
+```bash id="run-clinical-model-evaluation-bash-only"
+bash scripts/bash/15-run-clinical-model-evaluation.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script reads the risk stratification output and creates evaluation tables.
+
+It checks whether binary outcomes and predicted risk scores are usable.
+
+When possible, it calculates:
+
+- patient count
+- known outcome count
+- observed event rate
+- mean predicted risk
+- AUROC
+- average precision
+- Brier score
+
+It also evaluates thresholds such as:
+
+```text id="threshold-grid"
+0.10
+0.20
+0.30
+0.40
+0.50
+0.60
+0.70
+0.80
+0.90
+```
+
+For each threshold, it calculates:
+
+- true positives
+- false positives
+- true negatives
+- false negatives
+- sensitivity
+- specificity
+- positive predictive value
+- negative predictive value
+
+---
+
+## What the R Script Does
+
+The R script creates modern evaluation visuals.
+
+It visualizes:
+
+- predicted risk score by outcome
+- observed event rate by calibration bin
+- sensitivity and specificity across thresholds
+
+The script does not assume that the data are perfect.
+
+It coerces numeric columns safely and writes skip notes when required inputs are missing or not usable.
+
+---
+
+## Discrimination
+
+Discrimination asks whether the model assigns higher scores to patients who experience the outcome than to patients who do not.
+
+AUROC is one common discrimination metric.
+
+But AUROC does not answer every clinical question.
+
+A model with acceptable AUROC may still be poorly calibrated or clinically unusable at the chosen threshold.
+
+---
+
+## Calibration
+
+Calibration asks whether predicted risk matches observed risk.
+
+For example, among patients predicted to have 20% risk, roughly 20% should experience the event.
+
+Calibration matters when predicted probabilities are interpreted as risk.
+
+It is especially important when model output will be shown to clinicians or patients.
+
+---
+
+## Threshold Evaluation
+
+Clinical models often become actions through thresholds.
+
+For example:
+
+```text id="threshold-action-example"
+predicted risk >= 0.30:
+  flag patient for clinical review
+```
+
+Thresholds create tradeoffs.
+
+A lower threshold may identify more true events but create more false positives.
+
+A higher threshold may reduce workload but miss more true events.
+
+Evaluation must make these tradeoffs visible.
+
+---
+
+## Risk Group Evaluation
+
+Risk groups should have clinically meaningful separation.
+
+In a useful stratification system, the observed event rate should generally increase from low to moderate to high risk.
+
+If the observed event rate does not differ across groups, the risk grouping may not be useful.
+
+With small example data, this pattern may be unstable.
+
+The workflow therefore reports counts and event rates transparently.
+
+---
+
+## Small Data Warning
+
+The example dataset in this guide may be too small for reliable model evaluation.
+
+That is acceptable for teaching workflow structure.
+
+In real clinical work, model evaluation requires:
+
+- sufficient sample size
+- enough outcome events
+- appropriate train-test separation
+- temporal or external validation where possible
+- subgroup evaluation
+- calibration review
+- clinical governance
+
+This chapter teaches the structure, not a validated clinical claim.
+
+---
+
+## CDI Principle
+
+A clinical model should not be judged by whether it produces predictions.
+
+It should be judged by whether its performance, limitations, thresholds, calibration, and clinical consequences are visible enough for responsible review.
+
+---
+
+## Chapter Summary
+
+In this chapter, we evaluated the Chapter 14 risk stratification output.
+
+We produced evaluation metrics, threshold tables, risk group summaries, calibration summaries, visual outputs, and a written evaluation summary.
+
+The next chapter turns evaluated model outputs into clinical interpretation and decision-support framing.

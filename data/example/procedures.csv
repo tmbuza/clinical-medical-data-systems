@@ -1,0 +1,4 @@
+patient_id,encounter_id,code_system,code,code_description,event_date,procedure_location
+P001,E001,CPT,83036,Hemoglobin A1c test,2026-01-05,outpatient clinic
+P002,E002,CPT,93000,Electrocardiogram,2026-01-09,outpatient clinic
+P003,E003,CPT,71046,"Chest X-ray, two views",2026-01-14,emergency department

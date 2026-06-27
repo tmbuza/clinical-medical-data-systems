@@ -1,0 +1,23 @@
+Clinical Interpretation and Decision Support Summary
+====================================================
+
+Readiness output: results/clinical-decision-support-readiness.tsv
+Interpretation statements: results/clinical-risk-interpretation-statements.tsv
+Action map: results/clinical-decision-support-action-map.tsv
+
+Readiness status counts:
+- present: 5
+- limited_or_missing: 3
+- required_not_completed_by_script: 3
+- requires_project_review: 1
+
+Risk group counts in interpretation statements:
+- moderate: 6
+
+Action map rows: 4
+Interpretation statement rows: 6
+
+Interpretation:
+These outputs are decision-support design artifacts only.
+They do not constitute clinical recommendations, treatment instructions, or deployment approval.
+Real-world use requires clinical validation, governance review, workflow design, monitoring, and accountability.

@@ -1,0 +1,76 @@
+project:
+  type: book
+  output-dir: docs
+
+bibliography: library/references.bib
+date: last-modified
+date-format: "MMM YYYY"
+
+book:
+  title: "Clinical & Medical Data Systems"
+  subtitle: "From Healthcare Records to Reliable Clinical Insights"
+  author: "Teresia Mrema Buza | Complex Data Insights"
+
+  chapters:
+    - index.qmd
+    - 00-preface-and-overview.qmd
+
+    - part: "Part I: Clinical Data Foundations"
+      chapters:
+        - 01-clinical-data-systems-overview.qmd
+        - 02-healthcare-data-types.qmd
+        - 03-clinical-questions-and-cohorts.qmd
+        - 04-data-governance-privacy-and-ethics.qmd
+
+    - part: "Part II: Clinical Data Inputs"
+      chapters:
+        - 05-patient-demographics-and-encounters.qmd
+        - 06-diagnoses-procedures-and-medications.qmd
+        - 07-laboratory-and-vital-sign-results.qmd
+        - 08-clinical-outcomes-and-follow-up.qmd
+
+    - part: "Part III: Cleaning, Validation, and Readiness"
+      chapters:
+        - 09-clinical-data-quality-checks.qmd
+        - 10-missingness-and-data-completeness.qmd
+        - 11-clinical-variable-engineering.qmd
+        - 12-analysis-ready-clinical-datasets.qmd
+
+    - part: "Part IV: Clinical Analysis and Interpretation"
+      chapters:
+        - 13-descriptive-clinical-analysis.qmd
+        - 14-risk-stratification-and-clinical-models.qmd
+        - 15-clinical-model-evaluation.qmd
+        - 16-clinical-interpretation-and-decision-support.qmd
+
+    - part: "Part V: Reporting and Real-World Systems"
+      chapters:
+        - 17-reproducible-clinical-reports.qmd
+        - 18-clinical-dashboard-readiness.qmd
+        - 19-ehr-fhir-and-interoperability-roadmap.qmd
+        - 20-end-to-end-case-study.qmd
+  
+  appendices:
+    - 999-appendix.qmd
+    - 999-references.qmd
+
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    number-depth: 2
+    smooth-scroll: true
+    anchor-sections: true
+    link-external-icon: true
+    css: assets/css/cdi.css
+    code-fold: true
+    mermaid:
+      theme: forest
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto
+  working-dir: .

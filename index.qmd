@@ -1,0 +1,17 @@
+---
+title: ""
+engine: knitr
+format:
+  html:
+    body-classes: front-page
+---
+
+<div style="text-align: center; margin-top: 1.5em;">
+  <img src="assets/images/cover/clinical-medical-data-systems-cover.png" width="75%" />
+</div>
+
+<div style="text-align: center; font-style: normal; margin-top: 1em;">
+Clinical Medical Data Systems: Updated {{< meta date >}}
+</div>
+
+

@@ -1,0 +1,18 @@
+Descriptive Clinical Analysis Summary
+=====================================
+
+Input file: results/analysis-ready-clinical-dataset.tsv
+
+Total rows: 6
+Unique patients: 6
+Analysis included rows: 0
+Analysis excluded rows: 6
+
+Outcome distribution:
+- Missing: 6 patients (100.0%)
+
+Table-one rows written: 16
+
+Interpretation:
+These outputs describe the prepared clinical cohort and should be reviewed before modeling.
+They do not establish causal effects, prediction performance, or clinical utility.

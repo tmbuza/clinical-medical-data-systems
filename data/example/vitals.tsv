@@ -1,0 +1,6 @@
+encounter_id	patient_id	systolic_bp	diastolic_bp	heart_rate	temperature_c
+E001	P001	142	88	78	36.8
+E002	P002	150	92	86	37.0
+E003	P003	128	82	104	38.4
+E004	P004	138	85	74	36.7
+E005	P005	118	76	68	36.6

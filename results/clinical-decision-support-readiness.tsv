@@ -1,0 +1,13 @@
+readiness_domain	item	status	evidence	decision_support_note
+cohort_definition	Cohort and analysis-ready dataset documented	requires_project_review	Review Chapters 12 and 13 outputs.	A decision-support workflow needs a visible denominator and inclusion logic.
+risk_output	Patient-level risk stratification output available	present	results/clinical-risk-stratification-results.tsv	Risk output is required before interpretation statements can be generated.
+evaluation	Model evaluation metrics available	present	results/clinical-model-evaluation-metrics.tsv	Evaluation must be reviewed before any workflow use.
+evaluation	Known outcome rows available for evaluation	limited_or_missing	known_outcome_rows=0.0	Decision support should not proceed without outcome-grounded review.
+thresholds	Threshold behavior table available	present	results/clinical-model-threshold-evaluation.tsv	Threshold behavior is needed before choosing an action cutoff.
+risk_groups	Observed event rates by risk group available	present	results/clinical-model-risk-group-evaluation.tsv	Risk groups should show clinically meaningful separation before use.
+calibration	Calibration table available	present	results/clinical-model-calibration-table.tsv	Calibration matters if predicted risks are interpreted as probabilities.
+performance	Discrimination metric is interpretable	limited_or_missing	auroc=None	AUROC may be unavailable when sample size is too small or outcomes have one class.
+performance	Brier score is available	limited_or_missing	brier_score=None	Brier score summarizes probability error but does not establish clinical utility.
+governance	Clinical governance approval	required_not_completed_by_script	Human/institutional review required.	Governance review is mandatory before real clinical deployment.
+workflow	Human review and override process	required_not_completed_by_script	Workflow owner must define reviewer and escalation path.	Decision support should assist qualified review, not replace it.
+monitoring	Post-deployment monitoring plan	required_not_completed_by_script	Monitoring plan must be defined before deployment.	Clinical models can drift and should be monitored over time.

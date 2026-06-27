@@ -1,0 +1,24 @@
+Clinical Model Evaluation Summary
+=================================
+
+Input file: results/clinical-risk-stratification-results.tsv
+
+Total rows: 6.0
+Known outcome rows: 0.0
+Usable evaluation rows: 0.0
+Positive outcomes: 0.0
+Negative outcomes: 0.0
+Observed event rate: nan
+Mean predicted risk: nan
+AUROC: nan
+Average precision: nan
+Brier score: nan
+
+Threshold rows written: 9
+Risk group rows written: 1
+Calibration rows written: 1
+
+Interpretation:
+These outputs evaluate the example risk stratification workflow only.
+Small sample size, missing outcomes, or single-class outcomes limit what can be interpreted.
+Clinical deployment requires additional validation, calibration review, subgroup assessment, and governance approval.

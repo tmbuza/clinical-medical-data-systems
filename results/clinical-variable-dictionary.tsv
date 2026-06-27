@@ -1,0 +1,25 @@
+variable_name	variable_label	source_domain	derivation_rule	clinical_interpretation	analysis_role
+patient_id	Patient identifier	all_domains	Retained linkage identifier	Unique patient key used to join clinical domains	identifier
+index_encounter_date	Index encounter date	encounters	Earliest observed encounter date	Baseline time point for derived variables	cohort_context
+age_at_index	Age at index	demographics + encounters	Difference between index encounter date and date of birth	Patient age at baseline	predictor
+age_group	Age group	demographics + encounters	Grouped age_at_index into 0-17, 18-39, 40-64, and 65+	Age category for stratified summaries	stratification_variable
+gender	Gender	demographics	First non-missing demographic value	Recorded gender or sex field depending on source	predictor
+race_ethnicity	Race or ethnicity	demographics	First non-missing demographic value	Socially constructed demographic context; interpret carefully	predictor
+insurance_type	Insurance type	demographics	First non-missing payer or insurance value	Healthcare access and payer context	predictor
+encounter_count	Encounter count	encounters	Number of dated encounter records	Care contact intensity	predictor
+follow_up_days	Follow-up days	encounters	Days between first and last observed encounter	Observed care-system follow-up duration	quality_check_variable
+has_diabetes	Diabetes indicator	diagnoses	Diagnosis text or code contains diabetes, E10, or E11	Diagnosis-code evidence of diabetes	predictor
+has_hypertension	Hypertension indicator	diagnoses	Diagnosis text or code contains hypertension, high blood pressure, or I10	Diagnosis-code evidence of hypertension	predictor
+has_chronic_kidney_disease	Chronic kidney disease indicator	diagnoses	Diagnosis text or code contains chronic kidney, CKD, or N18	Diagnosis-code evidence of chronic kidney disease	predictor
+condition_indicator_count	Condition indicator count	diagnoses	Sum of engineered condition indicators	Simple comorbidity signal from available diagnosis indicators	predictor
+medication_record_count	Medication record count	medications	Number of medication records	Medication documentation intensity	predictor
+medication_class_count	Medication class count	medications	Number of unique medication classes	Therapeutic exposure diversity	predictor
+baseline_creatinine	Baseline creatinine	laboratory_results	Latest creatinine value on or before index date	Kidney function marker at baseline	predictor
+baseline_glucose	Baseline glucose	laboratory_results	Latest glucose value on or before index date	Glycemic state marker at baseline	predictor
+baseline_hemoglobin	Baseline hemoglobin	laboratory_results	Latest hemoglobin value on or before index date	Anemia or blood status marker at baseline	predictor
+baseline_systolic_bp	Baseline systolic blood pressure	vital_signs	Latest systolic blood pressure on or before index date	Blood pressure status at baseline	predictor
+baseline_diastolic_bp	Baseline diastolic blood pressure	vital_signs	Latest diastolic blood pressure on or before index date	Blood pressure status at baseline	predictor
+baseline_bmi	Baseline BMI	vital_signs	Latest BMI on or before index date	Body size marker at baseline	predictor
+outcome_observed	Outcome observed	outcomes	Any observed outcome record for the patient	Primary outcome availability flag	outcome
+outcome_type	Outcome type	outcomes	First non-missing outcome type	Clinical outcome category	outcome
+days_to_outcome	Days to outcome	outcomes + encounters	Outcome date minus index encounter date	Time from baseline to outcome	outcome

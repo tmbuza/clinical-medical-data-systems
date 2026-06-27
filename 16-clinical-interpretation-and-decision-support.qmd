@@ -1,0 +1,293 @@
+# Clinical Interpretation and Decision Support
+
+:::cdi-message
+- **ID:** CDMS-16
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, clinical informatics teams, and decision-support stakeholders
+- **Theme:** Clinical model outputs become useful only when they are interpreted responsibly and connected to safe, reviewable decision-support workflows
+:::
+
+Clinical models do not make decisions by themselves.
+
+People do.
+
+A risk score, threshold table, or model evaluation report becomes useful only when it is translated into a responsible clinical interpretation.
+
+This chapter connects the technical outputs from Chapters 14 and 15 to decision-support thinking.
+
+The goal is not to automate care.
+
+The goal is to make model outputs understandable, reviewable, and safe enough for clinical discussion.
+
+---
+
+## From Model Output to Clinical Meaning
+
+A model output may look like this:
+
+```text id="model-output-example"
+patient_id: P001
+predicted_risk_score: 0.72
+risk_group: high
+```
+
+This is not yet a clinical recommendation.
+
+It becomes meaningful only after answering:
+
+- What outcome is being predicted?
+- What time window does the score refer to?
+- What action could follow from the score?
+- Who reviews the score?
+- What evidence supports the threshold?
+- What harms could occur if the score is wrong?
+- What should be documented?
+
+Clinical interpretation turns a score into a structured statement.
+
+---
+
+## Decision Support Is Not the Same as Prediction
+
+Prediction estimates risk.
+
+Decision support connects risk to workflow.
+
+For example:
+
+```text id="prediction-vs-decision-support"
+Prediction:
+  This patient has elevated predicted risk.
+
+Decision support:
+  This patient may require review under a defined clinical protocol.
+```
+
+The second statement is stronger and riskier.
+
+It should not be made unless the protocol, threshold, reviewer, and action pathway are defined.
+
+---
+
+## Input Files
+
+This chapter uses the outputs created in Chapters 14 and 15.
+
+```text id="chapter16-inputs"
+results/clinical-risk-stratification-results.tsv
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-model-threshold-evaluation.tsv
+results/clinical-model-risk-group-evaluation.tsv
+results/clinical-model-calibration-table.tsv
+```
+
+The workflow creates an interpretation-ready summary layer.
+
+---
+
+## Outputs
+
+The chapter creates:
+
+```text id="chapter16-outputs"
+results/clinical-decision-support-readiness.tsv
+results/clinical-risk-interpretation-statements.tsv
+results/clinical-decision-support-action-map.tsv
+results/clinical-interpretation-and-decision-support-summary.txt
+results/figures/decision-support-risk-group-action-map.png
+logs/16-clinical-interpretation-and-decision-support.log
+```
+
+If a figure cannot be created safely, the R script writes a skip note instead of stopping the workflow.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-clinical-interpretation-decision-support"
+python scripts/python/16-clinical-interpretation-and-decision-support-safe.py
+Rscript scripts/R/16-visualize-decision-support-readiness-safe.R
+bash scripts/bash/16-run-clinical-interpretation-and-decision-support.sh
+```
+
+To run the full workflow with logging:
+
+```bash id="run-clinical-interpretation-bash-only"
+bash scripts/bash/16-run-clinical-interpretation-and-decision-support.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script creates three practical outputs.
+
+First, it creates a readiness checklist for decision-support review.
+
+Second, it creates patient-level interpretation statements from the risk stratification output.
+
+Third, it creates a risk-group action map.
+
+The script is deliberately cautious.
+
+It uses language such as:
+
+```text id="cautious-interpretation-language"
+This patient is assigned to the high risk group in this example workflow.
+This output should be reviewed by a qualified clinical stakeholder before use.
+```
+
+It does not write:
+
+```text id="unsafe-interpretation-language"
+This patient needs treatment.
+This patient will have an adverse event.
+The model recommends intervention.
+```
+
+Clinical outputs should avoid overclaiming.
+
+---
+
+## Readiness Checklist
+
+Decision-support readiness depends on more than model performance.
+
+The checklist includes:
+
+- cohort definition visibility
+- outcome definition visibility
+- predictor availability
+- model evaluation completed
+- threshold behavior reviewed
+- calibration reviewed
+- action pathway defined
+- human review defined
+- governance review required
+- monitoring plan required
+
+Some items can be marked as technically present.
+
+Others require human or institutional review.
+
+---
+
+## Risk Interpretation Statements
+
+A risk interpretation statement should include:
+
+- patient identifier
+- risk group
+- predicted score
+- model or scoring method
+- cautious clinical meaning
+- required review note
+
+For example:
+
+```text id="risk-interpretation-template"
+Patient P001 is assigned to the high risk group with a predicted risk score of 0.72.
+This is an example risk stratification output and should not be used for clinical action without clinical validation and governance review.
+```
+
+The statement is designed for review, not automated action.
+
+---
+
+## Action Map
+
+The action map links risk groups to possible workflow categories.
+
+```text id="risk-action-map"
+low risk:
+  routine review
+
+moderate risk:
+  consider additional review if clinically appropriate
+
+high risk:
+  prioritize for qualified clinical review under an approved protocol
+```
+
+This is not a medical protocol.
+
+It is a decision-support design scaffold.
+
+Real actions must be defined by the responsible clinical organization.
+
+---
+
+## Why Human Review Matters
+
+Clinical decision support should include human accountability.
+
+A model may be wrong because:
+
+- the data are incomplete
+- the patient context changed
+- the outcome definition is inappropriate
+- the model does not generalize
+- a subgroup is underrepresented
+- the threshold is poorly chosen
+- the workflow creates unintended harm
+
+Human review does not eliminate risk, but it is an essential safety layer.
+
+---
+
+## Avoiding Automation Bias
+
+Automation bias occurs when people overtrust system outputs because they appear quantitative or computer-generated.
+
+Clinical data systems should reduce automation bias by:
+
+- showing uncertainty
+- documenting limitations
+- using cautious language
+- requiring review
+- avoiding hidden thresholds
+- making override possible
+- monitoring downstream effects
+
+A clinical model should support judgment, not replace it.
+
+---
+
+## Governance Before Deployment
+
+Before model output enters a real clinical workflow, governance review should address:
+
+- intended use
+- patient population
+- responsible owner
+- model validation evidence
+- fairness and subgroup performance
+- monitoring plan
+- escalation and override process
+- documentation requirements
+- patient safety concerns
+- regulatory or institutional requirements
+
+The technical workflow is only one part of readiness.
+
+---
+
+## CDI Principle
+
+Clinical decision support begins after interpretation, not after prediction.
+
+A score becomes usable only when its meaning, limitations, review process, and action pathway are explicit.
+
+---
+
+## Chapter Summary
+
+In this chapter, we translated model outputs into cautious clinical interpretation and decision-support readiness artifacts.
+
+We created patient-level interpretation statements, a decision-support readiness checklist, an action map, and a visual summary.
+
+This completes Part IV.
+
+The next part moves into reproducible reporting, dashboards, interoperability, and the end-to-end clinical data system.

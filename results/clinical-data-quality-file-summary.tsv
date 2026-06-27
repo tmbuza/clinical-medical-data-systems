@@ -1,0 +1,9 @@
+domain	file_path	file_found	row_count	column_count	duplicate_row_count
+patients	data/example/patient-demographics.csv	True	5	5	0.0
+encounters	data/example/clinical-encounters.csv	False	0	0	
+diagnoses	data/example/diagnoses.csv	True	4	7	0.0
+procedures	data/example/procedures.csv	True	3	7	0.0
+medications	data/example/medications.csv	True	3	7	0.0
+laboratory_results	data/example/laboratory-results.csv	True	4	12	0.0
+vital_sign_results	data/example/vital-sign-results.csv	True	4	10	0.0
+outcomes	data/example/clinical-outcomes.csv	True	6	9	0.0

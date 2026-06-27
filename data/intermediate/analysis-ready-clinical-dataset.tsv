@@ -1,0 +1,6 @@
+encounter_id	patient_id	encounter_date	encounter_type	sex	birth_year	systolic_bp	diastolic_bp	heart_rate	temperature_c	followup_days	outcome_status	age_approx	elevated_systolic_bp
+E001	P001	2026-01-10	outpatient	Female	1965	142	88	78	36.8	30	stable	61	TRUE
+E002	P002	2026-01-12	emergency	Male	1972	150	92	86	37	30	review_needed	54	TRUE
+E003	P003	2026-01-14	inpatient	Female	1958	128	82	104	38.4	30	improved	68	FALSE
+E004	P004	2026-01-15	outpatient	Male	1980	138	85	74	36.7	30	stable	46	FALSE
+E005	P005	2026-01-18	outpatient	Female	1991	118	76	68	36.6	30	stable	35	FALSE

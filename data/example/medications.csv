@@ -1,0 +1,4 @@
+patient_id,encounter_id,code_system,code,code_description,event_date,medication_source
+P001,E001,RxNorm,860975,Metformin hydrochloride 500 MG oral tablet,2026-01-05,order
+P003,E003,RxNorm,308182,Amoxicillin 500 MG oral capsule,2026-01-14,administration
+P004,E004,RxNorm,197361,Ciprofloxacin 500 MG oral tablet,2026-02-03,prescription

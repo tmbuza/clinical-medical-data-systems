@@ -1,0 +1,295 @@
+# Clinical Dashboard Readiness
+
+:::cdi-message
+- **ID:** CDMS-18
+- **Type:** Premium
+- **Audience:** Clinical analysts, dashboard developers, health informatics teams, quality improvement teams, and clinical decision-support stakeholders
+- **Theme:** Clinical dashboards require curated metrics, clear denominators, safe interpretation language, and refresh-ready data outputs
+:::
+
+A clinical dashboard is not just a collection of charts.
+
+It is a live or repeatable clinical communication layer.
+
+Dashboards can support quality improvement, cohort monitoring, operational review, patient safety discussions, and decision-support planning.
+
+But dashboards can also mislead if the underlying metrics are not defined, denominators are unclear, or visual outputs imply more certainty than the data support.
+
+This chapter prepares dashboard-ready clinical outputs from the existing analysis workflow.
+
+---
+
+## Why Dashboard Readiness Comes After Reporting
+
+A static report is usually easier to review.
+
+A dashboard is more dynamic.
+
+Before building a dashboard, the team should already understand:
+
+- the cohort definition
+- available variables
+- missingness
+- descriptive summaries
+- model outputs
+- evaluation limitations
+- interpretation boundaries
+
+Dashboards should not be used to discover basic data problems for the first time.
+
+They should sit on top of checked, documented outputs.
+
+---
+
+## Dashboard Readiness Is a Data Product Layer
+
+A dashboard-ready dataset is different from an analysis dataset.
+
+An analysis dataset may contain many variables and patient-level details.
+
+A dashboard dataset should contain curated metrics and display-ready summaries.
+
+```text id="dashboard-layer"
+analysis-ready dataset
+  -> descriptive summaries
+  -> model summaries
+  -> interpretation outputs
+  -> dashboard-ready metric tables
+  -> dashboard prototype or BI tool
+```
+
+This chapter creates the metric layer.
+
+---
+
+## Input Files
+
+The workflow uses outputs from earlier chapters.
+
+```text id="chapter18-inputs"
+results/analysis-ready-clinical-dataset.tsv
+results/descriptive-clinical-cohort-summary.tsv
+results/descriptive-clinical-outcome-summary.tsv
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-model-risk-group-evaluation.tsv
+results/clinical-decision-support-readiness.tsv
+```
+
+The script is defensive.
+
+If an input is missing, it writes a dashboard readiness issue rather than crashing.
+
+---
+
+## Outputs
+
+The chapter creates dashboard-ready tables and a compact prototype.
+
+```text id="chapter18-outputs"
+results/dashboard/dashboard-metric-catalog.tsv
+results/dashboard/dashboard-kpi-summary.tsv
+results/dashboard/dashboard-risk-group-summary.tsv
+results/dashboard/dashboard-readiness-issues.tsv
+results/dashboard/clinical-dashboard-prototype.html
+results/figures/dashboard-kpi-readiness-summary.png
+logs/18-clinical-dashboard-readiness.log
+```
+
+The HTML prototype is intentionally simple.
+
+It is not a production dashboard.
+
+It demonstrates how curated outputs can be assembled into a reviewable dashboard artifact.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-clinical-dashboard-readiness"
+python scripts/python/18-build-clinical-dashboard-readiness-safe.py
+Rscript scripts/R/18-visualize-dashboard-readiness-safe.R
+bash scripts/bash/18-run-clinical-dashboard-readiness.sh
+```
+
+To run the full workflow with logging:
+
+```bash id="run-clinical-dashboard-bash-only"
+bash scripts/bash/18-run-clinical-dashboard-readiness.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script creates dashboard-ready tables.
+
+It produces:
+
+- a metric catalog
+- a KPI summary table
+- a risk group summary table
+- a dashboard readiness issue log
+- a small HTML dashboard prototype
+
+The script avoids heavy dashboard dependencies.
+
+It writes a plain HTML file that can be opened in a browser.
+
+---
+
+## What the R Script Does
+
+The R script creates one visual readiness summary.
+
+It reads:
+
+```text id="dashboard-readiness-r-input"
+results/dashboard/dashboard-kpi-summary.tsv
+```
+
+It writes:
+
+```text id="dashboard-readiness-r-output"
+results/figures/dashboard-kpi-readiness-summary.png
+```
+
+The script uses safe type conversion and writes a skip note if the KPI file is unavailable.
+
+---
+
+## Dashboard Metric Catalog
+
+A dashboard metric catalog should document every displayed metric.
+
+It should include:
+
+- metric name
+- display label
+- source file
+- numerator definition
+- denominator definition
+- refresh expectation
+- interpretation note
+
+This protects against dashboard drift.
+
+If a metric appears on a dashboard, someone should be able to explain exactly how it was created.
+
+---
+
+## KPI Summary
+
+The KPI summary provides compact values for dashboard cards.
+
+Example KPI cards include:
+
+```text id="dashboard-kpi-examples"
+Total patients
+Analysis-included patients
+Observed event rate
+Mean predicted risk
+High-risk patient count
+Decision-support readiness items present
+Decision-support items requiring review
+```
+
+A KPI card should never hide its denominator.
+
+---
+
+## Risk Group Summary
+
+Risk groups are common dashboard elements.
+
+However, they should be shown carefully.
+
+A dashboard may display:
+
+- count of patients by risk group
+- observed event rate by risk group
+- interpretation note
+- validation status
+
+The dashboard should not imply that risk groups are clinically actionable unless governance review is complete.
+
+---
+
+## Readiness Issues
+
+Dashboard readiness issues are not failures.
+
+They are transparency outputs.
+
+Examples include:
+
+- missing input file
+- missing denominator
+- no known outcomes
+- unavailable model evaluation
+- decision-support governance not complete
+- dashboard prototype only
+
+Issue logs make dashboards safer because limitations are visible.
+
+---
+
+## Avoiding Dashboard Overclaiming
+
+Clinical dashboards should avoid language such as:
+
+```text id="dashboard-overclaiming"
+Patients who need intervention
+Preventable deaths
+Model-recommended treatment
+```
+
+Safer language includes:
+
+```text id="dashboard-safer-language"
+Patients assigned to high risk group
+Patients requiring review under approved workflow
+Observed outcome count
+Decision-support readiness status
+```
+
+Dashboards should communicate evidence, not exaggerate certainty.
+
+---
+
+## Refresh Readiness
+
+A dashboard should be designed with refresh in mind.
+
+Ask:
+
+- Which script rebuilds the dashboard data?
+- Which input files must be updated first?
+- Are outputs timestamped?
+- Are denominators stable?
+- Are missing files detected?
+- Are stale outputs visible?
+- Who reviews changes after refresh?
+
+A dashboard that refreshes without validation can spread errors quickly.
+
+---
+
+## CDI Principle
+
+A clinical dashboard is ready when its metrics are defined, denominators are visible, limitations are documented, and the output can be regenerated safely.
+
+Dashboard readiness is not a visual design step only.
+
+It is a data-system readiness step.
+
+---
+
+## Chapter Summary
+
+In this chapter, we prepared dashboard-ready outputs from the clinical analysis workflow.
+
+We created a metric catalog, KPI summary, risk group summary, readiness issue log, prototype HTML dashboard, and a readiness figure.
+
+The next chapter moves into EHR, FHIR, and interoperability planning.

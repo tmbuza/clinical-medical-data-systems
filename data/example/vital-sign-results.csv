@@ -1,0 +1,5 @@
+patient_id,encounter_id,measurement_datetime,result_domain,result_name,result_value,result_unit,measurement_position,care_setting,source_system
+P001,E001,2026-01-04 08:15:00,vital_sign,systolic_bp,138,mmHg,sitting,outpatient,example_ehr
+P001,E001,2026-01-04 08:15:00,vital_sign,diastolic_bp,86,mmHg,sitting,outpatient,example_ehr
+P002,E002,2026-01-05 09:55:00,vital_sign,heart_rate,104,beats/min,sitting,emergency,example_ehr
+P003,E003,2026-01-06 07:40:00,vital_sign,oxygen_saturation,97,%,resting,inpatient,example_ehr

@@ -1,0 +1,8 @@
+metric_name	display_label	value	status	interpretation_note
+total_patients	Total patients	6.0	available	Prepared patient-level cohort size.
+analysis_included_patients	Analysis-included patients	0.0	available	Patients meeting example analysis readiness rules.
+observed_event_rate	Observed event rate		available	Requires known outcomes and reviewed outcome definition.
+mean_predicted_risk	Mean predicted risk		available	Prediction summary only; not an action recommendation.
+high_risk_patients	High-risk patients	not_available	missing	High-risk group requires governance before workflow use.
+decision_support_present_items	Decision-support readiness items present	5	available	Present items are technical evidence, not deployment approval.
+decision_support_review_required_items	Decision-support items requiring review	7	available	Review-required items must be resolved before deployment.

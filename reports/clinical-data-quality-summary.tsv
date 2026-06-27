@@ -1,0 +1,8 @@
+table	rows	columns
+diagnoses.tsv	5	4
+encounters.tsv	5	4
+labs.tsv	5	5
+medications.tsv	5	4
+outcomes.tsv	5	4
+patients.tsv	5	3
+vitals.tsv	5	6

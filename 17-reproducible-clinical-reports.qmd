@@ -1,0 +1,254 @@
+# Reproducible Clinical Reports
+
+:::cdi-message
+- **ID:** CDMS-17
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, clinical research teams, and reporting teams
+- **Theme:** Reproducible clinical reports turn analysis outputs into transparent, reviewable evidence products
+:::
+
+Clinical analysis does not end when tables and figures are created.
+
+The work must be communicated.
+
+A reproducible clinical report brings together the cohort definition, analysis-ready dataset, descriptive summaries, model evaluation, interpretation notes, and decision-support readiness outputs into one reviewable artifact.
+
+The goal is not only to make a report look polished.
+
+The goal is to make the report traceable.
+
+---
+
+## Why Reproducible Reporting Matters
+
+Clinical reports are often used for decisions, meetings, quality improvement, research, dashboards, and operational planning.
+
+If a report cannot be reproduced, it becomes difficult to know:
+
+- which data version was used
+- which filters were applied
+- which cohort was included
+- which scripts produced the outputs
+- whether numbers changed over time
+- whether tables and figures are consistent
+- whether interpretation followed the evidence
+
+A reproducible report protects the integrity of clinical communication.
+
+---
+
+## Reporting Is Part of the System
+
+A clinical data system should treat reporting as a first-class layer.
+
+```text id="clinical-reporting-layer"
+data inputs
+  -> validation
+  -> derived variables
+  -> analysis-ready dataset
+  -> descriptive analysis
+  -> model evaluation
+  -> interpretation
+  -> reproducible report
+```
+
+The report should not be manually assembled from screenshots and copied tables.
+
+It should be generated from saved outputs.
+
+---
+
+## Input Files
+
+This chapter uses the outputs generated across Parts III and IV.
+
+```text id="chapter17-inputs"
+results/analysis-ready-clinical-dataset-readiness-summary.txt
+results/descriptive-clinical-analysis-summary.txt
+results/clinical-risk-model-summary.txt
+results/clinical-model-evaluation-summary.txt
+results/clinical-interpretation-and-decision-support-summary.txt
+results/descriptive-clinical-cohort-summary.tsv
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-decision-support-readiness.tsv
+```
+
+The report builder is defensive.
+
+If an input file is missing, it records that fact instead of failing silently.
+
+---
+
+## Outputs
+
+The chapter creates a report package.
+
+```text id="chapter17-outputs"
+results/reports/reproducible-clinical-report.md
+results/reports/reproducible-clinical-report-summary.tsv
+results/reports/reproducible-clinical-report-file-inventory.tsv
+logs/17-reproducible-clinical-reports.log
+```
+
+The Markdown report can be reviewed directly or later integrated into Quarto, GitHub Pages, or a dashboard system.
+
+---
+
+## How to Run
+
+Run from the project root.
+
+```bash id="run-reproducible-clinical-report"
+python scripts/python/17-build-reproducible-clinical-report-safe.py
+bash scripts/bash/17-run-reproducible-clinical-reports.sh
+```
+
+To run the full workflow with logging:
+
+```bash id="run-reproducible-report-bash-only"
+bash scripts/bash/17-run-reproducible-clinical-reports.sh
+```
+
+---
+
+## What the Python Script Does
+
+The Python script creates a Markdown report from existing result files.
+
+It does four things:
+
+1. checks whether expected result files exist
+2. creates a report file inventory
+3. extracts selected metrics from TSV outputs
+4. writes a structured Markdown report
+
+The script does not invent missing results.
+
+Missing outputs are shown clearly in the report.
+
+---
+
+## Report Sections
+
+The generated report includes:
+
+- report title and timestamp
+- evidence file inventory
+- analysis-ready dataset summary
+- descriptive cohort summary
+- risk stratification summary
+- model evaluation summary
+- decision-support readiness summary
+- limitations
+- recommended next review steps
+
+This gives clinical stakeholders a single starting point for review.
+
+---
+
+## Why Markdown First?
+
+Markdown is a practical intermediate report format.
+
+It is:
+
+- readable in plain text
+- version-controllable
+- easy to render later
+- compatible with Quarto
+- friendly to GitHub
+- simple enough for automated generation
+
+A later production system may render the report as HTML, PDF, Word, or dashboard content.
+
+But the first reproducible artifact should be transparent.
+
+---
+
+## Report Inventory
+
+Every generated report should include an inventory of its evidence files.
+
+The inventory should record:
+
+- expected file path
+- whether it exists
+- file size
+- modified timestamp
+- role in the report
+
+This makes it easier to identify stale or missing results.
+
+---
+
+## Avoiding Manual Copy Errors
+
+Manual report creation often introduces errors.
+
+Examples include:
+
+- old figures copied into new reports
+- table values copied incorrectly
+- denominators changed but text not updated
+- summary paragraphs no longer matching results
+- model output interpreted beyond available evidence
+
+A reproducible report reduces these risks by linking text to saved outputs.
+
+---
+
+## Interpretation Boundaries
+
+A reproducible report should separate:
+
+```text id="report-interpretation-boundaries"
+What the data show:
+  Observed counts, distributions, metrics, and readiness checks.
+
+What the analysis suggests:
+  Patterns requiring clinical review.
+
+What cannot be concluded:
+  Causal effects, clinical utility, safety, or deployment readiness without further validation.
+```
+
+This distinction is especially important in clinical work.
+
+---
+
+## Clinical Review Checklist
+
+Before sharing a clinical report broadly, review:
+
+- cohort definition
+- inclusion and exclusion logic
+- missingness
+- outcome definition
+- descriptive summaries
+- risk score interpretation
+- model evaluation limitations
+- decision-support language
+- governance needs
+- patient safety considerations
+
+The report should support this review, not replace it.
+
+---
+
+## CDI Principle
+
+A clinical report is reproducible when another person can regenerate it, trace each claim to a source output, and understand what the analysis does and does not support.
+
+Reporting is not decoration.
+
+It is part of responsible clinical data practice.
+
+---
+
+## Chapter Summary
+
+In this chapter, we created a reproducible reporting layer for the Clinical & Medical Data Systems guide.
+
+The workflow assembled existing outputs into a Markdown report, file inventory, and report summary.
+
+The next chapter moves from static reporting into dashboard readiness.

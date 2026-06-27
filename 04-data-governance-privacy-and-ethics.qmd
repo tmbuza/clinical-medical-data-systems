@@ -1,0 +1,403 @@
+# Data Governance, Privacy, and Ethics {#sec-data-governance-privacy-and-ethics}
+
+:::cdi-message
+- **ID:** CLIN-004
+- **Type:** Foundations
+- **Audience:** Clinical data learners, analysts, informatics teams, health researchers
+- **Theme:** Clinical data systems must protect people before they produce analysis
+:::
+
+Clinical data is not ordinary data.
+
+It describes people, illnesses, treatments, risks, encounters, and outcomes.
+
+This means clinical data systems must be designed with more than technical accuracy in mind.
+
+They must also protect patients, respect permissions, preserve trust, and prevent misuse.
+
+A clinical dataset may be clean, well-structured, and statistically useful, but still unsafe or inappropriate to analyze if governance, privacy, and ethics are weak.
+
+This chapter introduces the governance layer that sits underneath every responsible clinical data workflow.
+
+---
+
+## Learning Objectives
+
+By the end of this chapter, you should be able to:
+
+- Explain why clinical data governance is part of analysis readiness.
+- Distinguish privacy, confidentiality, security, consent, and ethical use.
+- Recognize common risks in patient-level clinical datasets.
+- Describe practical safeguards such as de-identification, access control, audit trails, and data minimization.
+- Understand why clinical interpretation must remain cautious, contextual, and accountable.
+
+---
+
+## Why Governance Comes Before Analysis
+
+Clinical data analysis often begins with a practical question:
+
+> Can we use these data to answer this clinical question?
+
+Before answering that, a safer question must come first:
+
+> Are we allowed to use these data for this purpose, and can we do so responsibly?
+
+Governance determines whether data use is appropriate.
+
+It defines:
+
+- who can access the data,
+- what they are allowed to do with it,
+- which identifiers must be removed or protected,
+- how outputs should be reviewed,
+- how risks to patients and communities should be minimized,
+- and who is accountable if something goes wrong.
+
+In a CDI clinical data system, governance is not an administrative afterthought.
+
+It is part of the analytical pipeline.
+
+---
+
+## Governance as a System Layer
+
+A clinical data system should treat governance as a visible layer between raw data and analysis.
+
+```text
+Clinical Data Source
+        ↓
+Governance and Permissions
+        ↓
+Privacy and Security Controls
+        ↓
+Data Cleaning and Validation
+        ↓
+Analysis-Ready Dataset
+        ↓
+Clinical Interpretation and Reporting
+```
+
+This ordering matters.
+
+If governance is skipped, later steps may create harm even when the technical workflow is correct.
+
+For example, a dashboard that displays rare diagnoses by facility may accidentally identify patients in small communities.
+
+A model trained on historical treatment patterns may reproduce inequities if the original care patterns were biased.
+
+A table with dates of admission, age, and diagnosis may appear harmless, but may still be re-identifiable when combined with other information.
+
+---
+
+## Core Concepts
+
+Several terms are often used together, but they are not the same.
+
+### Privacy
+
+Privacy concerns a patient’s right to control how personal information is collected, used, shared, and disclosed.
+
+A privacy question asks:
+
+> Should this information be used in this way?
+
+### Confidentiality
+
+Confidentiality concerns the duty of people and institutions to protect information that has been entrusted to them.
+
+A confidentiality question asks:
+
+> Are we protecting the information we were trusted to hold?
+
+### Security
+
+Security concerns the technical and operational controls that prevent unauthorized access, loss, misuse, or exposure.
+
+A security question asks:
+
+> Can unauthorized people access, alter, or extract these data?
+
+### Consent
+
+Consent concerns whether patients or participants agreed to a particular use of their information, often under specific conditions.
+
+A consent question asks:
+
+> Did the person agree to this use, and does this use stay within that agreement?
+
+### Ethics
+
+Ethics concerns whether the work is fair, respectful, justified, transparent, and beneficial relative to its risks.
+
+An ethics question asks:
+
+> Even if this is technically and legally possible, is it responsible?
+
+---
+
+## Common Clinical Data Risks
+
+Clinical datasets can create risk in several ways.
+
+Some risks are obvious.
+
+Others emerge only after data are linked, filtered, visualized, or modeled.
+
+| Risk | Example | Why It Matters |
+|---|---|---|
+| Direct identification | Names, phone numbers, medical record numbers | Immediately reveals patient identity |
+| Indirect identification | Age, dates, location, rare diagnosis | Can identify someone when combined with other data |
+| Sensitive attribute exposure | HIV status, pregnancy outcome, mental health diagnosis | May cause stigma, discrimination, or harm |
+| Small cell disclosure | Reporting 1 or 2 cases in a small subgroup | Makes individuals easier to infer |
+| Purpose drift | Data collected for care reused for unrelated analysis | May violate trust or permissions |
+| Algorithmic bias | Model learns from unequal historical care access | May amplify inequity |
+| Misleading interpretation | Association presented as causal effect | May influence poor clinical decisions |
+
+A responsible workflow anticipates these risks before analysis begins.
+
+---
+
+## Data Minimization
+
+One of the strongest privacy principles is simple:
+
+> Use only the data needed for the question.
+
+This is called data minimization.
+
+If date of birth is not needed, use age group.
+
+If exact visit date is not needed, use month or study day.
+
+If facility name is not needed, use region or coded facility group.
+
+If free-text notes are not needed, exclude them from the analysis dataset.
+
+Data minimization reduces risk without weakening the analysis when done carefully.
+
+```text
+Question:
+Which age groups have the highest 30-day readmission rate?
+
+Prefer:
+age_group, index_admission_date_group, readmission_status
+
+Avoid unless required:
+full_date_of_birth, full_address, full medical record number, raw clinical notes
+```
+
+The goal is not to remove useful information blindly.
+
+The goal is to preserve analytical meaning while reducing unnecessary exposure.
+
+---
+
+## De-identification and Pseudonymization
+
+Clinical datasets often need identifiers removed or transformed before analysis.
+
+Two common approaches are de-identification and pseudonymization.
+
+### De-identification
+
+De-identification removes or generalizes information so that patients are no longer readily identifiable.
+
+Examples include removing names, replacing exact dates with relative study days, grouping ages, or suppressing rare categories.
+
+### Pseudonymization
+
+Pseudonymization replaces direct identifiers with coded identifiers.
+
+For example, a medical record number may be replaced by a generated patient ID.
+
+```text
+Original:
+medical_record_number = MRN-884921
+patient_name = Jane Example
+
+Pseudonymized:
+patient_id = P000184
+patient_name = removed
+```
+
+Pseudonymized data are still sensitive.
+
+If a key exists that links the coded ID back to the person, the data must still be protected.
+
+---
+
+## Small Cell Protection
+
+Aggregated results can still reveal patient information.
+
+This is especially true when subgroups are small.
+
+```text
+Unsafe output:
+Facility A, age 80+, rare condition X, mortality count = 1
+
+Safer output:
+Facility group, age 65+, rare condition group, count suppressed when n < threshold
+```
+
+Small cell rules vary by institution and setting.
+
+The principle is consistent:
+
+> Do not publish or share outputs that make individual patients easy to infer.
+
+A clinical data system should check not only raw datasets, but also tables, figures, dashboards, and reports.
+
+---
+
+## Access Control
+
+Not everyone needs the same level of access.
+
+A modern clinical data system should separate roles.
+
+| Role | Typical Access |
+|---|---|
+| Data custodian | Raw identifiable data, linkage keys, governance oversight |
+| Data engineer | Controlled access needed for extraction and transformation |
+| Analyst | De-identified or limited dataset needed for analysis |
+| Clinical reviewer | Results, definitions, interpretation context |
+| External collaborator | Approved limited outputs or governed shared dataset |
+
+Access should follow the least privilege principle.
+
+This means each person receives only the access necessary for their role.
+
+---
+
+## Audit Trails and Reproducibility
+
+Governance and reproducibility support each other.
+
+A reproducible clinical workflow should record:
+
+- where the data came from,
+- when the data were extracted,
+- who had access,
+- which transformations were applied,
+- which scripts produced which outputs,
+- and which version of the dataset supported the final report.
+
+This does not mean exposing private information in logs.
+
+Logs should document workflow behavior without leaking patient details.
+
+```text
+Good log entry:
+2026-06-27 09:15:03 | validation complete | input rows: 1204 | output rows: 1188
+
+Unsafe log entry:
+2026-06-27 09:15:03 | removed patient John Example, MRN-884921
+```
+
+Clinical reproducibility must be privacy-aware.
+
+---
+
+## Ethics in Clinical Analysis
+
+Ethical clinical analysis requires more than compliance.
+
+A legally permitted analysis can still be misleading, unfair, or harmful.
+
+Before producing claims, analysts should ask:
+
+- Is the clinical question meaningful?
+- Are the data appropriate for the question?
+- Are important patient groups missing or underrepresented?
+- Could the analysis reinforce unequal care patterns?
+- Are limitations clearly stated?
+- Could results be misused outside their intended context?
+- Who should review the interpretation before it is shared?
+
+This is especially important for predictive models and decision-support tools.
+
+A model that predicts risk is not automatically a clinical recommendation.
+
+A dashboard that shows variation is not automatically evidence of poor care.
+
+A statistically significant association is not automatically causal.
+
+---
+
+## Responsible Use of Modern Tools
+
+Modern tools can make clinical workflows faster and more powerful.
+
+They can also make errors scale faster.
+
+Tools such as DuckDB, Arrow, Polars, tidyverse, Plotly, Altair, and dashboard frameworks are useful because they support efficient, transparent, and reproducible work.
+
+But tooling does not replace governance.
+
+A modern clinical data system should combine strong tools with strong boundaries.
+
+```text
+Modern clinical data workflow:
+- structured project folders
+- scripted data checks
+- reproducible transformations
+- privacy-aware outputs
+- reviewed clinical definitions
+- documented limitations
+- controlled sharing
+```
+
+The safest system is not the one with the most advanced technology.
+
+It is the one where technology, clinical judgment, governance, and ethics work together.
+
+---
+
+## Governance Checklist
+
+Before moving clinical data into analysis, ask:
+
+- What is the approved purpose of this analysis?
+- Which data sources are being used?
+- Are identifiers removed, transformed, or protected?
+- Is the dataset limited to the variables needed?
+- Are small cells protected in outputs?
+- Are access permissions appropriate?
+- Are transformations scripted and documented?
+- Are clinical definitions reviewed?
+- Are limitations visible in the final report?
+- Is there a plan for secure storage, sharing, and disposal?
+
+If these questions cannot be answered, the dataset is not yet analysis-ready.
+
+---
+
+## Chapter Summary
+
+Clinical data governance is not separate from clinical data science.
+
+It is one of the foundations that makes clinical analysis trustworthy.
+
+Privacy protects patients.
+
+Security protects systems.
+
+Consent and permissions define appropriate use.
+
+Ethics keeps the work connected to fairness, respect, and responsible interpretation.
+
+As we move from foundations into clinical data inputs, every dataset should be viewed through this lens:
+
+> Clinical data analysis is only useful when it is technically sound, clinically meaningful, and responsibly governed.
+
+---
+
+## Transition to Part II
+
+Part I introduced the clinical data system, the major types of healthcare data, how clinical questions become cohorts, and why governance must come before analysis.
+
+Part II now moves into the practical input tables that make clinical analysis possible.
+
+We begin with patient demographics and encounters.
