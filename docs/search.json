@@ -3520,43 +3520,274 @@
     "href": "999-appendix.html",
     "title": "Appendix A — Appendix",
     "section": "",
-    "text": "Repository Layout",
+    "text": "Project Purpose\nThis appendix collects reusable reference material for the Clinical & Medical Data Systems guide.\nThe main chapters explain the concepts and build the workflow step by step.\nThe appendix helps learners and project maintainers quickly find directory conventions, script conventions, end-to-end commands, expected outputs, interpretation safeguards, troubleshooting notes, and clinical governance reminders.\nThe Clinical & Medical Data Systems guide demonstrates how to move from structured healthcare data inputs to reproducible clinical data outputs.\nThe system covers healthcare data types, clinical questions and cohorts, governance, clinical inputs, data quality checks, missingness, variable engineering, analysis-ready datasets, descriptive analysis, risk stratification, model evaluation, interpretation, reproducible reports, dashboard readiness, and interoperability planning.",
     "crumbs": [
       "Appendices",
       "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
     ]
   },
   {
-    "objectID": "999-appendix.html#repository-layout",
-    "href": "999-appendix.html#repository-layout",
+    "objectID": "999-appendix.html#recommended-project-structure",
+    "href": "999-appendix.html#recommended-project-structure",
     "title": "Appendix A — Appendix",
+    "section": "Recommended Project Structure",
+    "text": "Recommended Project Structure\ntext id=\"appendix-project-structure\" clinical-medical-data-systems/ ├── index.qmd ├── 00-preface-and-overview.qmd ├── 01-clinical-data-systems-overview.qmd ├── ... ├── 20-end-to-end-case-study.qmd ├── 999-appendix.qmd ├── 999-references.qmd ├── data/ │   └── example/ ├── logs/ ├── results/ │   ├── dashboard/ │   ├── figures/ │   ├── interoperability/ │   ├── reports/ │   └── case-study/ ├── scripts/ │   ├── bash/ │   ├── python/ │   └── R/ └── README.md",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#quarto-chapter-convention",
+    "href": "999-appendix.html#quarto-chapter-convention",
+    "title": "Appendix A — Appendix",
+    "section": "Quarto Chapter Convention",
+    "text": "Quarto Chapter Convention\nThe chapters use prose-first Quarto.\nCode inside chapters should be shown as plain fenced code blocks, not executable Quarto chunks.\nUse plain fences such as:\ntext id=\"appendix-plain-fence-example\"bash bash scripts/bash/20-run-end-to-end-case-study.sh\n\nDo not use executable chunk syntax such as:\n```text id=“appendix-no-executable-chunks”\n\nExecutable logic should live in separate files under:\n\n```text id=\"appendix-script-locations\"\nscripts/bash/\nscripts/python/\nscripts/R/",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#standard-chapter-metadata-block",
+    "href": "999-appendix.html#standard-chapter-metadata-block",
+    "title": "Appendix A — Appendix",
+    "section": "Standard Chapter Metadata Block",
+    "text": "Standard Chapter Metadata Block\nEach chapter should include the CDI message block after the chapter heading.\ntext id=\"appendix-cdi-message-template\" :::cdi-message - **ID:** CDMS-XX - **Type:** Premium - **Audience:** Clinical analysts, applied data scientists, and health informatics teams - **Theme:** Short chapter theme :::",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#core-end-to-end-command",
+    "href": "999-appendix.html#core-end-to-end-command",
+    "title": "Appendix A — Appendix",
+    "section": "Core End-to-End Command",
+    "text": "Core End-to-End Command\nRun the complete workflow from the project root.\nbash id=\"appendix-run-e2e\" bash scripts/bash/20-run-end-to-end-case-study.sh\nThe runner executes the workflow from example clinical inputs through case-study summary outputs.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#main-case-study-outputs",
+    "href": "999-appendix.html#main-case-study-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Main Case-Study Outputs",
+    "text": "Main Case-Study Outputs\ntext id=\"appendix-case-study-outputs\" results/case-study/end-to-end-case-study-file-inventory.tsv results/case-study/end-to-end-case-study-stage-summary.tsv results/case-study/end-to-end-case-study-summary.md results/case-study/end-to-end-case-study-readiness-summary.txt logs/20-end-to-end-case-study.log",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#quick-health-check",
+    "href": "999-appendix.html#quick-health-check",
+    "title": "Appendix A — Appendix",
+    "section": "Quick Health Check",
+    "text": "Quick Health Check\nAfter running the workflow, inspect the final readiness summary.\nbash id=\"appendix-health-check\" cat results/case-study/end-to-end-case-study-readiness-summary.txt head -20 results/case-study/end-to-end-case-study-stage-summary.tsv\nOpen the generated report and dashboard prototype.\nbash id=\"appendix-open-outputs\" open results/reports/reproducible-clinical-report.md open results/dashboard/clinical-dashboard-prototype.html",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#chapter-script-map",
+    "href": "999-appendix.html#chapter-script-map",
+    "title": "Appendix A — Appendix",
+    "section": "Chapter Script Map",
+    "text": "Chapter Script Map\ntext id=\"appendix-script-map\" 05  patient demographics and encounters 06  diagnoses, procedures, and medications 07  laboratory and vital-sign results 08  outcomes and follow-up 09  clinical data quality checks 10  missingness and completeness 11  clinical variable engineering 12  analysis-ready clinical dataset 13  descriptive clinical analysis 14  risk stratification and clinical models 15  clinical model evaluation 16  clinical interpretation and decision support 17  reproducible clinical reports 18  clinical dashboard readiness 19  EHR, FHIR, and interoperability roadmap 20  end-to-end case study",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#example-data-inputs",
+    "href": "999-appendix.html#example-data-inputs",
+    "title": "Appendix A — Appendix",
+    "section": "Example Data Inputs",
+    "text": "Example Data Inputs\nThe educational workflow creates example clinical input files.\ntext id=\"appendix-example-inputs\" data/example/patient-demographics.csv data/example/patient-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/coded-clinical-events.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-results-combined.csv data/example/clinical-outcomes.csv\nThese are synthetic educational examples.\nThey are not real patient records.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#key-results-directories",
+    "href": "999-appendix.html#key-results-directories",
+    "title": "Appendix A — Appendix",
+    "section": "Key Results Directories",
+    "text": "Key Results Directories\ntext id=\"appendix-results-directories\" results/ results/figures/ results/reports/ results/dashboard/ results/interoperability/ results/case-study/ logs/",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#data-readiness-outputs",
+    "href": "999-appendix.html#data-readiness-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Data Readiness Outputs",
+    "text": "Data Readiness Outputs\ntext id=\"appendix-readiness-outputs\" results/clinical-data-quality-readiness-summary.txt results/missingness-completeness-readiness-summary.txt results/clinical-variable-engineering-summary.txt results/analysis-ready-clinical-dataset-readiness-summary.txt\nThese files summarize whether the dataset is structurally ready for downstream analysis.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#analysis-outputs",
+    "href": "999-appendix.html#analysis-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Analysis Outputs",
+    "text": "Analysis Outputs\ntext id=\"appendix-analysis-outputs\" results/descriptive-clinical-analysis-summary.txt results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-variable-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/descriptive-clinical-table-one.tsv",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#modeling-and-evaluation-outputs",
+    "href": "999-appendix.html#modeling-and-evaluation-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Modeling and Evaluation Outputs",
+    "text": "Modeling and Evaluation Outputs\ntext id=\"appendix-model-outputs\" results/clinical-risk-stratification-results.tsv results/clinical-risk-model-feature-summary.tsv results/clinical-risk-model-summary.txt results/clinical-model-evaluation-metrics.tsv results/clinical-model-threshold-evaluation.tsv results/clinical-model-risk-group-evaluation.tsv results/clinical-model-calibration-table.tsv results/clinical-model-evaluation-summary.txt",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#interpretation-and-decision-support-outputs",
+    "href": "999-appendix.html#interpretation-and-decision-support-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Interpretation and Decision-Support Outputs",
+    "text": "Interpretation and Decision-Support Outputs\ntext id=\"appendix-decision-support-outputs\" results/clinical-decision-support-readiness.tsv results/clinical-risk-interpretation-statements.tsv results/clinical-decision-support-action-map.tsv results/clinical-interpretation-and-decision-support-summary.txt\nThese outputs are design and review artifacts.\nThey are not clinical recommendations.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#reporting-outputs",
+    "href": "999-appendix.html#reporting-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Reporting Outputs",
+    "text": "Reporting Outputs\ntext id=\"appendix-reporting-outputs\" results/reports/reproducible-clinical-report.md results/reports/reproducible-clinical-report-summary.tsv results/reports/reproducible-clinical-report-file-inventory.tsv",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#dashboard-outputs",
+    "href": "999-appendix.html#dashboard-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Dashboard Outputs",
+    "text": "Dashboard Outputs\ntext id=\"appendix-dashboard-outputs\" results/dashboard/dashboard-metric-catalog.tsv results/dashboard/dashboard-kpi-summary.tsv results/dashboard/dashboard-risk-group-summary.tsv results/dashboard/dashboard-readiness-issues.tsv results/dashboard/clinical-dashboard-prototype.html",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#interoperability-outputs",
+    "href": "999-appendix.html#interoperability-outputs",
+    "title": "Appendix A — Appendix",
+    "section": "Interoperability Outputs",
+    "text": "Interoperability Outputs\ntext id=\"appendix-interoperability-outputs\" results/interoperability/fhir-resource-mapping.tsv results/interoperability/interoperability-readiness-checklist.tsv results/interoperability/example-fhir-patient-bundle.json results/interoperability/interoperability-roadmap-summary.txt",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#safe-script-convention",
+    "href": "999-appendix.html#safe-script-convention",
+    "title": "Appendix A — Appendix",
+    "section": "Safe Script Convention",
+    "text": "Safe Script Convention\nMany later scripts use a -safe suffix.\nThis means the script is designed to coerce data types defensively, avoid failing on small example data, write skip notes when plots cannot be created, avoid unnecessary dependencies, preserve transparent limitations, and produce outputs suitable for teaching and review.\nExamples:\ntext id=\"appendix-safe-script-examples\" scripts/python/14-risk-stratification-and-clinical-models-safe.py scripts/R/15-visualize-clinical-model-evaluation-safe.R scripts/python/18-build-clinical-dashboard-readiness-safe.py",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#common-troubleshooting-notes",
+    "href": "999-appendix.html#common-troubleshooting-notes",
+    "title": "Appendix A — Appendix",
+    "section": "Common Troubleshooting Notes",
+    "text": "Common Troubleshooting Notes\n\nPython date arithmetic errors\nIf a script reports a Timestamp and float subtraction error, check whether date columns contain mixed types or missing values.\nUse safe date parsing before subtracting dates.\npython id=\"appendix-date-safe-pattern\" pd.to_datetime(date_column, errors=\"coerce\")\n\n\nR histogram error\nIf geom_histogram() reports that the x aesthetic is discrete, the variable may have been read as text.\nUse safe numeric conversion before plotting.\nr id=\"appendix-safe-r-numeric\" safe_numeric &lt;- function(x) {   suppressWarnings(as.numeric(as.character(x))) }\n\n\nMissing tabulate\nAvoid pandas.to_markdown() if tabulate is not installed.\nUse manual Markdown table rendering or install the dependency explicitly.\nThis project uses a no-tabulate safe report builder.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#clinical-interpretation-safeguards",
+    "href": "999-appendix.html#clinical-interpretation-safeguards",
+    "title": "Appendix A — Appendix",
+    "section": "Clinical Interpretation Safeguards",
+    "text": "Clinical Interpretation Safeguards\nClinical outputs should avoid overclaiming.\nUse cautious language such as:\ntext id=\"appendix-cautious-language\" This is an example risk stratification output. This output requires clinical validation before use. This dashboard is a prototype and not approved clinical decision support. This interoperability bundle is educational and not production-valid.\nAvoid language such as:\ntext id=\"appendix-unsafe-language\" The model recommends treatment. This patient will have an adverse event. The dashboard identifies patients who need intervention. This FHIR bundle is ready for production exchange.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#governance-reminder",
+    "href": "999-appendix.html#governance-reminder",
+    "title": "Appendix A — Appendix",
+    "section": "Governance Reminder",
+    "text": "Governance Reminder\nBefore any real-world use, clinical data systems require review of intended use, cohort definition, patient population, privacy and access controls, de-identification, outcome definition, model validation, subgroup performance, clinical workflow impact, monitoring plan, and governance approval.\nThis guide is an educational system and does not replace institutional review.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#git-workflow",
+    "href": "999-appendix.html#git-workflow",
+    "title": "Appendix A — Appendix",
+    "section": "Git Workflow",
+    "text": "Git Workflow\nAfter generating or updating files:\nbash id=\"appendix-git-workflow\" git status git add . git commit -m \"Update Clinical and Medical Data Systems guide\" git push\nBefore publishing, render the guide.\nbash id=\"appendix-quarto-render\" quarto render",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#final-note",
+    "href": "999-appendix.html#final-note",
+    "title": "Appendix A — Appendix",
+    "section": "Final Note",
+    "text": "Final Note\nThe purpose of this appendix is to make the system easier to reuse, audit, and extend.\nA strong clinical data system should not depend on memory.\nIt should depend on documented structure, reproducible scripts, cautious interpretation, and clear evidence trails.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-appendix.html#citation-anchors-for-bibliography-rendering",
+    "href": "999-appendix.html#citation-anchors-for-bibliography-rendering",
+    "title": "Appendix A — Appendix",
+    "section": "Citation Anchors for Bibliography Rendering",
+    "text": "Citation Anchors for Bibliography Rendering\nThis section intentionally includes selected inline citations so Quarto can capture and render the full bibliography in the references chapter.\nClinical prediction model development and reporting should follow established prediction-model guidance, including regression-based modeling strategies and updated reporting guidance for models using regression or machine learning (Steyerberg 2019; Harrell 2015; Collins et al. 2024).\nClinical model evaluation should consider calibration, discrimination, and threshold consequences rather than accuracy alone (Van Calster et al. 2019; Vickers and Elkin 2006).\nClinical artificial intelligence and decision-support workflows should be reported and governed cautiously, especially when models may influence clinical care (Liu et al. 2020; Rivera et al. 2020; World Health Organization 2021, 2025).\nFHIR-based interoperability planning should be grounded in HL7 FHIR resource concepts such as Patient, Encounter, Observation, Condition, Procedure, and MedicationRequest (HL7 International 2019, 2023g, 2023e, 2023b, 2023d, 2023a, 2023f, 2023c).\nReproducible clinical data systems should follow good computational practice, including transparent workflows, documented transformations, and version-controlled analysis artifacts (Peng 2011; Sandve et al. 2013; Wilson et al. 2017).\nModern data workflows in this guide draw on practical data science tooling and reproducible tabular analysis patterns in R and Python (Wickham, Çetinkaya-Rundel, and Grolemund 2023; McKinney 2022).\nClinical data quality and secondary use of EHR data require careful attention to completeness, plausibility, conformance, provenance, and fitness for use (Kahn et al. 2016; Weiskopf and Weng 2013; Hripcsak et al. 2015).\nClinical governance, privacy, and ethical review remain essential when clinical data or model outputs may influence real-world decisions (National Academies of Sciences, Engineering, and Medicine 2019; Institute of Medicine 2013; World Medical Association 2013).\n\n\n\n\nCollins, Gary S., Karel G. M. Moons, P. Dhiman, Richard D. Riley, Andrew L. Beam, Ben Van Calster, Marzyeh Ghassemi, et al. 2024. “TRIPOD+AI Statement: Updated Guidance for Reporting Clinical Prediction Models That Use Regression or Machine Learning Methods.” BMJ 385: e078378.\n\n\nHarrell, Frank E. 2015. Regression Modeling Strategies: With Applications to Linear Models, Logistic and Ordinal Regression, and Survival Analysis. 2nd ed. Springer.\n\n\nHL7 International. 2019. FHIR Release 4: Fast Healthcare Interoperability Resources Specification. HL7 International.\n\n\n———. 2023a. FHIR Condition Resource. HL7 International.\n\n\n———. 2023b. FHIR Encounter Resource. HL7 International.\n\n\n———. 2023c. FHIR MedicationRequest Resource. HL7 International.\n\n\n———. 2023d. FHIR Observation Resource. HL7 International.\n\n\n———. 2023e. FHIR Patient Resource. HL7 International.\n\n\n———. 2023f. FHIR Procedure Resource. HL7 International.\n\n\n———. 2023g. FHIR Release 5: Fast Healthcare Interoperability Resources Specification. HL7 International.\n\n\nHripcsak, George, Jon D. Duke, Nigam H. Shah, Christian G. Reich, Vojtech Huser, Martijn J. Schuemie, Marc A. Suchard, et al. 2015. “Observational Health Data Sciences and Informatics (OHDSI): Opportunities for Observational Researchers.” Studies in Health Technology and Informatics 216: 574–78.\n\n\nInstitute of Medicine. 2013. Best Care at Lower Cost: The Path to Continuously Learning Health Care in America. National Academies Press.\n\n\nKahn, Michael G., Tiffany J. Callahan, Juliana Barnard, Alan E. Bauck, Jeff Brown, Bruce N. Davidson, Hossein Estiri, et al. 2016. “A Harmonized Data Quality Assessment Terminology and Framework for the Secondary Use of Electronic Health Record Data.” eGEMs 4 (1): 1244.\n\n\nLiu, Xiaoxuan, Samantha C. Rivera, David Moher, Melanie J. Calvert, and Alastair K. Denniston. 2020. “Reporting Guidelines for Clinical Trial Reports for Interventions Involving Artificial Intelligence: The CONSORT-AI Extension.” Nature Medicine 26: 1364–74.\n\n\nMcKinney, Wes. 2022. Python for Data Analysis. 3rd ed. O’Reilly Media.\n\n\nNational Academies of Sciences, Engineering, and Medicine. 2019. Clinical Data as the Basic Staple of Health Learning: Creating and Protecting a Public Good. National Academies Press.\n\n\nPeng, Roger D. 2011. “Reproducible Research in Computational Science.” Science 334 (6060): 1226–27.\n\n\nRivera, Samantha C., Xiaoxuan Liu, An-Wen Chan, Alastair K. Denniston, and Melanie J. Calvert. 2020. “Guidelines for Clinical Trial Protocols for Interventions Involving Artificial Intelligence: The SPIRIT-AI Extension.” Nature Medicine 26: 1351–63.\n\n\nSandve, Geir Kjetil, Anton Nekrutenko, James Taylor, and Eivind Hovig. 2013. “Ten Simple Rules for Reproducible Computational Research.” PLOS Computational Biology 9 (10): e1003285.\n\n\nSteyerberg, Ewout W. 2019. Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating. 2nd ed. Springer.\n\n\nVan Calster, Ben, David J. McLernon, Maarten van Smeden, Laure Wynants, and Ewout W. Steyerberg. 2019. “Calibration: The Achilles Heel of Predictive Analytics.” BMC Medicine 17: 230.\n\n\nVickers, Andrew J., and Elena B. Elkin. 2006. “Decision Curve Analysis: A Novel Method for Evaluating Prediction Models.” Medical Decision Making 26 (6): 565–74.\n\n\nWeiskopf, Nicole G., and Chunhua Weng. 2013. “Methods and Dimensions of Electronic Health Record Data Quality Assessment: Enabling Reuse for Clinical Research.” Journal of the American Medical Informatics Association 20 (1): 144–51.\n\n\nWickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. R for Data Science. 2nd ed. O’Reilly Media.\n\n\nWilson, Greg, Jennifer Bryan, Karen Cranston, Justin Kitzes, Lex Nederbragt, and Tracy K. Teal. 2017. “Good Enough Practices in Scientific Computing.” PLOS Computational Biology 13 (6): e1005510.\n\n\nWorld Health Organization. 2021. “Ethics and Governance of Artificial Intelligence for Health: WHO Guidance.” World Health Organization.\n\n\n———. 2025. “Ethics and Governance of Artificial Intelligence for Health: Guidance on Large Multi-Modal Models.” World Health Organization.\n\n\nWorld Medical Association. 2013. “World Medical Association Declaration of Helsinki: Ethical Principles for Medical Research Involving Human Subjects.” JAMA 310 (20): 2191–94.",
+    "crumbs": [
+      "Appendices",
+      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+    ]
+  },
+  {
+    "objectID": "999-references.html",
+    "href": "999-references.html",
+    "title": "Appendix B — References",
     "section": "",
-    "text": "clinical-medical-data-systems/\n├── data/\n├── results/\n├── reports/\n├── scripts/\n├── assets/\n└── logs/",
+    "text": "Collins, Gary S., Karel G. M. Moons, P. Dhiman, Richard D. Riley, Andrew\nL. Beam, Ben Van Calster, Marzyeh Ghassemi, et al. 2024.\n“TRIPOD+AI Statement: Updated Guidance for Reporting Clinical\nPrediction Models That Use Regression or Machine Learning\nMethods.” BMJ 385: e078378.\n\n\nHarrell, Frank E. 2015. Regression Modeling Strategies: With\nApplications to Linear Models, Logistic and Ordinal Regression, and\nSurvival Analysis. 2nd ed. Springer.\n\n\nHL7 International. 2019. FHIR Release 4: Fast Healthcare\nInteroperability Resources Specification. HL7 International.\n\n\n———. 2023a. FHIR Condition Resource. HL7 International.\n\n\n———. 2023b. FHIR Encounter Resource. HL7 International.\n\n\n———. 2023c. FHIR MedicationRequest Resource. HL7 International.\n\n\n———. 2023d. FHIR Observation Resource. HL7 International.\n\n\n———. 2023e. FHIR Patient Resource. HL7 International.\n\n\n———. 2023f. FHIR Procedure Resource. HL7 International.\n\n\n———. 2023g. FHIR Release 5: Fast Healthcare Interoperability\nResources Specification. HL7 International.\n\n\nHripcsak, George, Jon D. Duke, Nigam H. Shah, Christian G. Reich,\nVojtech Huser, Martijn J. Schuemie, Marc A. Suchard, et al. 2015.\n“Observational Health Data Sciences and Informatics (OHDSI):\nOpportunities for Observational Researchers.” Studies in\nHealth Technology and Informatics 216: 574–78.\n\n\nInstitute of Medicine. 2013. Best Care at Lower Cost: The Path to\nContinuously Learning Health Care in America. National Academies\nPress.\n\n\nKahn, Michael G., Tiffany J. Callahan, Juliana Barnard, Alan E. Bauck,\nJeff Brown, Bruce N. Davidson, Hossein Estiri, et al. 2016. “A\nHarmonized Data Quality Assessment Terminology and Framework for the\nSecondary Use of Electronic Health Record Data.” eGEMs 4\n(1): 1244.\n\n\nLiu, Xiaoxuan, Samantha C. Rivera, David Moher, Melanie J. Calvert, and\nAlastair K. Denniston. 2020. “Reporting Guidelines for Clinical\nTrial Reports for Interventions Involving Artificial Intelligence: The\nCONSORT-AI Extension.” Nature Medicine 26: 1364–74.\n\n\nMcKinney, Wes. 2022. Python for Data Analysis. 3rd ed. O’Reilly\nMedia.\n\n\nNational Academies of Sciences, Engineering, and Medicine. 2019.\nClinical Data as the Basic Staple of Health Learning: Creating and\nProtecting a Public Good. National Academies Press.\n\n\nPeng, Roger D. 2011. “Reproducible Research in Computational\nScience.” Science 334 (6060): 1226–27.\n\n\nRivera, Samantha C., Xiaoxuan Liu, An-Wen Chan, Alastair K. Denniston,\nand Melanie J. Calvert. 2020. “Guidelines for Clinical Trial\nProtocols for Interventions Involving Artificial Intelligence: The\nSPIRIT-AI Extension.” Nature Medicine 26: 1351–63.\n\n\nSandve, Geir Kjetil, Anton Nekrutenko, James Taylor, and Eivind Hovig.\n2013. “Ten Simple Rules for Reproducible Computational\nResearch.” PLOS Computational Biology 9 (10): e1003285.\n\n\nSteyerberg, Ewout W. 2019. Clinical Prediction Models: A Practical\nApproach to Development, Validation, and Updating. 2nd ed.\nSpringer.\n\n\nVan Calster, Ben, David J. McLernon, Maarten van Smeden, Laure Wynants,\nand Ewout W. Steyerberg. 2019. “Calibration: The Achilles Heel of\nPredictive Analytics.” BMC Medicine 17: 230.\n\n\nVickers, Andrew J., and Elena B. Elkin. 2006. “Decision Curve\nAnalysis: A Novel Method for Evaluating Prediction Models.”\nMedical Decision Making 26 (6): 565–74.\n\n\nWeiskopf, Nicole G., and Chunhua Weng. 2013. “Methods and\nDimensions of Electronic Health Record Data Quality Assessment: Enabling\nReuse for Clinical Research.” Journal of the American Medical\nInformatics Association 20 (1): 144–51.\n\n\nWickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023.\nR for Data Science. 2nd ed. O’Reilly Media.\n\n\nWilson, Greg, Jennifer Bryan, Karen Cranston, Justin Kitzes, Lex\nNederbragt, and Tracy K. Teal. 2017. “Good Enough Practices in\nScientific Computing.” PLOS Computational Biology 13\n(6): e1005510.\n\n\nWorld Health Organization. 2021. “Ethics and Governance of\nArtificial Intelligence for Health: WHO Guidance.” World Health\nOrganization.\n\n\n———. 2025. “Ethics and Governance of Artificial Intelligence for\nHealth: Guidance on Large Multi-Modal Models.” World Health\nOrganization.\n\n\nWorld Medical Association. 2013. “World Medical Association\nDeclaration of Helsinki: Ethical Principles for Medical Research\nInvolving Human Subjects.” JAMA 310 (20): 2191–94.",
     "crumbs": [
       "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
-    ]
-  },
-  {
-    "objectID": "999-appendix.html#clinical-data-tables",
-    "href": "999-appendix.html#clinical-data-tables",
-    "title": "Appendix A — Appendix",
-    "section": "Clinical Data Tables",
-    "text": "Clinical Data Tables\nThe first version of this system uses privacy-safe synthetic clinical tables:\npatients.tsv\nencounters.tsv\ndiagnoses.tsv\nmedications.tsv\nlabs.tsv\nvitals.tsv\noutcomes.tsv",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
-    ]
-  },
-  {
-    "objectID": "999-appendix.html#notes-on-executability",
-    "href": "999-appendix.html#notes-on-executability",
-    "title": "Appendix A — Appendix",
-    "section": "Notes on Executability",
-    "text": "Notes on Executability\nQuarto chapters are primarily instructional.\nRunnable scripts should be stored in scripts/.",
-    "crumbs": [
-      "Appendices",
-      "<span class='chapter-number'>A</span>  <span class='chapter-title'>Appendix</span>"
+      "<span class='chapter-number'>B</span>  <span class='chapter-title'>References</span>"
     ]
   }
 ]

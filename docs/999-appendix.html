@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -305,9 +325,35 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#repository-layout" id="toc-repository-layout" class="nav-link active" data-scroll-target="#repository-layout">Repository Layout</a></li>
-  <li><a href="#clinical-data-tables" id="toc-clinical-data-tables" class="nav-link" data-scroll-target="#clinical-data-tables">Clinical Data Tables</a></li>
-  <li><a href="#notes-on-executability" id="toc-notes-on-executability" class="nav-link" data-scroll-target="#notes-on-executability">Notes on Executability</a></li>
+  <li><a href="#project-purpose" id="toc-project-purpose" class="nav-link active" data-scroll-target="#project-purpose">Project Purpose</a></li>
+  <li><a href="#recommended-project-structure" id="toc-recommended-project-structure" class="nav-link" data-scroll-target="#recommended-project-structure">Recommended Project Structure</a></li>
+  <li><a href="#quarto-chapter-convention" id="toc-quarto-chapter-convention" class="nav-link" data-scroll-target="#quarto-chapter-convention">Quarto Chapter Convention</a></li>
+  <li><a href="#standard-chapter-metadata-block" id="toc-standard-chapter-metadata-block" class="nav-link" data-scroll-target="#standard-chapter-metadata-block">Standard Chapter Metadata Block</a></li>
+  <li><a href="#core-end-to-end-command" id="toc-core-end-to-end-command" class="nav-link" data-scroll-target="#core-end-to-end-command">Core End-to-End Command</a></li>
+  <li><a href="#main-case-study-outputs" id="toc-main-case-study-outputs" class="nav-link" data-scroll-target="#main-case-study-outputs">Main Case-Study Outputs</a></li>
+  <li><a href="#quick-health-check" id="toc-quick-health-check" class="nav-link" data-scroll-target="#quick-health-check">Quick Health Check</a></li>
+  <li><a href="#chapter-script-map" id="toc-chapter-script-map" class="nav-link" data-scroll-target="#chapter-script-map">Chapter Script Map</a></li>
+  <li><a href="#example-data-inputs" id="toc-example-data-inputs" class="nav-link" data-scroll-target="#example-data-inputs">Example Data Inputs</a></li>
+  <li><a href="#key-results-directories" id="toc-key-results-directories" class="nav-link" data-scroll-target="#key-results-directories">Key Results Directories</a></li>
+  <li><a href="#data-readiness-outputs" id="toc-data-readiness-outputs" class="nav-link" data-scroll-target="#data-readiness-outputs">Data Readiness Outputs</a></li>
+  <li><a href="#analysis-outputs" id="toc-analysis-outputs" class="nav-link" data-scroll-target="#analysis-outputs">Analysis Outputs</a></li>
+  <li><a href="#modeling-and-evaluation-outputs" id="toc-modeling-and-evaluation-outputs" class="nav-link" data-scroll-target="#modeling-and-evaluation-outputs">Modeling and Evaluation Outputs</a></li>
+  <li><a href="#interpretation-and-decision-support-outputs" id="toc-interpretation-and-decision-support-outputs" class="nav-link" data-scroll-target="#interpretation-and-decision-support-outputs">Interpretation and Decision-Support Outputs</a></li>
+  <li><a href="#reporting-outputs" id="toc-reporting-outputs" class="nav-link" data-scroll-target="#reporting-outputs">Reporting Outputs</a></li>
+  <li><a href="#dashboard-outputs" id="toc-dashboard-outputs" class="nav-link" data-scroll-target="#dashboard-outputs">Dashboard Outputs</a></li>
+  <li><a href="#interoperability-outputs" id="toc-interoperability-outputs" class="nav-link" data-scroll-target="#interoperability-outputs">Interoperability Outputs</a></li>
+  <li><a href="#safe-script-convention" id="toc-safe-script-convention" class="nav-link" data-scroll-target="#safe-script-convention">Safe Script Convention</a></li>
+  <li><a href="#common-troubleshooting-notes" id="toc-common-troubleshooting-notes" class="nav-link" data-scroll-target="#common-troubleshooting-notes">Common Troubleshooting Notes</a>
+  <ul class="collapse">
+  <li><a href="#python-date-arithmetic-errors" id="toc-python-date-arithmetic-errors" class="nav-link" data-scroll-target="#python-date-arithmetic-errors">Python date arithmetic errors</a></li>
+  <li><a href="#r-histogram-error" id="toc-r-histogram-error" class="nav-link" data-scroll-target="#r-histogram-error">R histogram error</a></li>
+  <li><a href="#missing-tabulate" id="toc-missing-tabulate" class="nav-link" data-scroll-target="#missing-tabulate">Missing <code>tabulate</code></a></li>
+  </ul></li>
+  <li><a href="#clinical-interpretation-safeguards" id="toc-clinical-interpretation-safeguards" class="nav-link" data-scroll-target="#clinical-interpretation-safeguards">Clinical Interpretation Safeguards</a></li>
+  <li><a href="#governance-reminder" id="toc-governance-reminder" class="nav-link" data-scroll-target="#governance-reminder">Governance Reminder</a></li>
+  <li><a href="#git-workflow" id="toc-git-workflow" class="nav-link" data-scroll-target="#git-workflow">Git Workflow</a></li>
+  <li><a href="#final-note" id="toc-final-note" class="nav-link" data-scroll-target="#final-note">Final Note</a></li>
+  <li><a href="#citation-anchors-for-bibliography-rendering" id="toc-citation-anchors-for-bibliography-rendering" class="nav-link" data-scroll-target="#citation-anchors-for-bibliography-rendering">Citation Anchors for Bibliography Rendering</a></li>
   </ul>
 </nav>
     </div>
@@ -339,33 +385,288 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="repository-layout" class="level2">
-<h2 class="anchored" data-anchor-id="repository-layout">Repository Layout</h2>
-<pre class="text"><code>clinical-medical-data-systems/
-├── data/
-├── results/
-├── reports/
-├── scripts/
-├── assets/
-└── logs/</code></pre>
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> CDMS-999</li>
+<li><strong>Type:</strong> Premium Appendix</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, and CDI learners</li>
+<li><strong>Theme:</strong> Appendices preserve reusable commands, file maps, workflow conventions, and interpretation safeguards</li>
+</ul>
+</div>
+<p>This appendix collects reusable reference material for the Clinical &amp; Medical Data Systems guide.</p>
+<p>The main chapters explain the concepts and build the workflow step by step.</p>
+<p>The appendix helps learners and project maintainers quickly find directory conventions, script conventions, end-to-end commands, expected outputs, interpretation safeguards, troubleshooting notes, and clinical governance reminders.</p>
+<hr>
+<section id="project-purpose" class="level2">
+<h2 class="anchored" data-anchor-id="project-purpose">Project Purpose</h2>
+<p>The Clinical &amp; Medical Data Systems guide demonstrates how to move from structured healthcare data inputs to reproducible clinical data outputs.</p>
+<p>The system covers healthcare data types, clinical questions and cohorts, governance, clinical inputs, data quality checks, missingness, variable engineering, analysis-ready datasets, descriptive analysis, risk stratification, model evaluation, interpretation, reproducible reports, dashboard readiness, and interoperability planning.</p>
+<hr>
 </section>
-<section id="clinical-data-tables" class="level2">
-<h2 class="anchored" data-anchor-id="clinical-data-tables">Clinical Data Tables</h2>
-<p>The first version of this system uses privacy-safe synthetic clinical tables:</p>
-<pre class="text"><code>patients.tsv
-encounters.tsv
-diagnoses.tsv
-medications.tsv
-labs.tsv
-vitals.tsv
-outcomes.tsv</code></pre>
+<section id="recommended-project-structure" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-project-structure">Recommended Project Structure</h2>
+<p><code>text id="appendix-project-structure" clinical-medical-data-systems/ ├── index.qmd ├── 00-preface-and-overview.qmd ├── 01-clinical-data-systems-overview.qmd ├── ... ├── 20-end-to-end-case-study.qmd ├── 999-appendix.qmd ├── 999-references.qmd ├── data/ │   └── example/ ├── logs/ ├── results/ │   ├── dashboard/ │   ├── figures/ │   ├── interoperability/ │   ├── reports/ │   └── case-study/ ├── scripts/ │   ├── bash/ │   ├── python/ │   └── R/ └── README.md</code></p>
+<hr>
 </section>
-<section id="notes-on-executability" class="level2">
-<h2 class="anchored" data-anchor-id="notes-on-executability">Notes on Executability</h2>
-<p>Quarto chapters are primarily instructional.</p>
-<p>Runnable scripts should be stored in <code>scripts/</code>.</p>
+<section id="quarto-chapter-convention" class="level2">
+<h2 class="anchored" data-anchor-id="quarto-chapter-convention">Quarto Chapter Convention</h2>
+<p>The chapters use prose-first Quarto.</p>
+<p>Code inside chapters should be shown as plain fenced code blocks, not executable Quarto chunks.</p>
+<p>Use plain fences such as:</p>
+<p><code>text id="appendix-plain-fence-example"</code>bash bash scripts/bash/20-run-end-to-end-case-study.sh</p>
+<pre><code></code></pre>
+<p>Do not use executable chunk syntax such as:</p>
+<p>```text id=“appendix-no-executable-chunks”</p>
+<pre><code>
+Executable logic should live in separate files under:
+
+```text id="appendix-script-locations"
+scripts/bash/
+scripts/python/
+scripts/R/</code></pre>
+<hr>
+</section>
+<section id="standard-chapter-metadata-block" class="level2">
+<h2 class="anchored" data-anchor-id="standard-chapter-metadata-block">Standard Chapter Metadata Block</h2>
+<p>Each chapter should include the CDI message block after the chapter heading.</p>
+<p><code>text id="appendix-cdi-message-template" :::cdi-message - **ID:** CDMS-XX - **Type:** Premium - **Audience:** Clinical analysts, applied data scientists, and health informatics teams - **Theme:** Short chapter theme :::</code></p>
+<hr>
+</section>
+<section id="core-end-to-end-command" class="level2">
+<h2 class="anchored" data-anchor-id="core-end-to-end-command">Core End-to-End Command</h2>
+<p>Run the complete workflow from the project root.</p>
+<p><code>bash id="appendix-run-e2e" bash scripts/bash/20-run-end-to-end-case-study.sh</code></p>
+<p>The runner executes the workflow from example clinical inputs through case-study summary outputs.</p>
+<hr>
+</section>
+<section id="main-case-study-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="main-case-study-outputs">Main Case-Study Outputs</h2>
+<p><code>text id="appendix-case-study-outputs" results/case-study/end-to-end-case-study-file-inventory.tsv results/case-study/end-to-end-case-study-stage-summary.tsv results/case-study/end-to-end-case-study-summary.md results/case-study/end-to-end-case-study-readiness-summary.txt logs/20-end-to-end-case-study.log</code></p>
+<hr>
+</section>
+<section id="quick-health-check" class="level2">
+<h2 class="anchored" data-anchor-id="quick-health-check">Quick Health Check</h2>
+<p>After running the workflow, inspect the final readiness summary.</p>
+<p><code>bash id="appendix-health-check" cat results/case-study/end-to-end-case-study-readiness-summary.txt head -20 results/case-study/end-to-end-case-study-stage-summary.tsv</code></p>
+<p>Open the generated report and dashboard prototype.</p>
+<p><code>bash id="appendix-open-outputs" open results/reports/reproducible-clinical-report.md open results/dashboard/clinical-dashboard-prototype.html</code></p>
+<hr>
+</section>
+<section id="chapter-script-map" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-script-map">Chapter Script Map</h2>
+<p><code>text id="appendix-script-map" 05  patient demographics and encounters 06  diagnoses, procedures, and medications 07  laboratory and vital-sign results 08  outcomes and follow-up 09  clinical data quality checks 10  missingness and completeness 11  clinical variable engineering 12  analysis-ready clinical dataset 13  descriptive clinical analysis 14  risk stratification and clinical models 15  clinical model evaluation 16  clinical interpretation and decision support 17  reproducible clinical reports 18  clinical dashboard readiness 19  EHR, FHIR, and interoperability roadmap 20  end-to-end case study</code></p>
+<hr>
+</section>
+<section id="example-data-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="example-data-inputs">Example Data Inputs</h2>
+<p>The educational workflow creates example clinical input files.</p>
+<p><code>text id="appendix-example-inputs" data/example/patient-demographics.csv data/example/patient-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/coded-clinical-events.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-results-combined.csv data/example/clinical-outcomes.csv</code></p>
+<p>These are synthetic educational examples.</p>
+<p>They are not real patient records.</p>
+<hr>
+</section>
+<section id="key-results-directories" class="level2">
+<h2 class="anchored" data-anchor-id="key-results-directories">Key Results Directories</h2>
+<p><code>text id="appendix-results-directories" results/ results/figures/ results/reports/ results/dashboard/ results/interoperability/ results/case-study/ logs/</code></p>
+<hr>
+</section>
+<section id="data-readiness-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="data-readiness-outputs">Data Readiness Outputs</h2>
+<p><code>text id="appendix-readiness-outputs" results/clinical-data-quality-readiness-summary.txt results/missingness-completeness-readiness-summary.txt results/clinical-variable-engineering-summary.txt results/analysis-ready-clinical-dataset-readiness-summary.txt</code></p>
+<p>These files summarize whether the dataset is structurally ready for downstream analysis.</p>
+<hr>
+</section>
+<section id="analysis-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-outputs">Analysis Outputs</h2>
+<p><code>text id="appendix-analysis-outputs" results/descriptive-clinical-analysis-summary.txt results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-variable-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/descriptive-clinical-table-one.tsv</code></p>
+<hr>
+</section>
+<section id="modeling-and-evaluation-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-and-evaluation-outputs">Modeling and Evaluation Outputs</h2>
+<p><code>text id="appendix-model-outputs" results/clinical-risk-stratification-results.tsv results/clinical-risk-model-feature-summary.tsv results/clinical-risk-model-summary.txt results/clinical-model-evaluation-metrics.tsv results/clinical-model-threshold-evaluation.tsv results/clinical-model-risk-group-evaluation.tsv results/clinical-model-calibration-table.tsv results/clinical-model-evaluation-summary.txt</code></p>
+<hr>
+</section>
+<section id="interpretation-and-decision-support-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-and-decision-support-outputs">Interpretation and Decision-Support Outputs</h2>
+<p><code>text id="appendix-decision-support-outputs" results/clinical-decision-support-readiness.tsv results/clinical-risk-interpretation-statements.tsv results/clinical-decision-support-action-map.tsv results/clinical-interpretation-and-decision-support-summary.txt</code></p>
+<p>These outputs are design and review artifacts.</p>
+<p>They are not clinical recommendations.</p>
+<hr>
+</section>
+<section id="reporting-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-outputs">Reporting Outputs</h2>
+<p><code>text id="appendix-reporting-outputs" results/reports/reproducible-clinical-report.md results/reports/reproducible-clinical-report-summary.tsv results/reports/reproducible-clinical-report-file-inventory.tsv</code></p>
+<hr>
+</section>
+<section id="dashboard-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-outputs">Dashboard Outputs</h2>
+<p><code>text id="appendix-dashboard-outputs" results/dashboard/dashboard-metric-catalog.tsv results/dashboard/dashboard-kpi-summary.tsv results/dashboard/dashboard-risk-group-summary.tsv results/dashboard/dashboard-readiness-issues.tsv results/dashboard/clinical-dashboard-prototype.html</code></p>
+<hr>
+</section>
+<section id="interoperability-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="interoperability-outputs">Interoperability Outputs</h2>
+<p><code>text id="appendix-interoperability-outputs" results/interoperability/fhir-resource-mapping.tsv results/interoperability/interoperability-readiness-checklist.tsv results/interoperability/example-fhir-patient-bundle.json results/interoperability/interoperability-roadmap-summary.txt</code></p>
+<hr>
+</section>
+<section id="safe-script-convention" class="level2">
+<h2 class="anchored" data-anchor-id="safe-script-convention">Safe Script Convention</h2>
+<p>Many later scripts use a <code>-safe</code> suffix.</p>
+<p>This means the script is designed to coerce data types defensively, avoid failing on small example data, write skip notes when plots cannot be created, avoid unnecessary dependencies, preserve transparent limitations, and produce outputs suitable for teaching and review.</p>
+<p>Examples:</p>
+<p><code>text id="appendix-safe-script-examples" scripts/python/14-risk-stratification-and-clinical-models-safe.py scripts/R/15-visualize-clinical-model-evaluation-safe.R scripts/python/18-build-clinical-dashboard-readiness-safe.py</code></p>
+<hr>
+</section>
+<section id="common-troubleshooting-notes" class="level2">
+<h2 class="anchored" data-anchor-id="common-troubleshooting-notes">Common Troubleshooting Notes</h2>
+<section id="python-date-arithmetic-errors" class="level3">
+<h3 class="anchored" data-anchor-id="python-date-arithmetic-errors">Python date arithmetic errors</h3>
+<p>If a script reports a <code>Timestamp</code> and <code>float</code> subtraction error, check whether date columns contain mixed types or missing values.</p>
+<p>Use safe date parsing before subtracting dates.</p>
+<p><code>python id="appendix-date-safe-pattern" pd.to_datetime(date_column, errors="coerce")</code></p>
+</section>
+<section id="r-histogram-error" class="level3">
+<h3 class="anchored" data-anchor-id="r-histogram-error">R histogram error</h3>
+<p>If <code>geom_histogram()</code> reports that the x aesthetic is discrete, the variable may have been read as text.</p>
+<p>Use safe numeric conversion before plotting.</p>
+<p><code>r id="appendix-safe-r-numeric" safe_numeric &lt;- function(x) {   suppressWarnings(as.numeric(as.character(x))) }</code></p>
+</section>
+<section id="missing-tabulate" class="level3">
+<h3 class="anchored" data-anchor-id="missing-tabulate">Missing <code>tabulate</code></h3>
+<p>Avoid <code>pandas.to_markdown()</code> if <code>tabulate</code> is not installed.</p>
+<p>Use manual Markdown table rendering or install the dependency explicitly.</p>
+<p>This project uses a no-tabulate safe report builder.</p>
+<hr>
+</section>
+</section>
+<section id="clinical-interpretation-safeguards" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-interpretation-safeguards">Clinical Interpretation Safeguards</h2>
+<p>Clinical outputs should avoid overclaiming.</p>
+<p>Use cautious language such as:</p>
+<p><code>text id="appendix-cautious-language" This is an example risk stratification output. This output requires clinical validation before use. This dashboard is a prototype and not approved clinical decision support. This interoperability bundle is educational and not production-valid.</code></p>
+<p>Avoid language such as:</p>
+<p><code>text id="appendix-unsafe-language" The model recommends treatment. This patient will have an adverse event. The dashboard identifies patients who need intervention. This FHIR bundle is ready for production exchange.</code></p>
+<hr>
+</section>
+<section id="governance-reminder" class="level2">
+<h2 class="anchored" data-anchor-id="governance-reminder">Governance Reminder</h2>
+<p>Before any real-world use, clinical data systems require review of intended use, cohort definition, patient population, privacy and access controls, de-identification, outcome definition, model validation, subgroup performance, clinical workflow impact, monitoring plan, and governance approval.</p>
+<p>This guide is an educational system and does not replace institutional review.</p>
+<hr>
+</section>
+<section id="git-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="git-workflow">Git Workflow</h2>
+<p>After generating or updating files:</p>
+<p><code>bash id="appendix-git-workflow" git status git add . git commit -m "Update Clinical and Medical Data Systems guide" git push</code></p>
+<p>Before publishing, render the guide.</p>
+<p><code>bash id="appendix-quarto-render" quarto render</code></p>
+<hr>
+</section>
+<section id="final-note" class="level2">
+<h2 class="anchored" data-anchor-id="final-note">Final Note</h2>
+<p>The purpose of this appendix is to make the system easier to reuse, audit, and extend.</p>
+<p>A strong clinical data system should not depend on memory.</p>
+<p>It should depend on documented structure, reproducible scripts, cautious interpretation, and clear evidence trails.</p>
+<hr>
+</section>
+<section id="citation-anchors-for-bibliography-rendering" class="level2">
+<h2 class="anchored" data-anchor-id="citation-anchors-for-bibliography-rendering">Citation Anchors for Bibliography Rendering</h2>
+<p>This section intentionally includes selected inline citations so Quarto can capture and render the full bibliography in the references chapter.</p>
+<p>Clinical prediction model development and reporting should follow established prediction-model guidance, including regression-based modeling strategies and updated reporting guidance for models using regression or machine learning <span class="citation" data-cites="steyerberg2019clinicalprediction harrell2015regression collins2024tripodai">(<a href="999-references.html#ref-steyerberg2019clinicalprediction" role="doc-biblioref">Steyerberg 2019</a>; <a href="999-references.html#ref-harrell2015regression" role="doc-biblioref">Harrell 2015</a>; <a href="999-references.html#ref-collins2024tripodai" role="doc-biblioref">Collins et al. 2024</a>)</span>.</p>
+<p>Clinical model evaluation should consider calibration, discrimination, and threshold consequences rather than accuracy alone <span class="citation" data-cites="vancalster2019calibration vickers2006decisioncurve">(<a href="999-references.html#ref-vancalster2019calibration" role="doc-biblioref">Van Calster et al. 2019</a>; <a href="999-references.html#ref-vickers2006decisioncurve" role="doc-biblioref">Vickers and Elkin 2006</a>)</span>.</p>
+<p>Clinical artificial intelligence and decision-support workflows should be reported and governed cautiously, especially when models may influence clinical care <span class="citation" data-cites="liu2020consortai rivera2020spiritai who2021aihealth who2025multimodalaihealth">(<a href="999-references.html#ref-liu2020consortai" role="doc-biblioref">Liu et al. 2020</a>; <a href="999-references.html#ref-rivera2020spiritai" role="doc-biblioref">Rivera et al. 2020</a>; <a href="999-references.html#ref-who2021aihealth" role="doc-biblioref">World Health Organization 2021</a>, <a href="999-references.html#ref-who2025multimodalaihealth" role="doc-biblioref">2025</a>)</span>.</p>
+<p>FHIR-based interoperability planning should be grounded in HL7 FHIR resource concepts such as Patient, Encounter, Observation, Condition, Procedure, and MedicationRequest <span class="citation" data-cites="hl7fhirr4 hl7fhirr5 hl7fhirpatient hl7fhirencounter hl7fhirobservation hl7fhircondition hl7fhirprocedure hl7fhirmedicationrequest">(<a href="999-references.html#ref-hl7fhirr4" role="doc-biblioref">HL7 International 2019</a>, <a href="999-references.html#ref-hl7fhirr5" role="doc-biblioref">2023g</a>, <a href="999-references.html#ref-hl7fhirpatient" role="doc-biblioref">2023e</a>, <a href="999-references.html#ref-hl7fhirencounter" role="doc-biblioref">2023b</a>, <a href="999-references.html#ref-hl7fhirobservation" role="doc-biblioref">2023d</a>, <a href="999-references.html#ref-hl7fhircondition" role="doc-biblioref">2023a</a>, <a href="999-references.html#ref-hl7fhirprocedure" role="doc-biblioref">2023f</a>, <a href="999-references.html#ref-hl7fhirmedicationrequest" role="doc-biblioref">2023c</a>)</span>.</p>
+<p>Reproducible clinical data systems should follow good computational practice, including transparent workflows, documented transformations, and version-controlled analysis artifacts <span class="citation" data-cites="peng2011reproducible sandve2013tenrules wilson2017goodenough">(<a href="999-references.html#ref-peng2011reproducible" role="doc-biblioref">Peng 2011</a>; <a href="999-references.html#ref-sandve2013tenrules" role="doc-biblioref">Sandve et al. 2013</a>; <a href="999-references.html#ref-wilson2017goodenough" role="doc-biblioref">Wilson et al. 2017</a>)</span>.</p>
+<p>Modern data workflows in this guide draw on practical data science tooling and reproducible tabular analysis patterns in R and Python <span class="citation" data-cites="wickham2023r4ds mckinney2022pythondata">(<a href="999-references.html#ref-wickham2023r4ds" role="doc-biblioref">Wickham, Çetinkaya-Rundel, and Grolemund 2023</a>; <a href="999-references.html#ref-mckinney2022pythondata" role="doc-biblioref">McKinney 2022</a>)</span>.</p>
+<p>Clinical data quality and secondary use of EHR data require careful attention to completeness, plausibility, conformance, provenance, and fitness for use <span class="citation" data-cites="kahn2016dataquality weiskopf2013ehrquality hripcsak2015ohdsi">(<a href="999-references.html#ref-kahn2016dataquality" role="doc-biblioref">Kahn et al. 2016</a>; <a href="999-references.html#ref-weiskopf2013ehrquality" role="doc-biblioref">Weiskopf and Weng 2013</a>; <a href="999-references.html#ref-hripcsak2015ohdsi" role="doc-biblioref">Hripcsak et al. 2015</a>)</span>.</p>
+<p>Clinical governance, privacy, and ethical review remain essential when clinical data or model outputs may influence real-world decisions <span class="citation" data-cites="nas2019clinicaldata iom2013bestcare wma2013helsinki">(<a href="999-references.html#ref-nas2019clinicaldata" role="doc-biblioref">National Academies of Sciences, Engineering, and Medicine 2019</a>; <a href="999-references.html#ref-iom2013bestcare" role="doc-biblioref">Institute of Medicine 2013</a>; <a href="999-references.html#ref-wma2013helsinki" role="doc-biblioref">World Medical Association 2013</a>)</span>.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-collins2024tripodai" class="csl-entry" role="listitem">
+Collins, Gary S., Karel G. M. Moons, P. Dhiman, Richard D. Riley, Andrew L. Beam, Ben Van Calster, Marzyeh Ghassemi, et al. 2024. <span>“TRIPOD+AI Statement: Updated Guidance for Reporting Clinical Prediction Models That Use Regression or Machine Learning Methods.”</span> <em>BMJ</em> 385: e078378.
+</div>
+<div id="ref-harrell2015regression" class="csl-entry" role="listitem">
+Harrell, Frank E. 2015. <em>Regression Modeling Strategies: With Applications to Linear Models, Logistic and Ordinal Regression, and Survival Analysis</em>. 2nd ed. Springer.
+</div>
+<div id="ref-hl7fhirr4" class="csl-entry" role="listitem">
+HL7 International. 2019. <em>FHIR Release 4: Fast Healthcare Interoperability Resources Specification</em>. HL7 International.
+</div>
+<div id="ref-hl7fhircondition" class="csl-entry" role="listitem">
+———. 2023a. <em>FHIR Condition Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirencounter" class="csl-entry" role="listitem">
+———. 2023b. <em>FHIR Encounter Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirmedicationrequest" class="csl-entry" role="listitem">
+———. 2023c. <em>FHIR MedicationRequest Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirobservation" class="csl-entry" role="listitem">
+———. 2023d. <em>FHIR Observation Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirpatient" class="csl-entry" role="listitem">
+———. 2023e. <em>FHIR Patient Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirprocedure" class="csl-entry" role="listitem">
+———. 2023f. <em>FHIR Procedure Resource</em>. HL7 International.
+</div>
+<div id="ref-hl7fhirr5" class="csl-entry" role="listitem">
+———. 2023g. <em>FHIR Release 5: Fast Healthcare Interoperability Resources Specification</em>. HL7 International.
+</div>
+<div id="ref-hripcsak2015ohdsi" class="csl-entry" role="listitem">
+Hripcsak, George, Jon D. Duke, Nigam H. Shah, Christian G. Reich, Vojtech Huser, Martijn J. Schuemie, Marc A. Suchard, et al. 2015. <span>“Observational Health Data Sciences and Informatics (OHDSI): Opportunities for Observational Researchers.”</span> <em>Studies in Health Technology and Informatics</em> 216: 574–78.
+</div>
+<div id="ref-iom2013bestcare" class="csl-entry" role="listitem">
+Institute of Medicine. 2013. <em>Best Care at Lower Cost: The Path to Continuously Learning Health Care in America</em>. National Academies Press.
+</div>
+<div id="ref-kahn2016dataquality" class="csl-entry" role="listitem">
+Kahn, Michael G., Tiffany J. Callahan, Juliana Barnard, Alan E. Bauck, Jeff Brown, Bruce N. Davidson, Hossein Estiri, et al. 2016. <span>“A Harmonized Data Quality Assessment Terminology and Framework for the Secondary Use of Electronic Health Record Data.”</span> <em>eGEMs</em> 4 (1): 1244.
+</div>
+<div id="ref-liu2020consortai" class="csl-entry" role="listitem">
+Liu, Xiaoxuan, Samantha C. Rivera, David Moher, Melanie J. Calvert, and Alastair K. Denniston. 2020. <span>“Reporting Guidelines for Clinical Trial Reports for Interventions Involving Artificial Intelligence: The CONSORT-AI Extension.”</span> <em>Nature Medicine</em> 26: 1364–74.
+</div>
+<div id="ref-mckinney2022pythondata" class="csl-entry" role="listitem">
+McKinney, Wes. 2022. <em>Python for Data Analysis</em>. 3rd ed. O’Reilly Media.
+</div>
+<div id="ref-nas2019clinicaldata" class="csl-entry" role="listitem">
+National Academies of Sciences, Engineering, and Medicine. 2019. <em>Clinical Data as the Basic Staple of Health Learning: Creating and Protecting a Public Good</em>. National Academies Press.
+</div>
+<div id="ref-peng2011reproducible" class="csl-entry" role="listitem">
+Peng, Roger D. 2011. <span>“Reproducible Research in Computational Science.”</span> <em>Science</em> 334 (6060): 1226–27.
+</div>
+<div id="ref-rivera2020spiritai" class="csl-entry" role="listitem">
+Rivera, Samantha C., Xiaoxuan Liu, An-Wen Chan, Alastair K. Denniston, and Melanie J. Calvert. 2020. <span>“Guidelines for Clinical Trial Protocols for Interventions Involving Artificial Intelligence: The SPIRIT-AI Extension.”</span> <em>Nature Medicine</em> 26: 1351–63.
+</div>
+<div id="ref-sandve2013tenrules" class="csl-entry" role="listitem">
+Sandve, Geir Kjetil, Anton Nekrutenko, James Taylor, and Eivind Hovig. 2013. <span>“Ten Simple Rules for Reproducible Computational Research.”</span> <em>PLOS Computational Biology</em> 9 (10): e1003285.
+</div>
+<div id="ref-steyerberg2019clinicalprediction" class="csl-entry" role="listitem">
+Steyerberg, Ewout W. 2019. <em>Clinical Prediction Models: A Practical Approach to Development, Validation, and Updating</em>. 2nd ed. Springer.
+</div>
+<div id="ref-vancalster2019calibration" class="csl-entry" role="listitem">
+Van Calster, Ben, David J. McLernon, Maarten van Smeden, Laure Wynants, and Ewout W. Steyerberg. 2019. <span>“Calibration: The Achilles Heel of Predictive Analytics.”</span> <em>BMC Medicine</em> 17: 230.
+</div>
+<div id="ref-vickers2006decisioncurve" class="csl-entry" role="listitem">
+Vickers, Andrew J., and Elena B. Elkin. 2006. <span>“Decision Curve Analysis: A Novel Method for Evaluating Prediction Models.”</span> <em>Medical Decision Making</em> 26 (6): 565–74.
+</div>
+<div id="ref-weiskopf2013ehrquality" class="csl-entry" role="listitem">
+Weiskopf, Nicole G., and Chunhua Weng. 2013. <span>“Methods and Dimensions of Electronic Health Record Data Quality Assessment: Enabling Reuse for Clinical Research.”</span> <em>Journal of the American Medical Informatics Association</em> 20 (1): 144–51.
+</div>
+<div id="ref-wickham2023r4ds" class="csl-entry" role="listitem">
+Wickham, Hadley, Mine Çetinkaya-Rundel, and Garrett Grolemund. 2023. <em>R for Data Science</em>. 2nd ed. O’Reilly Media.
+</div>
+<div id="ref-wilson2017goodenough" class="csl-entry" role="listitem">
+Wilson, Greg, Jennifer Bryan, Karen Cranston, Justin Kitzes, Lex Nederbragt, and Tracy K. Teal. 2017. <span>“Good Enough Practices in Scientific Computing.”</span> <em>PLOS Computational Biology</em> 13 (6): e1005510.
+</div>
+<div id="ref-who2021aihealth" class="csl-entry" role="listitem">
+World Health Organization. 2021. <span>“Ethics and Governance of Artificial Intelligence for Health: WHO Guidance.”</span> World Health Organization.
+</div>
+<div id="ref-who2025multimodalaihealth" class="csl-entry" role="listitem">
+———. 2025. <span>“Ethics and Governance of Artificial Intelligence for Health: Guidance on Large Multi-Modal Models.”</span> World Health Organization.
+</div>
+<div id="ref-wma2013helsinki" class="csl-entry" role="listitem">
+World Medical Association. 2013. <span>“World Medical Association Declaration of Helsinki: Ethical Principles for Medical Research Involving Human Subjects.”</span> <em>JAMA</em> 310 (20): 2191–94.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

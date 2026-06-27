@@ -399,3 +399,26 @@ The purpose of this appendix is to make the system easier to reuse, audit, and e
 A strong clinical data system should not depend on memory.
 
 It should depend on documented structure, reproducible scripts, cautious interpretation, and clear evidence trails.
+
+---
+
+## Citation Anchors for Bibliography Rendering
+
+This section intentionally includes selected inline citations so Quarto can capture and render the full bibliography in the references chapter.
+
+Clinical prediction model development and reporting should follow established prediction-model guidance, including regression-based modeling strategies and updated reporting guidance for models using regression or machine learning [@steyerberg2019clinicalprediction; @harrell2015regression; @collins2024tripodai].
+
+Clinical model evaluation should consider calibration, discrimination, and threshold consequences rather than accuracy alone [@vancalster2019calibration; @vickers2006decisioncurve].
+
+Clinical artificial intelligence and decision-support workflows should be reported and governed cautiously, especially when models may influence clinical care [@liu2020consortai; @rivera2020spiritai; @who2021aihealth; @who2025multimodalaihealth].
+
+FHIR-based interoperability planning should be grounded in HL7 FHIR resource concepts such as Patient, Encounter, Observation, Condition, Procedure, and MedicationRequest [@hl7fhirr4; @hl7fhirr5; @hl7fhirpatient; @hl7fhirencounter; @hl7fhirobservation; @hl7fhircondition; @hl7fhirprocedure; @hl7fhirmedicationrequest].
+
+Reproducible clinical data systems should follow good computational practice, including transparent workflows, documented transformations, and version-controlled analysis artifacts [@peng2011reproducible; @sandve2013tenrules; @wilson2017goodenough].
+
+Modern data workflows in this guide draw on practical data science tooling and reproducible tabular analysis patterns in R and Python [@wickham2023r4ds; @mckinney2022pythondata].
+
+Clinical data quality and secondary use of EHR data require careful attention to completeness, plausibility, conformance, provenance, and fitness for use [@kahn2016dataquality; @weiskopf2013ehrquality; @hripcsak2015ohdsi].
+
+Clinical governance, privacy, and ethical review remain essential when clinical data or model outputs may influence real-world decisions [@nas2019clinicaldata; @iom2013bestcare; @wma2013helsinki].
+
