@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clinical Variable Engineering – Clinical &amp; Medical Data Systems</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./12-analysis-ready-clinical-datasets.html" rel="next">
+<link href="./10-missingness-and-data-completeness.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-231ef2f9d4ce3268f31ef752336c15d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-clinical-data-quality-checks.html">Part III: Cleaning, Validation, and Readiness</a></li><li class="breadcrumb-item"><a href="./11-clinical-variable-engineering.html"><span class="chapter-title">Clinical Variable Engineering</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Clinical &amp; Medical Data Systems</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface-and-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface and Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Clinical Data Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-clinical-data-systems-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Systems Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-healthcare-data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Healthcare Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-clinical-questions-and-cohorts.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Questions and Cohorts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-data-governance-privacy-and-ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Governance, Privacy, and Ethics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Clinical Data Inputs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-patient-demographics-and-encounters.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Patient Demographics and Encounters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-diagnoses-procedures-and-medications.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-laboratory-and-vital-sign-results.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Laboratory and Vital Sign Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-clinical-outcomes-and-follow-up.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Outcomes and Follow-Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Cleaning, Validation, and Readiness</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-clinical-data-quality-checks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Quality Checks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-missingness-and-data-completeness.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Missingness and Data Completeness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-clinical-variable-engineering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Clinical Variable Engineering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-analysis-ready-clinical-datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Clinical Analysis and Interpretation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-descriptive-clinical-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descriptive Clinical Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-risk-stratification-and-clinical-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Risk Stratification and Clinical Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-clinical-model-evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Model Evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-clinical-interpretation-and-decision-support.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Interpretation and Decision Support</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Reporting and Real-World Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-reproducible-clinical-reports.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducible Clinical Reports</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-clinical-dashboard-readiness.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Dashboard Readiness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-ehr-fhir-and-interoperability-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-end-to-end-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-variable-engineering-matters" id="toc-why-variable-engineering-matters" class="nav-link active" data-scroll-target="#why-variable-engineering-matters">Why Variable Engineering Matters</a></li>
+  <li><a href="#raw-columns-are-not-yet-clinical-variables" id="toc-raw-columns-are-not-yet-clinical-variables" class="nav-link" data-scroll-target="#raw-columns-are-not-yet-clinical-variables">Raw Columns Are Not Yet Clinical Variables</a></li>
+  <li><a href="#a-useful-variable-engineering-pattern" id="toc-a-useful-variable-engineering-pattern" class="nav-link" data-scroll-target="#a-useful-variable-engineering-pattern">A Useful Variable Engineering Pattern</a></li>
+  <li><a href="#index-date-first" id="toc-index-date-first" class="nav-link" data-scroll-target="#index-date-first">Index Date First</a></li>
+  <li><a href="#baseline-and-follow-up-windows" id="toc-baseline-and-follow-up-windows" class="nav-link" data-scroll-target="#baseline-and-follow-up-windows">Baseline and Follow-Up Windows</a></li>
+  <li><a href="#leakage-in-clinical-variables" id="toc-leakage-in-clinical-variables" class="nav-link" data-scroll-target="#leakage-in-clinical-variables">Leakage in Clinical Variables</a></li>
+  <li><a href="#common-clinical-variable-types" id="toc-common-clinical-variable-types" class="nav-link" data-scroll-target="#common-clinical-variable-types">Common Clinical Variable Types</a>
+  <ul class="collapse">
+  <li><a href="#demographic-variables" id="toc-demographic-variables" class="nav-link" data-scroll-target="#demographic-variables">Demographic Variables</a></li>
+  <li><a href="#encounter-variables" id="toc-encounter-variables" class="nav-link" data-scroll-target="#encounter-variables">Encounter Variables</a></li>
+  <li><a href="#diagnosis-variables" id="toc-diagnosis-variables" class="nav-link" data-scroll-target="#diagnosis-variables">Diagnosis Variables</a></li>
+  <li><a href="#medication-variables" id="toc-medication-variables" class="nav-link" data-scroll-target="#medication-variables">Medication Variables</a></li>
+  <li><a href="#laboratory-and-vital-sign-variables" id="toc-laboratory-and-vital-sign-variables" class="nav-link" data-scroll-target="#laboratory-and-vital-sign-variables">Laboratory and Vital Sign Variables</a></li>
+  <li><a href="#outcome-variables" id="toc-outcome-variables" class="nav-link" data-scroll-target="#outcome-variables">Outcome Variables</a></li>
+  </ul></li>
+  <li><a href="#variable-dictionary" id="toc-variable-dictionary" class="nav-link" data-scroll-target="#variable-dictionary">Variable Dictionary</a></li>
+  <li><a href="#files-used-in-this-chapter" id="toc-files-used-in-this-chapter" class="nav-link" data-scroll-target="#files-used-in-this-chapter">Files Used in This Chapter</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#interpretation-notes" id="toc-interpretation-notes" class="nav-link" data-scroll-target="#interpretation-notes">Interpretation Notes</a></li>
+  <li><a href="#readiness-checklist" id="toc-readiness-checklist" class="nav-link" data-scroll-target="#readiness-checklist">Readiness Checklist</a></li>
+  <li><a href="#connection-to-the-next-chapter" id="toc-connection-to-the-next-chapter" class="nav-link" data-scroll-target="#connection-to-the-next-chapter">Connection to the Next Chapter</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-clinical-data-quality-checks.html">Part III: Cleaning, Validation, and Readiness</a></li><li class="breadcrumb-item"><a href="./11-clinical-variable-engineering.html"><span class="chapter-title">Clinical Variable Engineering</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="chapter11" class="quarto-section-identifier"><span class="chapter-title">Clinical Variable Engineering</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Jun 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> CMDS-011</li>
+<li><strong>Type:</strong> Core</li>
+<li><strong>Audience:</strong> Clinical data analysts, clinical researchers, informatics teams, and applied health data science teams</li>
+<li><strong>Theme:</strong> Clinical variables should be derived from transparent definitions, not improvised from raw columns</li>
+</ul>
+</div>
+<p>Clinical analysis rarely uses raw clinical tables exactly as they arrive.</p>
+<p>A patient demographics table may contain date of birth, but the analysis needs age at index encounter.</p>
+<p>An encounter table may contain visit dates, but the analysis needs baseline encounter, follow-up duration, and encounter intensity.</p>
+<p>Laboratory data may contain many repeated results, but the analysis needs baseline value, latest value, abnormality flags, or change over time.</p>
+<p>Diagnosis and medication tables may contain event-level records, but the analysis needs patient-level indicators such as diabetes history, hypertension history, medication exposure, or comorbidity burden.</p>
+<p>This chapter introduces clinical variable engineering: the process of converting raw clinical input tables into transparent, reusable, analysis-ready variables.</p>
+<p>The goal is not to create as many variables as possible.</p>
+<p>The goal is to create variables whose meaning is clinically defensible, reproducible, and easy to audit.</p>
+<hr>
+<section id="why-variable-engineering-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-variable-engineering-matters">Why Variable Engineering Matters</h2>
+<p>Clinical datasets often begin in a transactional form.</p>
+<p>Each table reflects how care was documented rather than how analysis will be performed.</p>
+<p>For example:</p>
+<ul>
+<li>demographics describe who the patient is</li>
+<li>encounters describe when care happened</li>
+<li>diagnoses describe coded clinical conditions</li>
+<li>procedures describe services or interventions</li>
+<li>medications describe prescriptions or treatment exposure</li>
+<li>laboratories and vital signs describe measured clinical state</li>
+<li>outcomes describe follow-up events</li>
+</ul>
+<p>Most clinical questions, however, require patient-level variables.</p>
+<p>A cohort table may need one row per patient with columns such as:</p>
+<p><code>text id="cm011-example-variables" patient_id age_at_index gender race_ethnicity index_encounter_date follow_up_days encounter_count has_diabetes has_hypertension medication_exposure_count baseline_creatinine baseline_systolic_bp outcome_observed outcome_type</code></p>
+<p>These variables are not always present directly in the source data.</p>
+<p>They must be engineered.</p>
+<p>That engineering step is where many clinical analyses become either strong or fragile.</p>
+<hr>
+</section>
+<section id="raw-columns-are-not-yet-clinical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="raw-columns-are-not-yet-clinical-variables">Raw Columns Are Not Yet Clinical Variables</h2>
+<p>A column becomes a clinical variable only when its definition is clear.</p>
+<p>For example, a column named <code>age</code> is incomplete unless the analyst knows:</p>
+<ul>
+<li>age at what date</li>
+<li>calculated from which birth date source</li>
+<li>rounded or continuous</li>
+<li>capped or grouped</li>
+<li>whether implausible ages were excluded</li>
+</ul>
+<p>A column named <code>diabetes</code> is also incomplete unless the analyst knows:</p>
+<ul>
+<li>whether it came from diagnosis codes, medication use, laboratory results, or self-report</li>
+<li>which codes were included</li>
+<li>whether one code was enough or repeated evidence was required</li>
+<li>whether the condition had to occur before the index date</li>
+</ul>
+<p>Clinical variable engineering therefore requires more than programming.</p>
+<p>It requires clinical logic.</p>
+<hr>
+</section>
+<section id="a-useful-variable-engineering-pattern" class="level2">
+<h2 class="anchored" data-anchor-id="a-useful-variable-engineering-pattern">A Useful Variable Engineering Pattern</h2>
+<p>A reliable clinical variable engineering workflow usually follows this sequence:</p>
+<p><code>text id="cm011-engineering-pattern" 1. Define the clinical question 2. Define the cohort and index date 3. Identify source tables 4. Specify variable definitions 5. Derive patient-level variables 6. Check plausibility and completeness 7. Save an analysis dataset 8. Save a variable dictionary</code></p>
+<p>The variable dictionary is just as important as the dataset.</p>
+<p>Without a dictionary, future analysts may know the column names but not the clinical assumptions behind them.</p>
+<hr>
+</section>
+<section id="index-date-first" class="level2">
+<h2 class="anchored" data-anchor-id="index-date-first">Index Date First</h2>
+<p>Many clinical variables depend on time.</p>
+<p>A diagnosis before the index date may represent baseline history.</p>
+<p>A diagnosis after the index date may represent an outcome or complication.</p>
+<p>A laboratory value before treatment may represent baseline severity.</p>
+<p>A laboratory value after treatment may represent response.</p>
+<p>For that reason, variable engineering should usually begin with an index date.</p>
+<p>In this guide, the index date is defined as the first available encounter date for each patient in the example encounter table.</p>
+<p><code>text id="cm011-index-definition" index_encounter_date = earliest encounter_date for each patient</code></p>
+<p>That definition is simple, but it is explicit.</p>
+<p>In a real study, the index date may instead be:</p>
+<ul>
+<li>diagnosis date</li>
+<li>treatment start date</li>
+<li>admission date</li>
+<li>surgery date</li>
+<li>enrollment date</li>
+<li>first eligible laboratory result</li>
+<li>first visit after a policy change</li>
+</ul>
+<p>The correct index date depends on the clinical question.</p>
+<hr>
+</section>
+<section id="baseline-and-follow-up-windows" class="level2">
+<h2 class="anchored" data-anchor-id="baseline-and-follow-up-windows">Baseline and Follow-Up Windows</h2>
+<p>After defining the index date, the next decision is the time window.</p>
+<p>A baseline variable may use information before or around the index date.</p>
+<p>A follow-up variable may use information after the index date.</p>
+<p>For example:</p>
+<p><code>text id="cm011-time-windows" baseline_window = information available on or before index_encounter_date follow_up_window = information observed after index_encounter_date</code></p>
+<p>In real projects, these windows may be more specific:</p>
+<p><code>text id="cm011-time-window-examples" baseline_window = -365 days to index date follow_up_window = index date to +180 days outcome_window = +30 days to +365 days</code></p>
+<p>The important point is that time windows should be declared before analysis.</p>
+<p>Otherwise, engineered variables may accidentally mix baseline information with future information.</p>
+<p>That creates leakage.</p>
+<hr>
+</section>
+<section id="leakage-in-clinical-variables" class="level2">
+<h2 class="anchored" data-anchor-id="leakage-in-clinical-variables">Leakage in Clinical Variables</h2>
+<p>Leakage happens when a variable contains information that would not have been available at the decision time.</p>
+<p>For example, a model predicting readmission at hospital discharge should not use a laboratory result measured after discharge.</p>
+<p>A baseline risk model should not use diagnosis codes assigned months after the baseline date.</p>
+<p>An outcome model should not use variables that are downstream consequences of the outcome.</p>
+<p>Clinical leakage is especially easy to create because EHR data contain long patient histories.</p>
+<p>The safest practice is to define the clinical time point first, then derive all variables relative to that time point.</p>
+<hr>
+</section>
+<section id="common-clinical-variable-types" class="level2">
+<h2 class="anchored" data-anchor-id="common-clinical-variable-types">Common Clinical Variable Types</h2>
+<p>Clinical variables often fall into a few recurring categories.</p>
+<section id="demographic-variables" class="level3">
+<h3 class="anchored" data-anchor-id="demographic-variables">Demographic Variables</h3>
+<p>These describe patient context.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-demographic-variables" age_at_index age_group gender race_ethnicity insurance_group residence_region</code></p>
+<p>These variables should be handled carefully because they may reflect social, structural, or access-related factors rather than biology alone.</p>
+</section>
+<section id="encounter-variables" class="level3">
+<h3 class="anchored" data-anchor-id="encounter-variables">Encounter Variables</h3>
+<p>These describe healthcare contact patterns.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-encounter-variables" index_encounter_date encounter_count inpatient_encounter_count outpatient_encounter_count emergency_encounter_count last_encounter_date follow_up_days</code></p>
+<p>Encounter variables may reflect disease severity, access to care, referral patterns, or documentation intensity.</p>
+</section>
+<section id="diagnosis-variables" class="level3">
+<h3 class="anchored" data-anchor-id="diagnosis-variables">Diagnosis Variables</h3>
+<p>These describe coded clinical history.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-diagnosis-variables" has_diabetes has_hypertension has_chronic_kidney_disease condition_count primary_diagnosis_group</code></p>
+<p>Diagnosis variables require code-set discipline.</p>
+<p>A real workflow should maintain a versioned code list for each condition definition.</p>
+</section>
+<section id="medication-variables" class="level3">
+<h3 class="anchored" data-anchor-id="medication-variables">Medication Variables</h3>
+<p>These describe treatment exposure.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-medication-variables" medication_exposure_count has_antihypertensive_exposure has_antidiabetic_exposure active_medication_classes</code></p>
+<p>Medication variables should distinguish prescribing, dispensing, administration, and patient-reported use when possible.</p>
+</section>
+<section id="laboratory-and-vital-sign-variables" class="level3">
+<h3 class="anchored" data-anchor-id="laboratory-and-vital-sign-variables">Laboratory and Vital Sign Variables</h3>
+<p>These describe measured clinical state.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-result-variables" baseline_creatinine baseline_glucose baseline_systolic_bp baseline_bmi abnormal_lab_count latest_creatinine</code></p>
+<p>Repeated measurements require a rule.</p>
+<p>Examples include nearest to index, first after index, worst in window, average in window, or latest available.</p>
+</section>
+<section id="outcome-variables" class="level3">
+<h3 class="anchored" data-anchor-id="outcome-variables">Outcome Variables</h3>
+<p>These describe what happened after baseline.</p>
+<p>Examples include:</p>
+<p><code>text id="cm011-outcome-variables" outcome_observed outcome_type outcome_date days_to_outcome follow_up_complete</code></p>
+<p>Outcome definitions should be separated from predictors.</p>
+<p>This helps avoid circular analysis.</p>
+<hr>
+</section>
+</section>
+<section id="variable-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="variable-dictionary">Variable Dictionary</h2>
+<p>Every engineered dataset should have a variable dictionary.</p>
+<p>A useful dictionary includes at least:</p>
+<p><code>text id="cm011-dictionary-fields" variable_name variable_label source_domain derivation_rule clinical_interpretation analysis_role</code></p>
+<p>The <code>analysis_role</code> field is especially useful.</p>
+<p>It can identify whether a variable is used as:</p>
+<p><code>text id="cm011-analysis-role" identifier cohort_context predictor outcome stratification_variable quality_check_variable</code></p>
+<p>This makes downstream modeling and reporting safer.</p>
+<hr>
+</section>
+<section id="files-used-in-this-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="files-used-in-this-chapter">Files Used in This Chapter</h2>
+<p>This chapter uses the example files created in Part II.</p>
+<p><code>text id="cm011-inputs" data/example/patient-demographics.csv data/example/clinical-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-outcomes.csv</code></p>
+<p>The workflow derives one patient-level dataset and one variable dictionary.</p>
+<p><code>text id="cm011-outputs" results/patient-level-derived-variables.tsv results/clinical-variable-dictionary.tsv results/clinical-variable-engineering-summary.txt results/figures/age-group-distribution.png results/figures/clinical-variable-completeness.png logs/11-clinical-variable-engineering.log</code></p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run the workflow from the project root.</p>
+<p><code>bash id="cm011-run" python scripts/python/11-engineer-clinical-variables.py Rscript scripts/R/11-visualize-clinical-variables.R bash scripts/bash/11-run-clinical-variable-engineering.sh</code></p>
+<p>The Bash runner executes the Python and R steps together and writes a log file.</p>
+<p><code>bash id="cm011-runner-only" bash scripts/bash/11-run-clinical-variable-engineering.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script reads the available clinical input tables and derives a patient-level dataset.</p>
+<p>The workflow includes:</p>
+<p><code>text id="cm011-python-steps" 1. Load input tables from data/example/ 2. Derive index encounter date from encounters 3. Calculate age at index from date of birth 4. Summarize encounter counts and follow-up duration 5. Create diagnosis history indicators 6. Summarize medication exposure counts 7. Derive baseline laboratory and vital sign values 8. Attach outcome and follow-up variables 9. Save a patient-level derived dataset 10. Save a clinical variable dictionary</code></p>
+<p>The script is intentionally transparent.</p>
+<p>It favors readable clinical definitions over clever code.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates simple modern visual checks from the engineered dataset.</p>
+<p>The goal is not final publication graphics.</p>
+<p>The goal is to quickly inspect whether derived variables look plausible.</p>
+<p>The script creates:</p>
+<p><code>text id="cm011-r-outputs" results/figures/age-group-distribution.png results/figures/clinical-variable-completeness.png</code></p>
+<p>These figures help answer two early readiness questions:</p>
+<p><code>text id="cm011-visual-questions" Who is represented in the engineered dataset? Which engineered variables are complete enough to support analysis?</code></p>
+<hr>
+</section>
+<section id="interpretation-notes" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-notes">Interpretation Notes</h2>
+<p>A derived variable should never be interpreted without its definition.</p>
+<p>For example, <code>has_diabetes</code> may mean diagnosis-code evidence in one project and medication-or-lab evidence in another.</p>
+<p>Those are not the same variable.</p>
+<p>Likewise, <code>baseline_creatinine</code> may mean first observed creatinine, nearest pre-index creatinine, or worst creatinine within 30 days.</p>
+<p>Those definitions may produce different clinical conclusions.</p>
+<p>The analyst should therefore treat engineered clinical variables as documented claims, not just columns.</p>
+<hr>
+</section>
+<section id="readiness-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-checklist">Readiness Checklist</h2>
+<p>Before using engineered variables for analysis, confirm that:</p>
+<ul>
+<li>the cohort definition is clear</li>
+<li>the index date is explicit</li>
+<li>baseline and follow-up windows are documented</li>
+<li>variables are derived from appropriate source domains</li>
+<li>future information is not used as a baseline predictor</li>
+<li>code lists are versioned where diagnosis or procedure codes are used</li>
+<li>medication exposure definitions distinguish source type when possible</li>
+<li>repeated measurements have a clear selection rule</li>
+<li>missingness is summarized after engineering</li>
+<li>a variable dictionary is saved with the dataset</li>
+</ul>
+<hr>
+</section>
+<section id="connection-to-the-next-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="connection-to-the-next-chapter">Connection to the Next Chapter</h2>
+<p>This chapter creates derived clinical variables.</p>
+<p>The next chapter assembles those variables into analysis-ready clinical datasets.</p>
+<p>That means moving from variable creation to dataset packaging.</p>
+<p>A variable can be clinically meaningful and still not yet be analysis-ready.</p>
+<p>The next chapter focuses on one-row-per-unit structure, outcome alignment, predictor separation, and readiness for statistical modeling or reporting.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./10-missingness-and-data-completeness.html" class="pagination-link" aria-label="Missingness and Data Completeness">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Missingness and Data Completeness</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./12-analysis-ready-clinical-datasets.html" class="pagination-link" aria-label="Analysis-Ready Clinical Datasets">
+        <span class="nav-page-text"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

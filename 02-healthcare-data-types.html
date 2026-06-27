@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Healthcare Data Types – Clinical &amp; Medical Data Systems</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-clinical-questions-and-cohorts.html" rel="next">
+<link href="./01-clinical-data-systems-overview.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-231ef2f9d4ce3268f31ef752336c15d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-clinical-data-systems-overview.html">Part I: Clinical Data Foundations</a></li><li class="breadcrumb-item"><a href="./02-healthcare-data-types.html"><span class="chapter-title">Healthcare Data Types</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Clinical &amp; Medical Data Systems</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface-and-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface and Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Clinical Data Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-clinical-data-systems-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Systems Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-healthcare-data-types.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Healthcare Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-clinical-questions-and-cohorts.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Questions and Cohorts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-data-governance-privacy-and-ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Governance, Privacy, and Ethics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Clinical Data Inputs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-patient-demographics-and-encounters.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Patient Demographics and Encounters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-diagnoses-procedures-and-medications.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-laboratory-and-vital-sign-results.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Laboratory and Vital Sign Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-clinical-outcomes-and-follow-up.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Outcomes and Follow-Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Cleaning, Validation, and Readiness</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-clinical-data-quality-checks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Quality Checks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-missingness-and-data-completeness.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Missingness and Data Completeness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-clinical-variable-engineering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Variable Engineering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-analysis-ready-clinical-datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Clinical Analysis and Interpretation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-descriptive-clinical-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descriptive Clinical Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-risk-stratification-and-clinical-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Risk Stratification and Clinical Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-clinical-model-evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Model Evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-clinical-interpretation-and-decision-support.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Interpretation and Decision Support</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Reporting and Real-World Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-reproducible-clinical-reports.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducible Clinical Reports</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-clinical-dashboard-readiness.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Dashboard Readiness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-ehr-fhir-and-interoperability-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-end-to-end-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-healthcare-data-types-matter" id="toc-why-healthcare-data-types-matter" class="nav-link active" data-scroll-target="#why-healthcare-data-types-matter">Why Healthcare Data Types Matter</a></li>
+  <li><a href="#a-simple-map-of-healthcare-data" id="toc-a-simple-map-of-healthcare-data" class="nav-link" data-scroll-target="#a-simple-map-of-healthcare-data">A Simple Map of Healthcare Data</a></li>
+  <li><a href="#patient-identity-and-demographics" id="toc-patient-identity-and-demographics" class="nav-link" data-scroll-target="#patient-identity-and-demographics">Patient Identity and Demographics</a></li>
+  <li><a href="#encounters-and-care-episodes" id="toc-encounters-and-care-episodes" class="nav-link" data-scroll-target="#encounters-and-care-episodes">Encounters and Care Episodes</a></li>
+  <li><a href="#diagnoses-and-clinical-conditions" id="toc-diagnoses-and-clinical-conditions" class="nav-link" data-scroll-target="#diagnoses-and-clinical-conditions">Diagnoses and Clinical Conditions</a></li>
+  <li><a href="#procedures-and-interventions" id="toc-procedures-and-interventions" class="nav-link" data-scroll-target="#procedures-and-interventions">Procedures and Interventions</a></li>
+  <li><a href="#medications-and-treatments" id="toc-medications-and-treatments" class="nav-link" data-scroll-target="#medications-and-treatments">Medications and Treatments</a></li>
+  <li><a href="#laboratory-results" id="toc-laboratory-results" class="nav-link" data-scroll-target="#laboratory-results">Laboratory Results</a></li>
+  <li><a href="#vital-signs-and-bedside-measurements" id="toc-vital-signs-and-bedside-measurements" class="nav-link" data-scroll-target="#vital-signs-and-bedside-measurements">Vital Signs and Bedside Measurements</a></li>
+  <li><a href="#clinical-notes-and-narrative-data" id="toc-clinical-notes-and-narrative-data" class="nav-link" data-scroll-target="#clinical-notes-and-narrative-data">Clinical Notes and Narrative Data</a></li>
+  <li><a href="#imaging-and-diagnostic-reports" id="toc-imaging-and-diagnostic-reports" class="nav-link" data-scroll-target="#imaging-and-diagnostic-reports">Imaging and Diagnostic Reports</a></li>
+  <li><a href="#outcomes-and-follow-up-data" id="toc-outcomes-and-follow-up-data" class="nav-link" data-scroll-target="#outcomes-and-follow-up-data">Outcomes and Follow-Up Data</a></li>
+  <li><a href="#administrative-billing-and-claims-data" id="toc-administrative-billing-and-claims-data" class="nav-link" data-scroll-target="#administrative-billing-and-claims-data">Administrative, Billing, and Claims Data</a></li>
+  <li><a href="#structured-vs-unstructured-data" id="toc-structured-vs-unstructured-data" class="nav-link" data-scroll-target="#structured-vs-unstructured-data">Structured vs Unstructured Data</a></li>
+  <li><a href="#time-in-healthcare-data" id="toc-time-in-healthcare-data" class="nav-link" data-scroll-target="#time-in-healthcare-data">Time in Healthcare Data</a></li>
+  <li><a href="#data-type-analytical-role-and-interpretation" id="toc-data-type-analytical-role-and-interpretation" class="nav-link" data-scroll-target="#data-type-analytical-role-and-interpretation">Data Type, Analytical Role, and Interpretation</a></li>
+  <li><a href="#common-risks-across-healthcare-data-types" id="toc-common-risks-across-healthcare-data-types" class="nav-link" data-scroll-target="#common-risks-across-healthcare-data-types">Common Risks Across Healthcare Data Types</a></li>
+  <li><a href="#cdi-principle-respect-the-source-process" id="toc-cdi-principle-respect-the-source-process" class="nav-link" data-scroll-target="#cdi-principle-respect-the-source-process">CDI Principle: Respect the Source Process</a></li>
+  <li><a href="#practical-checklist" id="toc-practical-checklist" class="nav-link" data-scroll-target="#practical-checklist">Practical Checklist</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01-clinical-data-systems-overview.html">Part I: Clinical Data Foundations</a></li><li class="breadcrumb-item"><a href="./02-healthcare-data-types.html"><span class="chapter-title">Healthcare Data Types</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="healthcare-data-types" class="quarto-section-identifier"><span class="chapter-title">Healthcare Data Types</span></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Jun 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> CMDS-002</li>
+<li><strong>Type:</strong> Core</li>
+<li><strong>Audience:</strong> Clinical data learners, analysts, health researchers, and CDI system builders</li>
+<li><strong>Theme:</strong> Clinical data systems begin by understanding the kinds of healthcare data that describe patients, care, measurements, and outcomes</li>
+</ul>
+</div>
+<p>Clinical data does not come as one clean table.</p>
+<p>It comes from many parts of the healthcare system.</p>
+<p>A patient may have demographic records, clinic visits, diagnoses, procedures, medications, laboratory tests, vital signs, imaging reports, discharge summaries, referrals, insurance claims, and follow-up outcomes.</p>
+<p>Each data type answers a different question.</p>
+<p>Each data type has different strengths.</p>
+<p>Each data type has different risks.</p>
+<p>Before cleaning, modeling, or reporting clinical data, we need to understand what kind of healthcare data we are working with.</p>
+<p>This chapter introduces the major healthcare data types used in clinical and medical data systems.</p>
+<hr>
+<section id="why-healthcare-data-types-matter" class="level2">
+<h2 class="anchored" data-anchor-id="why-healthcare-data-types-matter">Why Healthcare Data Types Matter</h2>
+<p>In many analytical projects, people begin by asking:</p>
+<blockquote class="blockquote">
+<p>What variables do we have?</p>
+</blockquote>
+<p>In clinical data systems, a better first question is:</p>
+<blockquote class="blockquote">
+<p>What kind of healthcare process created this data?</p>
+</blockquote>
+<p>This matters because clinical data is not created mainly for research.</p>
+<p>It is often created during care delivery, billing, monitoring, documentation, or reporting.</p>
+<p>A diagnosis code may reflect a clinician’s assessment.</p>
+<p>A medication order may reflect an intended treatment.</p>
+<p>A laboratory result may reflect a biological measurement at a specific time.</p>
+<p>An encounter record may reflect contact with the healthcare system.</p>
+<p>An outcome field may reflect what was observed, documented, or followed up.</p>
+<p>These are not interchangeable.</p>
+<p>A clinical data system must preserve these distinctions.</p>
+<hr>
+</section>
+<section id="a-simple-map-of-healthcare-data" class="level2">
+<h2 class="anchored" data-anchor-id="a-simple-map-of-healthcare-data">A Simple Map of Healthcare Data</h2>
+<p>Healthcare data can be organized into several broad groups:</p>
+<ol type="1">
+<li>patient identity and demographics,</li>
+<li>encounters and care episodes,</li>
+<li>diagnoses and clinical conditions,</li>
+<li>procedures and interventions,</li>
+<li>medications and treatments,</li>
+<li>laboratory and vital sign measurements,</li>
+<li>clinical notes and narrative records,</li>
+<li>imaging and diagnostic reports,</li>
+<li>outcomes and follow-up data,</li>
+<li>administrative, billing, and claims data.</li>
+</ol>
+<p>These categories are not perfect.</p>
+<p>Real systems often overlap.</p>
+<p>For example, a hospital admission may include diagnoses, procedures, medications, labs, notes, imaging, and discharge outcomes.</p>
+<p>But this map gives us a practical starting point.</p>
+<hr>
+</section>
+<section id="patient-identity-and-demographics" class="level2">
+<h2 class="anchored" data-anchor-id="patient-identity-and-demographics">Patient Identity and Demographics</h2>
+<p>Patient demographic data describes who the patient is.</p>
+<p>Common fields include:</p>
+<ul>
+<li>patient identifier,</li>
+<li>age or date of birth,</li>
+<li>sex or gender,</li>
+<li>residence or region,</li>
+<li>marital status,</li>
+<li>occupation,</li>
+<li>insurance category,</li>
+<li>facility or clinic identifier.</li>
+</ul>
+<p>Demographics are often used to describe a study population.</p>
+<p>They are also used for stratification, adjustment, equity analysis, and risk modeling.</p>
+<p>For example, age may be used to compare outcomes between younger and older patients.</p>
+<p>Sex may be used to examine whether disease patterns differ across groups.</p>
+<p>Region may help identify geographic differences in access or outcomes.</p>
+<p>However, demographic variables require care.</p>
+<p>They may be incomplete.</p>
+<p>They may be inconsistently recorded.</p>
+<p>They may be sensitive.</p>
+<p>They may also reflect social, administrative, or structural categories rather than purely biological ones.</p>
+<p>A clinical data system should treat demographic variables as important but not neutral.</p>
+<hr>
+</section>
+<section id="encounters-and-care-episodes" class="level2">
+<h2 class="anchored" data-anchor-id="encounters-and-care-episodes">Encounters and Care Episodes</h2>
+<p>Encounter data describes contact between a patient and the healthcare system.</p>
+<p>An encounter may be:</p>
+<ul>
+<li>an outpatient clinic visit,</li>
+<li>an emergency department visit,</li>
+<li>an inpatient admission,</li>
+<li>a laboratory visit,</li>
+<li>a pharmacy visit,</li>
+<li>a telemedicine consultation,</li>
+<li>a follow-up appointment.</li>
+</ul>
+<p>Encounter records are important because they define time and context.</p>
+<p>They help answer questions such as:</p>
+<ul>
+<li>When did the patient receive care?</li>
+<li>Where was the patient seen?</li>
+<li>Was the patient outpatient or inpatient?</li>
+<li>How many visits did the patient have?</li>
+<li>Was the patient followed after treatment?</li>
+</ul>
+<p>Encounter data often provides the backbone of clinical analysis.</p>
+<p>Many clinical cohorts are built around index encounters.</p>
+<p>For example, a study may define the first hospital admission for heart failure as the index encounter.</p>
+<p>From there, analysts may examine prior diagnoses, medications during admission, lab results, discharge status, and readmission.</p>
+<hr>
+</section>
+<section id="diagnoses-and-clinical-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="diagnoses-and-clinical-conditions">Diagnoses and Clinical Conditions</h2>
+<p>Diagnosis data records clinical conditions assigned to a patient.</p>
+<p>These may come from:</p>
+<ul>
+<li>clinician documentation,</li>
+<li>coded diagnosis fields,</li>
+<li>discharge summaries,</li>
+<li>problem lists,</li>
+<li>registry forms,</li>
+<li>claims records.</li>
+</ul>
+<p>Diagnosis data can support disease surveillance, cohort identification, risk adjustment, and outcome analysis.</p>
+<p>Examples include:</p>
+<ul>
+<li>diabetes,</li>
+<li>hypertension,</li>
+<li>tuberculosis,</li>
+<li>HIV,</li>
+<li>chronic kidney disease,</li>
+<li>pneumonia,</li>
+<li>sepsis,</li>
+<li>pregnancy-related conditions.</li>
+</ul>
+<p>Diagnosis data is powerful, but it can be imperfect.</p>
+<p>A diagnosis code may not always mean confirmed disease.</p>
+<p>It may indicate suspected disease, rule-out diagnosis, billing classification, historical condition, or active clinical problem.</p>
+<p>Clinical data systems should therefore ask:</p>
+<blockquote class="blockquote">
+<p>What does this diagnosis field actually represent in this system?</p>
+</blockquote>
+<p>This question is especially important when using diagnosis data to define cohorts.</p>
+<hr>
+</section>
+<section id="procedures-and-interventions" class="level2">
+<h2 class="anchored" data-anchor-id="procedures-and-interventions">Procedures and Interventions</h2>
+<p>Procedure data describes actions performed for or on a patient.</p>
+<p>Examples include:</p>
+<ul>
+<li>surgery,</li>
+<li>cesarean section,</li>
+<li>dialysis,</li>
+<li>imaging procedures,</li>
+<li>laboratory procedures,</li>
+<li>vaccination,</li>
+<li>catheter placement,</li>
+<li>wound care,</li>
+<li>screening procedures.</li>
+</ul>
+<p>Procedure data helps describe what care was delivered.</p>
+<p>It can also define exposures.</p>
+<p>For example, a study may compare patients who received a procedure with those who did not.</p>
+<p>Procedure data may also be used to measure service utilization.</p>
+<p>However, procedure records may depend heavily on local documentation and coding practices.</p>
+<p>Some systems capture procedures in structured fields.</p>
+<p>Others capture them only in clinical notes.</p>
+<p>Some record ordered procedures, while others record completed procedures.</p>
+<p>That difference matters.</p>
+<hr>
+</section>
+<section id="medications-and-treatments" class="level2">
+<h2 class="anchored" data-anchor-id="medications-and-treatments">Medications and Treatments</h2>
+<p>Medication data describes drugs prescribed, ordered, dispensed, administered, or reported by the patient.</p>
+<p>These are different events.</p>
+<p>A prescription does not always mean the patient took the medicine.</p>
+<p>A medication order does not always mean the drug was administered.</p>
+<p>A pharmacy dispensing record does not always prove adherence.</p>
+<p>Medication data may include:</p>
+<ul>
+<li>drug name,</li>
+<li>dose,</li>
+<li>route,</li>
+<li>frequency,</li>
+<li>start date,</li>
+<li>stop date,</li>
+<li>prescribing clinician,</li>
+<li>dispensing date,</li>
+<li>administration time.</li>
+</ul>
+<p>Medication data is central to treatment analysis.</p>
+<p>It can help answer:</p>
+<ul>
+<li>What treatment did the patient receive?</li>
+<li>When did treatment start?</li>
+<li>Was treatment changed?</li>
+<li>Was the patient exposed before an outcome occurred?</li>
+<li>Were there possible drug safety concerns?</li>
+</ul>
+<p>Clinical systems should distinguish medication intention from medication exposure.</p>
+<p>That distinction protects interpretation.</p>
+<hr>
+</section>
+<section id="laboratory-results" class="level2">
+<h2 class="anchored" data-anchor-id="laboratory-results">Laboratory Results</h2>
+<p>Laboratory data contains measured biological results.</p>
+<p>Examples include:</p>
+<ul>
+<li>hemoglobin,</li>
+<li>creatinine,</li>
+<li>blood glucose,</li>
+<li>viral load,</li>
+<li>CD4 count,</li>
+<li>liver enzymes,</li>
+<li>malaria test results,</li>
+<li>culture results,</li>
+<li>pregnancy tests.</li>
+</ul>
+<p>Laboratory data usually has several key components:</p>
+<ul>
+<li>test name,</li>
+<li>result value,</li>
+<li>unit,</li>
+<li>reference range,</li>
+<li>specimen date,</li>
+<li>result date,</li>
+<li>abnormal flag,</li>
+<li>facility or laboratory source.</li>
+</ul>
+<p>Laboratory data is highly valuable because it can provide objective clinical measurements.</p>
+<p>But laboratory data also requires careful cleaning.</p>
+<p>The same test may appear under different names.</p>
+<p>Units may differ.</p>
+<p>Values may include text such as <code>positive</code>, <code>negative</code>, <code>&lt;5</code>, or <code>not detected</code>.</p>
+<p>Dates may reflect collection time, processing time, or reporting time.</p>
+<p>A clinical data system must standardize laboratory results before analysis.</p>
+<hr>
+</section>
+<section id="vital-signs-and-bedside-measurements" class="level2">
+<h2 class="anchored" data-anchor-id="vital-signs-and-bedside-measurements">Vital Signs and Bedside Measurements</h2>
+<p>Vital signs are common clinical measurements collected during care.</p>
+<p>Examples include:</p>
+<ul>
+<li>temperature,</li>
+<li>blood pressure,</li>
+<li>heart rate,</li>
+<li>respiratory rate,</li>
+<li>oxygen saturation,</li>
+<li>weight,</li>
+<li>height,</li>
+<li>body mass index.</li>
+</ul>
+<p>Vital signs are often repeated over time.</p>
+<p>This makes them useful for monitoring disease severity, treatment response, and clinical deterioration.</p>
+<p>For example, oxygen saturation may help identify respiratory compromise.</p>
+<p>Blood pressure may help monitor hypertension.</p>
+<p>Weight may help track nutritional status or fluid changes.</p>
+<p>Vital signs can also be messy.</p>
+<p>They may contain impossible values.</p>
+<p>They may be recorded with inconsistent units.</p>
+<p>They may be copied forward.</p>
+<p>They may be missing when patients are stable or when systems are overloaded.</p>
+<p>Clinical data readiness requires range checks, unit checks, and time checks.</p>
+<hr>
+</section>
+<section id="clinical-notes-and-narrative-data" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-notes-and-narrative-data">Clinical Notes and Narrative Data</h2>
+<p>Clinical notes are free-text records written by healthcare workers.</p>
+<p>They may include:</p>
+<ul>
+<li>history and physical examination notes,</li>
+<li>progress notes,</li>
+<li>nursing notes,</li>
+<li>operative notes,</li>
+<li>discharge summaries,</li>
+<li>referral notes,</li>
+<li>radiology narratives,</li>
+<li>pathology narratives.</li>
+</ul>
+<p>Clinical notes can contain rich information that structured fields miss.</p>
+<p>They may describe symptoms, clinician reasoning, social context, disease severity, treatment plans, and patient preferences.</p>
+<p>But notes are difficult to analyze.</p>
+<p>They are unstructured.</p>
+<p>They may contain abbreviations.</p>
+<p>They may mix current and past information.</p>
+<p>They may include sensitive details.</p>
+<p>They may require natural language processing or careful manual abstraction.</p>
+<p>For many clinical systems, notes are a valuable source of context, but they should not be treated as simple structured variables without validation.</p>
+<hr>
+</section>
+<section id="imaging-and-diagnostic-reports" class="level2">
+<h2 class="anchored" data-anchor-id="imaging-and-diagnostic-reports">Imaging and Diagnostic Reports</h2>
+<p>Imaging data includes both images and reports.</p>
+<p>Examples include:</p>
+<ul>
+<li>X-ray,</li>
+<li>ultrasound,</li>
+<li>CT scan,</li>
+<li>MRI,</li>
+<li>echocardiography,</li>
+<li>pathology slides,</li>
+<li>radiology reports.</li>
+</ul>
+<p>For many clinical analyses, the report is more accessible than the image itself.</p>
+<p>A radiology report may contain findings, impressions, recommendations, and diagnostic conclusions.</p>
+<p>Imaging reports may help identify disease severity, complications, or outcomes.</p>
+<p>However, imaging data also has challenges.</p>
+<p>Reports may use non-standard language.</p>
+<p>Findings may be uncertain.</p>
+<p>Images may require specialized storage, labeling, and interpretation.</p>
+<p>When imaging is used for machine learning, careful attention is needed to avoid leakage, biased labels, and poor generalization.</p>
+<hr>
+</section>
+<section id="outcomes-and-follow-up-data" class="level2">
+<h2 class="anchored" data-anchor-id="outcomes-and-follow-up-data">Outcomes and Follow-Up Data</h2>
+<p>Outcome data describes what happened to the patient.</p>
+<p>Examples include:</p>
+<ul>
+<li>recovery,</li>
+<li>death,</li>
+<li>discharge status,</li>
+<li>readmission,</li>
+<li>disease recurrence,</li>
+<li>treatment failure,</li>
+<li>adverse event,</li>
+<li>loss to follow-up,</li>
+<li>pregnancy outcome,</li>
+<li>laboratory improvement,</li>
+<li>symptom resolution.</li>
+</ul>
+<p>Outcome data is central to clinical interpretation.</p>
+<p>But outcomes are not always directly observed.</p>
+<p>Some outcomes are recorded only if the patient returns.</p>
+<p>Some are captured only during hospitalization.</p>
+<p>Some are inferred from records.</p>
+<p>Some are missing because follow-up was incomplete.</p>
+<p>A clinical data system should always ask:</p>
+<blockquote class="blockquote">
+<p>Was this outcome actively measured, passively recorded, or inferred from available data?</p>
+</blockquote>
+<p>That question affects how confidently we can interpret results.</p>
+<hr>
+</section>
+<section id="administrative-billing-and-claims-data" class="level2">
+<h2 class="anchored" data-anchor-id="administrative-billing-and-claims-data">Administrative, Billing, and Claims Data</h2>
+<p>Administrative and claims data are created for operations, reimbursement, reporting, or insurance processes.</p>
+<p>They may include:</p>
+<ul>
+<li>facility visits,</li>
+<li>billing codes,</li>
+<li>insurance claims,</li>
+<li>service dates,</li>
+<li>diagnosis codes,</li>
+<li>procedure codes,</li>
+<li>payment information,</li>
+<li>provider identifiers.</li>
+</ul>
+<p>These data can cover large populations and long time periods.</p>
+<p>They are useful for health services research, utilization analysis, cost analysis, and population-level monitoring.</p>
+<p>However, administrative data is shaped by payment and reporting rules.</p>
+<p>A code may reflect reimbursement needs as much as clinical reality.</p>
+<p>Therefore, claims-based definitions often need validation.</p>
+<hr>
+</section>
+<section id="structured-vs-unstructured-data" class="level2">
+<h2 class="anchored" data-anchor-id="structured-vs-unstructured-data">Structured vs Unstructured Data</h2>
+<p>Healthcare data may be structured, semi-structured, or unstructured.</p>
+<p>Structured data has defined fields.</p>
+<p>Examples include diagnosis codes, lab values, medication orders, and encounter dates.</p>
+<p>Semi-structured data has some organization but may still require parsing.</p>
+<p>Examples include forms, templated notes, and mixed text-result fields.</p>
+<p>Unstructured data is mostly free text or raw media.</p>
+<p>Examples include clinical notes, scanned documents, images, and audio recordings.</p>
+<p>The more unstructured the data, the more interpretation work is required.</p>
+<p>But structured data is not automatically correct.</p>
+<p>A clean-looking code can still be clinically misleading.</p>
+<hr>
+</section>
+<section id="time-in-healthcare-data" class="level2">
+<h2 class="anchored" data-anchor-id="time-in-healthcare-data">Time in Healthcare Data</h2>
+<p>Time is one of the most important dimensions in clinical data.</p>
+<p>Clinical events happen in sequence.</p>
+<p>A diagnosis may occur before treatment.</p>
+<p>A lab test may occur before or after medication.</p>
+<p>An outcome may occur after discharge.</p>
+<p>A model may accidentally use future information if timing is not handled carefully.</p>
+<p>Clinical data systems should track:</p>
+<ul>
+<li>date of birth,</li>
+<li>encounter dates,</li>
+<li>diagnosis dates,</li>
+<li>procedure dates,</li>
+<li>medication start and stop dates,</li>
+<li>specimen collection dates,</li>
+<li>result dates,</li>
+<li>outcome dates,</li>
+<li>follow-up windows.</li>
+</ul>
+<p>Temporal structure protects against false conclusions.</p>
+<p>It also supports reproducible cohort definitions.</p>
+<hr>
+</section>
+<section id="data-type-analytical-role-and-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="data-type-analytical-role-and-interpretation">Data Type, Analytical Role, and Interpretation</h2>
+<p>The same variable can play different analytical roles.</p>
+<p>For example, a laboratory result may be:</p>
+<ul>
+<li>an inclusion criterion,</li>
+<li>a baseline characteristic,</li>
+<li>a predictor,</li>
+<li>a monitoring variable,</li>
+<li>an outcome,</li>
+<li>a safety signal.</li>
+</ul>
+<p>A diagnosis may be:</p>
+<ul>
+<li>a cohort-defining condition,</li>
+<li>a comorbidity,</li>
+<li>an exclusion criterion,</li>
+<li>an outcome,</li>
+<li>a risk adjustment variable.</li>
+</ul>
+<p>A medication may be:</p>
+<ul>
+<li>an exposure,</li>
+<li>a treatment group definition,</li>
+<li>a confounder,</li>
+<li>a marker of disease severity.</li>
+</ul>
+<p>This means the analyst must define not only what a data field is, but how it is being used.</p>
+<p>Clinical interpretation depends on analytical role.</p>
+<hr>
+</section>
+<section id="common-risks-across-healthcare-data-types" class="level2">
+<h2 class="anchored" data-anchor-id="common-risks-across-healthcare-data-types">Common Risks Across Healthcare Data Types</h2>
+<p>Several risks appear across many clinical data types:</p>
+<ul>
+<li>missing data,</li>
+<li>duplicate records,</li>
+<li>inconsistent identifiers,</li>
+<li>inconsistent units,</li>
+<li>unclear dates,</li>
+<li>coding variation,</li>
+<li>copy-forward documentation,</li>
+<li>incomplete follow-up,</li>
+<li>facility-specific workflows,</li>
+<li>sensitive personal information,</li>
+<li>changes in clinical practice over time.</li>
+</ul>
+<p>These risks do not mean the data is unusable.</p>
+<p>They mean the data must be handled as clinical evidence, not just as spreadsheet content.</p>
+<hr>
+</section>
+<section id="cdi-principle-respect-the-source-process" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle-respect-the-source-process">CDI Principle: Respect the Source Process</h2>
+<p>A core CDI principle for clinical data systems is:</p>
+<blockquote class="blockquote">
+<p>Do not interpret a clinical variable without understanding the healthcare process that created it.</p>
+</blockquote>
+<p>This principle applies to every data type.</p>
+<p>A lab result comes from a test order, specimen collection, analysis, and reporting process.</p>
+<p>A diagnosis comes from clinical assessment, documentation, and coding.</p>
+<p>A medication record comes from ordering, dispensing, administration, or reporting.</p>
+<p>An outcome comes from observation, follow-up, or inference.</p>
+<p>When we respect the source process, our analysis becomes more defensible.</p>
+<hr>
+</section>
+<section id="practical-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="practical-checklist">Practical Checklist</h2>
+<p>Before analyzing a clinical dataset, ask:</p>
+<ul>
+<li>What healthcare data types are included?</li>
+<li>Which tables describe patients?</li>
+<li>Which tables describe encounters?</li>
+<li>Which tables describe diagnoses, procedures, and medications?</li>
+<li>Which tables contain measurements such as labs and vital signs?</li>
+<li>Which fields define outcomes?</li>
+<li>Are dates available for key clinical events?</li>
+<li>Are values coded, numeric, text, or mixed?</li>
+<li>Which variables are sensitive?</li>
+<li>Which variables require clinical interpretation?</li>
+<li>Which variables require standardization before analysis?</li>
+</ul>
+<p>This checklist helps move from raw clinical records to analysis-ready thinking.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>Healthcare data systems contain many different types of data.</p>
+<p>Patient demographics describe who received care.</p>
+<p>Encounters describe contact with the healthcare system.</p>
+<p>Diagnoses describe clinical conditions.</p>
+<p>Procedures and medications describe care delivery.</p>
+<p>Laboratory results and vital signs describe measurements.</p>
+<p>Clinical notes and imaging reports provide narrative and diagnostic context.</p>
+<p>Outcomes describe what happened after care.</p>
+<p>Administrative and claims data describe operational and billing processes.</p>
+<p>Each data type has value.</p>
+<p>Each data type has limitations.</p>
+<p>A strong clinical data system begins by recognizing these differences before moving into cohort design, governance, cleaning, modeling, and reporting.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-clinical-data-systems-overview.html" class="pagination-link" aria-label="Clinical Data Systems Overview">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Clinical Data Systems Overview</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-clinical-questions-and-cohorts.html" class="pagination-link" aria-label="Clinical Questions and Cohorts">
+        <span class="nav-page-text"><span class="chapter-title">Clinical Questions and Cohorts</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

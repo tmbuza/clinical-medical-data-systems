@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Clinical Dashboard Readiness – Clinical &amp; Medical Data Systems</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./19-ehr-fhir-and-interoperability-roadmap.html" rel="next">
+<link href="./17-reproducible-clinical-reports.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-231ef2f9d4ce3268f31ef752336c15d2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="assets/css/cdi.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./18-clinical-dashboard-readiness.html"><span class="chapter-title">Clinical Dashboard Readiness</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Clinical &amp; Medical Data Systems</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">index.html</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./00-preface-and-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Preface and Overview</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part I: Clinical Data Foundations</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-clinical-data-systems-overview.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Systems Overview</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-healthcare-data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Healthcare Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-clinical-questions-and-cohorts.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Questions and Cohorts</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-data-governance-privacy-and-ethics.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Governance, Privacy, and Ethics</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part II: Clinical Data Inputs</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-patient-demographics-and-encounters.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Patient Demographics and Encounters</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-diagnoses-procedures-and-medications.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-laboratory-and-vital-sign-results.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Laboratory and Vital Sign Results</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-clinical-outcomes-and-follow-up.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Outcomes and Follow-Up</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part III: Cleaning, Validation, and Readiness</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./09-clinical-data-quality-checks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Data Quality Checks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-missingness-and-data-completeness.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Missingness and Data Completeness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-clinical-variable-engineering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Variable Engineering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-analysis-ready-clinical-datasets.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part IV: Clinical Analysis and Interpretation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./13-descriptive-clinical-analysis.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descriptive Clinical Analysis</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./14-risk-stratification-and-clinical-models.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Risk Stratification and Clinical Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./15-clinical-model-evaluation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Model Evaluation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./16-clinical-interpretation-and-decision-support.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Clinical Interpretation and Decision Support</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Part V: Reporting and Real-World Systems</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./17-reproducible-clinical-reports.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducible Clinical Reports</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./18-clinical-dashboard-readiness.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Clinical Dashboard Readiness</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./19-ehr-fhir-and-interoperability-roadmap.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./20-end-to-end-case-study.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-End Case Study</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Appendix</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./999-references.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">References</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#why-dashboard-readiness-comes-after-reporting" id="toc-why-dashboard-readiness-comes-after-reporting" class="nav-link active" data-scroll-target="#why-dashboard-readiness-comes-after-reporting">Why Dashboard Readiness Comes After Reporting</a></li>
+  <li><a href="#dashboard-readiness-is-a-data-product-layer" id="toc-dashboard-readiness-is-a-data-product-layer" class="nav-link" data-scroll-target="#dashboard-readiness-is-a-data-product-layer">Dashboard Readiness Is a Data Product Layer</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files">Input Files</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#dashboard-metric-catalog" id="toc-dashboard-metric-catalog" class="nav-link" data-scroll-target="#dashboard-metric-catalog">Dashboard Metric Catalog</a></li>
+  <li><a href="#kpi-summary" id="toc-kpi-summary" class="nav-link" data-scroll-target="#kpi-summary">KPI Summary</a></li>
+  <li><a href="#risk-group-summary" id="toc-risk-group-summary" class="nav-link" data-scroll-target="#risk-group-summary">Risk Group Summary</a></li>
+  <li><a href="#readiness-issues" id="toc-readiness-issues" class="nav-link" data-scroll-target="#readiness-issues">Readiness Issues</a></li>
+  <li><a href="#avoiding-dashboard-overclaiming" id="toc-avoiding-dashboard-overclaiming" class="nav-link" data-scroll-target="#avoiding-dashboard-overclaiming">Avoiding Dashboard Overclaiming</a></li>
+  <li><a href="#refresh-readiness" id="toc-refresh-readiness" class="nav-link" data-scroll-target="#refresh-readiness">Refresh Readiness</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./18-clinical-dashboard-readiness.html"><span class="chapter-title">Clinical Dashboard Readiness</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Clinical Dashboard Readiness</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">Jun 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> CDMS-18</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, dashboard developers, health informatics teams, quality improvement teams, and clinical decision-support stakeholders</li>
+<li><strong>Theme:</strong> Clinical dashboards require curated metrics, clear denominators, safe interpretation language, and refresh-ready data outputs</li>
+</ul>
+</div>
+<p>A clinical dashboard is not just a collection of charts.</p>
+<p>It is a live or repeatable clinical communication layer.</p>
+<p>Dashboards can support quality improvement, cohort monitoring, operational review, patient safety discussions, and decision-support planning.</p>
+<p>But dashboards can also mislead if the underlying metrics are not defined, denominators are unclear, or visual outputs imply more certainty than the data support.</p>
+<p>This chapter prepares dashboard-ready clinical outputs from the existing analysis workflow.</p>
+<hr>
+<section id="why-dashboard-readiness-comes-after-reporting" class="level2">
+<h2 class="anchored" data-anchor-id="why-dashboard-readiness-comes-after-reporting">Why Dashboard Readiness Comes After Reporting</h2>
+<p>A static report is usually easier to review.</p>
+<p>A dashboard is more dynamic.</p>
+<p>Before building a dashboard, the team should already understand:</p>
+<ul>
+<li>the cohort definition</li>
+<li>available variables</li>
+<li>missingness</li>
+<li>descriptive summaries</li>
+<li>model outputs</li>
+<li>evaluation limitations</li>
+<li>interpretation boundaries</li>
+</ul>
+<p>Dashboards should not be used to discover basic data problems for the first time.</p>
+<p>They should sit on top of checked, documented outputs.</p>
+<hr>
+</section>
+<section id="dashboard-readiness-is-a-data-product-layer" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-readiness-is-a-data-product-layer">Dashboard Readiness Is a Data Product Layer</h2>
+<p>A dashboard-ready dataset is different from an analysis dataset.</p>
+<p>An analysis dataset may contain many variables and patient-level details.</p>
+<p>A dashboard dataset should contain curated metrics and display-ready summaries.</p>
+<p><code>text id="dashboard-layer" analysis-ready dataset   -&gt; descriptive summaries   -&gt; model summaries   -&gt; interpretation outputs   -&gt; dashboard-ready metric tables   -&gt; dashboard prototype or BI tool</code></p>
+<p>This chapter creates the metric layer.</p>
+<hr>
+</section>
+<section id="input-files" class="level2">
+<h2 class="anchored" data-anchor-id="input-files">Input Files</h2>
+<p>The workflow uses outputs from earlier chapters.</p>
+<p><code>text id="chapter18-inputs" results/analysis-ready-clinical-dataset.tsv results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/clinical-model-evaluation-metrics.tsv results/clinical-model-risk-group-evaluation.tsv results/clinical-decision-support-readiness.tsv</code></p>
+<p>The script is defensive.</p>
+<p>If an input is missing, it writes a dashboard readiness issue rather than crashing.</p>
+<hr>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>The chapter creates dashboard-ready tables and a compact prototype.</p>
+<p><code>text id="chapter18-outputs" results/dashboard/dashboard-metric-catalog.tsv results/dashboard/dashboard-kpi-summary.tsv results/dashboard/dashboard-risk-group-summary.tsv results/dashboard/dashboard-readiness-issues.tsv results/dashboard/clinical-dashboard-prototype.html results/figures/dashboard-kpi-readiness-summary.png logs/18-clinical-dashboard-readiness.log</code></p>
+<p>The HTML prototype is intentionally simple.</p>
+<p>It is not a production dashboard.</p>
+<p>It demonstrates how curated outputs can be assembled into a reviewable dashboard artifact.</p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-clinical-dashboard-readiness" python scripts/python/18-build-clinical-dashboard-readiness-safe.py Rscript scripts/R/18-visualize-dashboard-readiness-safe.R bash scripts/bash/18-run-clinical-dashboard-readiness.sh</code></p>
+<p>To run the full workflow with logging:</p>
+<p><code>bash id="run-clinical-dashboard-bash-only" bash scripts/bash/18-run-clinical-dashboard-readiness.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script creates dashboard-ready tables.</p>
+<p>It produces:</p>
+<ul>
+<li>a metric catalog</li>
+<li>a KPI summary table</li>
+<li>a risk group summary table</li>
+<li>a dashboard readiness issue log</li>
+<li>a small HTML dashboard prototype</li>
+</ul>
+<p>The script avoids heavy dashboard dependencies.</p>
+<p>It writes a plain HTML file that can be opened in a browser.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates one visual readiness summary.</p>
+<p>It reads:</p>
+<p><code>text id="dashboard-readiness-r-input" results/dashboard/dashboard-kpi-summary.tsv</code></p>
+<p>It writes:</p>
+<p><code>text id="dashboard-readiness-r-output" results/figures/dashboard-kpi-readiness-summary.png</code></p>
+<p>The script uses safe type conversion and writes a skip note if the KPI file is unavailable.</p>
+<hr>
+</section>
+<section id="dashboard-metric-catalog" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-metric-catalog">Dashboard Metric Catalog</h2>
+<p>A dashboard metric catalog should document every displayed metric.</p>
+<p>It should include:</p>
+<ul>
+<li>metric name</li>
+<li>display label</li>
+<li>source file</li>
+<li>numerator definition</li>
+<li>denominator definition</li>
+<li>refresh expectation</li>
+<li>interpretation note</li>
+</ul>
+<p>This protects against dashboard drift.</p>
+<p>If a metric appears on a dashboard, someone should be able to explain exactly how it was created.</p>
+<hr>
+</section>
+<section id="kpi-summary" class="level2">
+<h2 class="anchored" data-anchor-id="kpi-summary">KPI Summary</h2>
+<p>The KPI summary provides compact values for dashboard cards.</p>
+<p>Example KPI cards include:</p>
+<p><code>text id="dashboard-kpi-examples" Total patients Analysis-included patients Observed event rate Mean predicted risk High-risk patient count Decision-support readiness items present Decision-support items requiring review</code></p>
+<p>A KPI card should never hide its denominator.</p>
+<hr>
+</section>
+<section id="risk-group-summary" class="level2">
+<h2 class="anchored" data-anchor-id="risk-group-summary">Risk Group Summary</h2>
+<p>Risk groups are common dashboard elements.</p>
+<p>However, they should be shown carefully.</p>
+<p>A dashboard may display:</p>
+<ul>
+<li>count of patients by risk group</li>
+<li>observed event rate by risk group</li>
+<li>interpretation note</li>
+<li>validation status</li>
+</ul>
+<p>The dashboard should not imply that risk groups are clinically actionable unless governance review is complete.</p>
+<hr>
+</section>
+<section id="readiness-issues" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-issues">Readiness Issues</h2>
+<p>Dashboard readiness issues are not failures.</p>
+<p>They are transparency outputs.</p>
+<p>Examples include:</p>
+<ul>
+<li>missing input file</li>
+<li>missing denominator</li>
+<li>no known outcomes</li>
+<li>unavailable model evaluation</li>
+<li>decision-support governance not complete</li>
+<li>dashboard prototype only</li>
+</ul>
+<p>Issue logs make dashboards safer because limitations are visible.</p>
+<hr>
+</section>
+<section id="avoiding-dashboard-overclaiming" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-dashboard-overclaiming">Avoiding Dashboard Overclaiming</h2>
+<p>Clinical dashboards should avoid language such as:</p>
+<p><code>text id="dashboard-overclaiming" Patients who need intervention Preventable deaths Model-recommended treatment</code></p>
+<p>Safer language includes:</p>
+<p><code>text id="dashboard-safer-language" Patients assigned to high risk group Patients requiring review under approved workflow Observed outcome count Decision-support readiness status</code></p>
+<p>Dashboards should communicate evidence, not exaggerate certainty.</p>
+<hr>
+</section>
+<section id="refresh-readiness" class="level2">
+<h2 class="anchored" data-anchor-id="refresh-readiness">Refresh Readiness</h2>
+<p>A dashboard should be designed with refresh in mind.</p>
+<p>Ask:</p>
+<ul>
+<li>Which script rebuilds the dashboard data?</li>
+<li>Which input files must be updated first?</li>
+<li>Are outputs timestamped?</li>
+<li>Are denominators stable?</li>
+<li>Are missing files detected?</li>
+<li>Are stale outputs visible?</li>
+<li>Who reviews changes after refresh?</li>
+</ul>
+<p>A dashboard that refreshes without validation can spread errors quickly.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical dashboard is ready when its metrics are defined, denominators are visible, limitations are documented, and the output can be regenerated safely.</p>
+<p>Dashboard readiness is not a visual design step only.</p>
+<p>It is a data-system readiness step.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we prepared dashboard-ready outputs from the clinical analysis workflow.</p>
+<p>We created a metric catalog, KPI summary, risk group summary, readiness issue log, prototype HTML dashboard, and a readiness figure.</p>
+<p>The next chapter moves into EHR, FHIR, and interoperability planning.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // default icon
+            link.classList.add("external");
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./17-reproducible-clinical-reports.html" class="pagination-link" aria-label="Reproducible Clinical Reports">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Reproducible Clinical Reports</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./19-ehr-fhir-and-interoperability-roadmap.html" class="pagination-link" aria-label="EHR, FHIR, and Interoperability Roadmap">
+        <span class="nav-page-text"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
