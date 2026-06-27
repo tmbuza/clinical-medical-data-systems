@@ -1,33 +1,401 @@
 # Appendix
 
-## Repository Layout
+:::cdi-message
+- **ID:** CDMS-999
+- **Type:** Premium Appendix
+- **Audience:** Clinical analysts, applied data scientists, health informatics teams, and CDI learners
+- **Theme:** Appendices preserve reusable commands, file maps, workflow conventions, and interpretation safeguards
+:::
 
-```text
+This appendix collects reusable reference material for the Clinical & Medical Data Systems guide.
+
+The main chapters explain the concepts and build the workflow step by step.
+
+The appendix helps learners and project maintainers quickly find directory conventions, script conventions, end-to-end commands, expected outputs, interpretation safeguards, troubleshooting notes, and clinical governance reminders.
+
+---
+
+## Project Purpose
+
+The Clinical & Medical Data Systems guide demonstrates how to move from structured healthcare data inputs to reproducible clinical data outputs.
+
+The system covers healthcare data types, clinical questions and cohorts, governance, clinical inputs, data quality checks, missingness, variable engineering, analysis-ready datasets, descriptive analysis, risk stratification, model evaluation, interpretation, reproducible reports, dashboard readiness, and interoperability planning.
+
+---
+
+## Recommended Project Structure
+
+```text id="appendix-project-structure"
 clinical-medical-data-systems/
+├── index.qmd
+├── 00-preface-and-overview.qmd
+├── 01-clinical-data-systems-overview.qmd
+├── ...
+├── 20-end-to-end-case-study.qmd
+├── 999-appendix.qmd
+├── 999-references.qmd
 ├── data/
+│   └── example/
+├── logs/
 ├── results/
-├── reports/
+│   ├── dashboard/
+│   ├── figures/
+│   ├── interoperability/
+│   ├── reports/
+│   └── case-study/
 ├── scripts/
-├── assets/
-└── logs/
+│   ├── bash/
+│   ├── python/
+│   └── R/
+└── README.md
 ```
 
-## Clinical Data Tables
+---
 
-The first version of this system uses privacy-safe synthetic clinical tables:
+## Quarto Chapter Convention
 
-```text
-patients.tsv
-encounters.tsv
-diagnoses.tsv
-medications.tsv
-labs.tsv
-vitals.tsv
-outcomes.tsv
+The chapters use prose-first Quarto.
+
+Code inside chapters should be shown as plain fenced code blocks, not executable Quarto chunks.
+
+Use plain fences such as:
+
+```text id="appendix-plain-fence-example"
+```bash
+bash scripts/bash/20-run-end-to-end-case-study.sh
+```
 ```
 
-## Notes on Executability
+Do not use executable chunk syntax such as:
 
-Quarto chapters are primarily instructional.
+```text id="appendix-no-executable-chunks"
+```{python}
+```
 
-Runnable scripts should be stored in `scripts/`.
+```{r}
+```
+```
+
+Executable logic should live in separate files under:
+
+```text id="appendix-script-locations"
+scripts/bash/
+scripts/python/
+scripts/R/
+```
+
+---
+
+## Standard Chapter Metadata Block
+
+Each chapter should include the CDI message block after the chapter heading.
+
+```text id="appendix-cdi-message-template"
+:::cdi-message
+- **ID:** CDMS-XX
+- **Type:** Premium
+- **Audience:** Clinical analysts, applied data scientists, and health informatics teams
+- **Theme:** Short chapter theme
+:::
+```
+
+---
+
+## Core End-to-End Command
+
+Run the complete workflow from the project root.
+
+```bash id="appendix-run-e2e"
+bash scripts/bash/20-run-end-to-end-case-study.sh
+```
+
+The runner executes the workflow from example clinical inputs through case-study summary outputs.
+
+---
+
+## Main Case-Study Outputs
+
+```text id="appendix-case-study-outputs"
+results/case-study/end-to-end-case-study-file-inventory.tsv
+results/case-study/end-to-end-case-study-stage-summary.tsv
+results/case-study/end-to-end-case-study-summary.md
+results/case-study/end-to-end-case-study-readiness-summary.txt
+logs/20-end-to-end-case-study.log
+```
+
+---
+
+## Quick Health Check
+
+After running the workflow, inspect the final readiness summary.
+
+```bash id="appendix-health-check"
+cat results/case-study/end-to-end-case-study-readiness-summary.txt
+head -20 results/case-study/end-to-end-case-study-stage-summary.tsv
+```
+
+Open the generated report and dashboard prototype.
+
+```bash id="appendix-open-outputs"
+open results/reports/reproducible-clinical-report.md
+open results/dashboard/clinical-dashboard-prototype.html
+```
+
+---
+
+## Chapter Script Map
+
+```text id="appendix-script-map"
+05  patient demographics and encounters
+06  diagnoses, procedures, and medications
+07  laboratory and vital-sign results
+08  outcomes and follow-up
+09  clinical data quality checks
+10  missingness and completeness
+11  clinical variable engineering
+12  analysis-ready clinical dataset
+13  descriptive clinical analysis
+14  risk stratification and clinical models
+15  clinical model evaluation
+16  clinical interpretation and decision support
+17  reproducible clinical reports
+18  clinical dashboard readiness
+19  EHR, FHIR, and interoperability roadmap
+20  end-to-end case study
+```
+
+---
+
+## Example Data Inputs
+
+The educational workflow creates example clinical input files.
+
+```text id="appendix-example-inputs"
+data/example/patient-demographics.csv
+data/example/patient-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/coded-clinical-events.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-results-combined.csv
+data/example/clinical-outcomes.csv
+```
+
+These are synthetic educational examples.
+
+They are not real patient records.
+
+---
+
+## Key Results Directories
+
+```text id="appendix-results-directories"
+results/
+results/figures/
+results/reports/
+results/dashboard/
+results/interoperability/
+results/case-study/
+logs/
+```
+
+---
+
+## Data Readiness Outputs
+
+```text id="appendix-readiness-outputs"
+results/clinical-data-quality-readiness-summary.txt
+results/missingness-completeness-readiness-summary.txt
+results/clinical-variable-engineering-summary.txt
+results/analysis-ready-clinical-dataset-readiness-summary.txt
+```
+
+These files summarize whether the dataset is structurally ready for downstream analysis.
+
+---
+
+## Analysis Outputs
+
+```text id="appendix-analysis-outputs"
+results/descriptive-clinical-analysis-summary.txt
+results/descriptive-clinical-cohort-summary.tsv
+results/descriptive-clinical-variable-summary.tsv
+results/descriptive-clinical-outcome-summary.tsv
+results/descriptive-clinical-table-one.tsv
+```
+
+---
+
+## Modeling and Evaluation Outputs
+
+```text id="appendix-model-outputs"
+results/clinical-risk-stratification-results.tsv
+results/clinical-risk-model-feature-summary.tsv
+results/clinical-risk-model-summary.txt
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-model-threshold-evaluation.tsv
+results/clinical-model-risk-group-evaluation.tsv
+results/clinical-model-calibration-table.tsv
+results/clinical-model-evaluation-summary.txt
+```
+
+---
+
+## Interpretation and Decision-Support Outputs
+
+```text id="appendix-decision-support-outputs"
+results/clinical-decision-support-readiness.tsv
+results/clinical-risk-interpretation-statements.tsv
+results/clinical-decision-support-action-map.tsv
+results/clinical-interpretation-and-decision-support-summary.txt
+```
+
+These outputs are design and review artifacts.
+
+They are not clinical recommendations.
+
+---
+
+## Reporting Outputs
+
+```text id="appendix-reporting-outputs"
+results/reports/reproducible-clinical-report.md
+results/reports/reproducible-clinical-report-summary.tsv
+results/reports/reproducible-clinical-report-file-inventory.tsv
+```
+
+---
+
+## Dashboard Outputs
+
+```text id="appendix-dashboard-outputs"
+results/dashboard/dashboard-metric-catalog.tsv
+results/dashboard/dashboard-kpi-summary.tsv
+results/dashboard/dashboard-risk-group-summary.tsv
+results/dashboard/dashboard-readiness-issues.tsv
+results/dashboard/clinical-dashboard-prototype.html
+```
+
+---
+
+## Interoperability Outputs
+
+```text id="appendix-interoperability-outputs"
+results/interoperability/fhir-resource-mapping.tsv
+results/interoperability/interoperability-readiness-checklist.tsv
+results/interoperability/example-fhir-patient-bundle.json
+results/interoperability/interoperability-roadmap-summary.txt
+```
+
+---
+
+## Safe Script Convention
+
+Many later scripts use a `-safe` suffix.
+
+This means the script is designed to coerce data types defensively, avoid failing on small example data, write skip notes when plots cannot be created, avoid unnecessary dependencies, preserve transparent limitations, and produce outputs suitable for teaching and review.
+
+Examples:
+
+```text id="appendix-safe-script-examples"
+scripts/python/14-risk-stratification-and-clinical-models-safe.py
+scripts/R/15-visualize-clinical-model-evaluation-safe.R
+scripts/python/18-build-clinical-dashboard-readiness-safe.py
+```
+
+---
+
+## Common Troubleshooting Notes
+
+### Python date arithmetic errors
+
+If a script reports a `Timestamp` and `float` subtraction error, check whether date columns contain mixed types or missing values.
+
+Use safe date parsing before subtracting dates.
+
+```python id="appendix-date-safe-pattern"
+pd.to_datetime(date_column, errors="coerce")
+```
+
+### R histogram error
+
+If `geom_histogram()` reports that the x aesthetic is discrete, the variable may have been read as text.
+
+Use safe numeric conversion before plotting.
+
+```r id="appendix-safe-r-numeric"
+safe_numeric <- function(x) {
+  suppressWarnings(as.numeric(as.character(x)))
+}
+```
+
+### Missing `tabulate`
+
+Avoid `pandas.to_markdown()` if `tabulate` is not installed.
+
+Use manual Markdown table rendering or install the dependency explicitly.
+
+This project uses a no-tabulate safe report builder.
+
+---
+
+## Clinical Interpretation Safeguards
+
+Clinical outputs should avoid overclaiming.
+
+Use cautious language such as:
+
+```text id="appendix-cautious-language"
+This is an example risk stratification output.
+This output requires clinical validation before use.
+This dashboard is a prototype and not approved clinical decision support.
+This interoperability bundle is educational and not production-valid.
+```
+
+Avoid language such as:
+
+```text id="appendix-unsafe-language"
+The model recommends treatment.
+This patient will have an adverse event.
+The dashboard identifies patients who need intervention.
+This FHIR bundle is ready for production exchange.
+```
+
+---
+
+## Governance Reminder
+
+Before any real-world use, clinical data systems require review of intended use, cohort definition, patient population, privacy and access controls, de-identification, outcome definition, model validation, subgroup performance, clinical workflow impact, monitoring plan, and governance approval.
+
+This guide is an educational system and does not replace institutional review.
+
+---
+
+## Git Workflow
+
+After generating or updating files:
+
+```bash id="appendix-git-workflow"
+git status
+git add .
+git commit -m "Update Clinical and Medical Data Systems guide"
+git push
+```
+
+Before publishing, render the guide.
+
+```bash id="appendix-quarto-render"
+quarto render
+```
+
+---
+
+## Final Note
+
+The purpose of this appendix is to make the system easier to reuse, audit, and extend.
+
+A strong clinical data system should not depend on memory.
+
+It should depend on documented structure, reproducible scripts, cautious interpretation, and clear evidence trails.
