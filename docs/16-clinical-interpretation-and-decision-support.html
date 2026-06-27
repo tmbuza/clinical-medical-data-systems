@@ -305,11 +305,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#from-model-output-to-clinical-meaning" id="toc-from-model-output-to-clinical-meaning" class="nav-link active" data-scroll-target="#from-model-output-to-clinical-meaning">From Model Output to Clinical Meaning</a></li>
+  <li><a href="#decision-support-is-not-the-same-as-prediction" id="toc-decision-support-is-not-the-same-as-prediction" class="nav-link" data-scroll-target="#decision-support-is-not-the-same-as-prediction">Decision Support Is Not the Same as Prediction</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#readiness-checklist" id="toc-readiness-checklist" class="nav-link" data-scroll-target="#readiness-checklist">Readiness Checklist</a></li>
+  <li><a href="#risk-interpretation-statements" id="toc-risk-interpretation-statements" class="nav-link" data-scroll-target="#risk-interpretation-statements">Risk Interpretation Statements</a></li>
+  <li><a href="#action-map" id="toc-action-map" class="nav-link" data-scroll-target="#action-map">Action Map</a></li>
+  <li><a href="#why-human-review-matters" id="toc-why-human-review-matters" class="nav-link" data-scroll-target="#why-human-review-matters">Why Human Review Matters</a></li>
+  <li><a href="#avoiding-automation-bias" id="toc-avoiding-automation-bias" class="nav-link" data-scroll-target="#avoiding-automation-bias">Avoiding Automation Bias</a></li>
+  <li><a href="#governance-before-deployment" id="toc-governance-before-deployment" class="nav-link" data-scroll-target="#governance-before-deployment">Governance Before Deployment</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +326,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13-descriptive-clinical-analysis.html">Part IV: Clinical Analysis and Interpretation</a></li><li class="breadcrumb-item"><a href="./16-clinical-interpretation-and-decision-support.html"><span class="chapter-title">Clinical Interpretation and Decision Support</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="clinical-interpretation-and-decision-support" class="quarto-section-identifier"><span class="chapter-title">Clinical Interpretation and Decision Support</span></span></h1>
+<h1 class="title"><span class="chapter-title">Clinical Interpretation and Decision Support</span></h1>
 </div>
 
 
@@ -341,46 +349,204 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-16</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, clinical informatics teams, and decision-support stakeholders</li>
+<li><strong>Theme:</strong> Clinical model outputs become useful only when they are interpreted responsibly and connected to safe, reviewable decision-support workflows</li>
 </ul>
+</div>
+<p>Clinical models do not make decisions by themselves.</p>
+<p>People do.</p>
+<p>A risk score, threshold table, or model evaluation report becomes useful only when it is translated into a responsible clinical interpretation.</p>
+<p>This chapter connects the technical outputs from Chapters 14 and 15 to decision-support thinking.</p>
+<p>The goal is not to automate care.</p>
+<p>The goal is to make model outputs understandable, reviewable, and safe enough for clinical discussion.</p>
+<hr>
+<section id="from-model-output-to-clinical-meaning" class="level2">
+<h2 class="anchored" data-anchor-id="from-model-output-to-clinical-meaning">From Model Output to Clinical Meaning</h2>
+<p>A model output may look like this:</p>
+<p><code>text id="model-output-example" patient_id: P001 predicted_risk_score: 0.72 risk_group: high</code></p>
+<p>This is not yet a clinical recommendation.</p>
+<p>It becomes meaningful only after answering:</p>
+<ul>
+<li>What outcome is being predicted?</li>
+<li>What time window does the score refer to?</li>
+<li>What action could follow from the score?</li>
+<li>Who reviews the score?</li>
+<li>What evidence supports the threshold?</li>
+<li>What harms could occur if the score is wrong?</li>
+<li>What should be documented?</li>
+</ul>
+<p>Clinical interpretation turns a score into a structured statement.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="decision-support-is-not-the-same-as-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="decision-support-is-not-the-same-as-prediction">Decision Support Is Not the Same as Prediction</h2>
+<p>Prediction estimates risk.</p>
+<p>Decision support connects risk to workflow.</p>
+<p>For example:</p>
+<p>```text id=“prediction-vs-decision-support” Prediction: This patient has elevated predicted risk.</p>
+<p>Decision support: This patient may require review under a defined clinical protocol.</p>
+<pre><code>
+The second statement is stronger and riskier.
+
+It should not be made unless the protocol, threshold, reviewer, and action pathway are defined.
+
+---
+
+## Input Files
+
+This chapter uses the outputs created in Chapters 14 and 15.
+
+```text id="chapter16-inputs"
+results/clinical-risk-stratification-results.tsv
+results/clinical-model-evaluation-metrics.tsv
+results/clinical-model-threshold-evaluation.tsv
+results/clinical-model-risk-group-evaluation.tsv
+results/clinical-model-calibration-table.tsv</code></pre>
+<p>The workflow creates an interpretation-ready summary layer.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>The chapter creates:</p>
+<p><code>text id="chapter16-outputs" results/clinical-decision-support-readiness.tsv results/clinical-risk-interpretation-statements.tsv results/clinical-decision-support-action-map.tsv results/clinical-interpretation-and-decision-support-summary.txt results/figures/decision-support-risk-group-action-map.png logs/16-clinical-interpretation-and-decision-support.log</code></p>
+<p>If a figure cannot be created safely, the R script writes a skip note instead of stopping the workflow.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-clinical-interpretation-decision-support" python scripts/python/16-clinical-interpretation-and-decision-support-safe.py Rscript scripts/R/16-visualize-decision-support-readiness-safe.R bash scripts/bash/16-run-clinical-interpretation-and-decision-support.sh</code></p>
+<p>To run the full workflow with logging:</p>
+<p><code>bash id="run-clinical-interpretation-bash-only" bash scripts/bash/16-run-clinical-interpretation-and-decision-support.sh</code></p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script creates three practical outputs.</p>
+<p>First, it creates a readiness checklist for decision-support review.</p>
+<p>Second, it creates patient-level interpretation statements from the risk stratification output.</p>
+<p>Third, it creates a risk-group action map.</p>
+<p>The script is deliberately cautious.</p>
+<p>It uses language such as:</p>
+<p><code>text id="cautious-interpretation-language" This patient is assigned to the high risk group in this example workflow. This output should be reviewed by a qualified clinical stakeholder before use.</code></p>
+<p>It does not write:</p>
+<p><code>text id="unsafe-interpretation-language" This patient needs treatment. This patient will have an adverse event. The model recommends intervention.</code></p>
+<p>Clinical outputs should avoid overclaiming.</p>
+<hr>
+</section>
+<section id="readiness-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-checklist">Readiness Checklist</h2>
+<p>Decision-support readiness depends on more than model performance.</p>
+<p>The checklist includes:</p>
+<ul>
+<li>cohort definition visibility</li>
+<li>outcome definition visibility</li>
+<li>predictor availability</li>
+<li>model evaluation completed</li>
+<li>threshold behavior reviewed</li>
+<li>calibration reviewed</li>
+<li>action pathway defined</li>
+<li>human review defined</li>
+<li>governance review required</li>
+<li>monitoring plan required</li>
+</ul>
+<p>Some items can be marked as technically present.</p>
+<p>Others require human or institutional review.</p>
+<hr>
+</section>
+<section id="risk-interpretation-statements" class="level2">
+<h2 class="anchored" data-anchor-id="risk-interpretation-statements">Risk Interpretation Statements</h2>
+<p>A risk interpretation statement should include:</p>
+<ul>
+<li>patient identifier</li>
+<li>risk group</li>
+<li>predicted score</li>
+<li>model or scoring method</li>
+<li>cautious clinical meaning</li>
+<li>required review note</li>
+</ul>
+<p>For example:</p>
+<p><code>text id="risk-interpretation-template" Patient P001 is assigned to the high risk group with a predicted risk score of 0.72. This is an example risk stratification output and should not be used for clinical action without clinical validation and governance review.</code></p>
+<p>The statement is designed for review, not automated action.</p>
+<hr>
+</section>
+<section id="action-map" class="level2">
+<h2 class="anchored" data-anchor-id="action-map">Action Map</h2>
+<p>The action map links risk groups to possible workflow categories.</p>
+<p>```text id=“risk-action-map” low risk: routine review</p>
+<p>moderate risk: consider additional review if clinically appropriate</p>
+<p>high risk: prioritize for qualified clinical review under an approved protocol ```</p>
+<p>This is not a medical protocol.</p>
+<p>It is a decision-support design scaffold.</p>
+<p>Real actions must be defined by the responsible clinical organization.</p>
+<hr>
+</section>
+<section id="why-human-review-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-human-review-matters">Why Human Review Matters</h2>
+<p>Clinical decision support should include human accountability.</p>
+<p>A model may be wrong because:</p>
+<ul>
+<li>the data are incomplete</li>
+<li>the patient context changed</li>
+<li>the outcome definition is inappropriate</li>
+<li>the model does not generalize</li>
+<li>a subgroup is underrepresented</li>
+<li>the threshold is poorly chosen</li>
+<li>the workflow creates unintended harm</li>
+</ul>
+<p>Human review does not eliminate risk, but it is an essential safety layer.</p>
+<hr>
+</section>
+<section id="avoiding-automation-bias" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-automation-bias">Avoiding Automation Bias</h2>
+<p>Automation bias occurs when people overtrust system outputs because they appear quantitative or computer-generated.</p>
+<p>Clinical data systems should reduce automation bias by:</p>
+<ul>
+<li>showing uncertainty</li>
+<li>documenting limitations</li>
+<li>using cautious language</li>
+<li>requiring review</li>
+<li>avoiding hidden thresholds</li>
+<li>making override possible</li>
+<li>monitoring downstream effects</li>
+</ul>
+<p>A clinical model should support judgment, not replace it.</p>
+<hr>
+</section>
+<section id="governance-before-deployment" class="level2">
+<h2 class="anchored" data-anchor-id="governance-before-deployment">Governance Before Deployment</h2>
+<p>Before model output enters a real clinical workflow, governance review should address:</p>
+<ul>
+<li>intended use</li>
+<li>patient population</li>
+<li>responsible owner</li>
+<li>model validation evidence</li>
+<li>fairness and subgroup performance</li>
+<li>monitoring plan</li>
+<li>escalation and override process</li>
+<li>documentation requirements</li>
+<li>patient safety concerns</li>
+<li>regulatory or institutional requirements</li>
+</ul>
+<p>The technical workflow is only one part of readiness.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>Clinical decision support begins after interpretation, not after prediction.</p>
+<p>A score becomes usable only when its meaning, limitations, review process, and action pathway are explicit.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we translated model outputs into cautious clinical interpretation and decision-support readiness artifacts.</p>
+<p>We created patient-level interpretation statements, a decision-support readiness checklist, an action map, and a visual summary.</p>
+<p>This completes Part IV.</p>
+<p>The next part moves into reproducible reporting, dashboards, interoperability, and the end-to-end clinical data system.</p>
 
 
 </section>

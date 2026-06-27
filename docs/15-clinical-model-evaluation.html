@@ -305,11 +305,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-accuracy-is-not-enough" id="toc-why-accuracy-is-not-enough" class="nav-link active" data-scroll-target="#why-accuracy-is-not-enough">Why Accuracy Is Not Enough</a></li>
+  <li><a href="#evaluation-starts-with-the-intended-use" id="toc-evaluation-starts-with-the-intended-use" class="nav-link" data-scroll-target="#evaluation-starts-with-the-intended-use">Evaluation Starts With the Intended Use</a></li>
+  <li><a href="#core-evaluation-questions" id="toc-core-evaluation-questions" class="nav-link" data-scroll-target="#core-evaluation-questions">Core Evaluation Questions</a></li>
+  <li><a href="#evaluation-outputs" id="toc-evaluation-outputs" class="nav-link" data-scroll-target="#evaluation-outputs">Evaluation Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#discrimination" id="toc-discrimination" class="nav-link" data-scroll-target="#discrimination">Discrimination</a></li>
+  <li><a href="#calibration" id="toc-calibration" class="nav-link" data-scroll-target="#calibration">Calibration</a></li>
+  <li><a href="#threshold-evaluation" id="toc-threshold-evaluation" class="nav-link" data-scroll-target="#threshold-evaluation">Threshold Evaluation</a></li>
+  <li><a href="#risk-group-evaluation" id="toc-risk-group-evaluation" class="nav-link" data-scroll-target="#risk-group-evaluation">Risk Group Evaluation</a></li>
+  <li><a href="#small-data-warning" id="toc-small-data-warning" class="nav-link" data-scroll-target="#small-data-warning">Small Data Warning</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13-descriptive-clinical-analysis.html">Part IV: Clinical Analysis and Interpretation</a></li><li class="breadcrumb-item"><a href="./15-clinical-model-evaluation.html"><span class="chapter-title">Clinical Model Evaluation</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="clinical-model-evaluation" class="quarto-section-identifier"><span class="chapter-title">Clinical Model Evaluation</span></span></h1>
+<h1 class="title"><span class="chapter-title">Clinical Model Evaluation</span></h1>
 </div>
 
 
@@ -341,46 +350,217 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-15</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, and clinical decision-support teams</li>
+<li><strong>Theme:</strong> Clinical model evaluation must assess discrimination, calibration, thresholds, and clinical consequences rather than accuracy alone</li>
 </ul>
+</div>
+<p>A clinical model is not useful simply because it produces a score.</p>
+<p>It must be evaluated.</p>
+<p>In clinical settings, evaluation is not only a technical exercise. It is a clinical safety step.</p>
+<p>A model can appear accurate overall while performing poorly for the patients who matter most.</p>
+<p>A model can rank patients well but produce poorly calibrated risk estimates.</p>
+<p>A model can improve a metric while creating workflow burden or unfairness.</p>
+<p>For this reason, clinical model evaluation must go beyond a single number.</p>
+<hr>
+<section id="why-accuracy-is-not-enough" class="level2">
+<h2 class="anchored" data-anchor-id="why-accuracy-is-not-enough">Why Accuracy Is Not Enough</h2>
+<p>Accuracy can be misleading in clinical data.</p>
+<p>If only 5% of patients experience an adverse outcome, a model that predicts “no event” for everyone can reach 95% accuracy.</p>
+<p>That model is not clinically useful.</p>
+<p>Clinical evaluation must consider:</p>
+<ul>
+<li>outcome prevalence</li>
+<li>sensitivity</li>
+<li>specificity</li>
+<li>positive predictive value</li>
+<li>negative predictive value</li>
+<li>discrimination</li>
+<li>calibration</li>
+<li>threshold behavior</li>
+<li>subgroup performance</li>
+<li>clinical actionability</li>
+</ul>
+<p>The right evaluation depends on the clinical decision the model is meant to support.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="evaluation-starts-with-the-intended-use" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-starts-with-the-intended-use">Evaluation Starts With the Intended Use</h2>
+<p>Before choosing metrics, define how the model will be used.</p>
+<p>For example:</p>
+<p>```text id=“clinical-model-use-cases” Use case A: Identify high-risk patients for manual clinical review.</p>
+<p>Use case B: Prioritize patients for follow-up calls.</p>
+<p>Use case C: Support early warning dashboarding.</p>
+<p>Use case D: Estimate risk for patient-level counseling.</p>
+<pre><code>
+Each use case may require different thresholds and metrics.
+
+A triage model may prioritize sensitivity.
+
+A limited-resource intervention may prioritize positive predictive value.
+
+A counseling model may require strong calibration.
+
+---
+
+## Input Dataset
+
+This chapter evaluates the risk stratification output created in Chapter 14.
+
+```text id="chapter15-input"
+results/clinical-risk-stratification-results.tsv</code></pre>
+<p>The file should contain:</p>
+<ul>
+<li><code>patient_id</code></li>
+<li><code>binary_outcome</code></li>
+<li><code>predicted_risk_score</code></li>
+<li><code>risk_group</code></li>
+<li><code>scoring_method</code></li>
+</ul>
+<p>The evaluation script is defensive.</p>
+<p>If the dataset does not contain enough outcome variation for formal evaluation, it still writes a transparent summary explaining what could and could not be evaluated.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="core-evaluation-questions" class="level2">
+<h2 class="anchored" data-anchor-id="core-evaluation-questions">Core Evaluation Questions</h2>
+<p>A clinical model evaluation should ask:</p>
+<ol type="1">
+<li>How many patients were evaluated?</li>
+<li>How many had known outcomes?</li>
+<li>What was the observed event rate?</li>
+<li>Does the model separate higher-risk from lower-risk patients?</li>
+<li>Are risk groups associated with different outcome rates?</li>
+<li>What happens at possible clinical thresholds?</li>
+<li>Are predicted risks calibrated to observed risk?</li>
+<li>Which limitations prevent interpretation?</li>
+</ol>
+<p>This chapter creates a compact evaluation package that answers these questions.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="evaluation-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-outputs">Evaluation Outputs</h2>
+<p>The workflow creates:</p>
+<p><code>text id="chapter15-outputs" results/clinical-model-evaluation-metrics.tsv results/clinical-model-threshold-evaluation.tsv results/clinical-model-risk-group-evaluation.tsv results/clinical-model-calibration-table.tsv results/clinical-model-evaluation-summary.txt results/figures/model-risk-by-outcome.png results/figures/model-calibration-plot.png results/figures/model-threshold-sensitivity-specificity.png logs/15-clinical-model-evaluation.log</code></p>
+<p>If one of the plots cannot be created safely, the R script writes a skip note.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-clinical-model-evaluation" python scripts/python/15-clinical-model-evaluation-safe.py Rscript scripts/R/15-visualize-clinical-model-evaluation-safe.R bash scripts/bash/15-run-clinical-model-evaluation.sh</code></p>
+<p>To run the full chapter workflow with logging:</p>
+<p><code>bash id="run-clinical-model-evaluation-bash-only" bash scripts/bash/15-run-clinical-model-evaluation.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script reads the risk stratification output and creates evaluation tables.</p>
+<p>It checks whether binary outcomes and predicted risk scores are usable.</p>
+<p>When possible, it calculates:</p>
+<ul>
+<li>patient count</li>
+<li>known outcome count</li>
+<li>observed event rate</li>
+<li>mean predicted risk</li>
+<li>AUROC</li>
+<li>average precision</li>
+<li>Brier score</li>
+</ul>
+<p>It also evaluates thresholds such as:</p>
+<p><code>text id="threshold-grid" 0.10 0.20 0.30 0.40 0.50 0.60 0.70 0.80 0.90</code></p>
+<p>For each threshold, it calculates:</p>
+<ul>
+<li>true positives</li>
+<li>false positives</li>
+<li>true negatives</li>
+<li>false negatives</li>
+<li>sensitivity</li>
+<li>specificity</li>
+<li>positive predictive value</li>
+<li>negative predictive value</li>
+</ul>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates modern evaluation visuals.</p>
+<p>It visualizes:</p>
+<ul>
+<li>predicted risk score by outcome</li>
+<li>observed event rate by calibration bin</li>
+<li>sensitivity and specificity across thresholds</li>
+</ul>
+<p>The script does not assume that the data are perfect.</p>
+<p>It coerces numeric columns safely and writes skip notes when required inputs are missing or not usable.</p>
+<hr>
+</section>
+<section id="discrimination" class="level2">
+<h2 class="anchored" data-anchor-id="discrimination">Discrimination</h2>
+<p>Discrimination asks whether the model assigns higher scores to patients who experience the outcome than to patients who do not.</p>
+<p>AUROC is one common discrimination metric.</p>
+<p>But AUROC does not answer every clinical question.</p>
+<p>A model with acceptable AUROC may still be poorly calibrated or clinically unusable at the chosen threshold.</p>
+<hr>
+</section>
+<section id="calibration" class="level2">
+<h2 class="anchored" data-anchor-id="calibration">Calibration</h2>
+<p>Calibration asks whether predicted risk matches observed risk.</p>
+<p>For example, among patients predicted to have 20% risk, roughly 20% should experience the event.</p>
+<p>Calibration matters when predicted probabilities are interpreted as risk.</p>
+<p>It is especially important when model output will be shown to clinicians or patients.</p>
+<hr>
+</section>
+<section id="threshold-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="threshold-evaluation">Threshold Evaluation</h2>
+<p>Clinical models often become actions through thresholds.</p>
+<p>For example:</p>
+<p><code>text id="threshold-action-example" predicted risk &gt;= 0.30:   flag patient for clinical review</code></p>
+<p>Thresholds create tradeoffs.</p>
+<p>A lower threshold may identify more true events but create more false positives.</p>
+<p>A higher threshold may reduce workload but miss more true events.</p>
+<p>Evaluation must make these tradeoffs visible.</p>
+<hr>
+</section>
+<section id="risk-group-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="risk-group-evaluation">Risk Group Evaluation</h2>
+<p>Risk groups should have clinically meaningful separation.</p>
+<p>In a useful stratification system, the observed event rate should generally increase from low to moderate to high risk.</p>
+<p>If the observed event rate does not differ across groups, the risk grouping may not be useful.</p>
+<p>With small example data, this pattern may be unstable.</p>
+<p>The workflow therefore reports counts and event rates transparently.</p>
+<hr>
+</section>
+<section id="small-data-warning" class="level2">
+<h2 class="anchored" data-anchor-id="small-data-warning">Small Data Warning</h2>
+<p>The example dataset in this guide may be too small for reliable model evaluation.</p>
+<p>That is acceptable for teaching workflow structure.</p>
+<p>In real clinical work, model evaluation requires:</p>
+<ul>
+<li>sufficient sample size</li>
+<li>enough outcome events</li>
+<li>appropriate train-test separation</li>
+<li>temporal or external validation where possible</li>
+<li>subgroup evaluation</li>
+<li>calibration review</li>
+<li>clinical governance</li>
+</ul>
+<p>This chapter teaches the structure, not a validated clinical claim.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical model should not be judged by whether it produces predictions.</p>
+<p>It should be judged by whether its performance, limitations, thresholds, calibration, and clinical consequences are visible enough for responsible review.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we evaluated the Chapter 14 risk stratification output.</p>
+<p>We produced evaluation metrics, threshold tables, risk group summaries, calibration summaries, visual outputs, and a written evaluation summary.</p>
+<p>The next chapter turns evaluated model outputs into clinical interpretation and decision-support framing.</p>
 
 
 </section>

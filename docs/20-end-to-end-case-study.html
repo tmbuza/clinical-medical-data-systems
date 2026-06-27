@@ -305,11 +305,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
+  <li><a href="#case-study-purpose" id="toc-case-study-purpose" class="nav-link active" data-scroll-target="#case-study-purpose">Case Study Purpose</a></li>
+  <li><a href="#end-to-end-workflow" id="toc-end-to-end-workflow" class="nav-link" data-scroll-target="#end-to-end-workflow">End-to-End Workflow</a></li>
+  <li><a href="#readiness-layer" id="toc-readiness-layer" class="nav-link" data-scroll-target="#readiness-layer">Readiness Layer</a></li>
+  <li><a href="#analysis-layer" id="toc-analysis-layer" class="nav-link" data-scroll-target="#analysis-layer">Analysis Layer</a></li>
+  <li><a href="#interpretation-and-system-layer" id="toc-interpretation-and-system-layer" class="nav-link" data-scroll-target="#interpretation-and-system-layer">Interpretation and System Layer</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-bash-runner-does" id="toc-what-the-bash-runner-does" class="nav-link" data-scroll-target="#what-the-bash-runner-does">What the Bash Runner Does</a></li>
+  <li><a href="#what-the-python-summary-script-does" id="toc-what-the-python-summary-script-does" class="nav-link" data-scroll-target="#what-the-python-summary-script-does">What the Python Summary Script Does</a></li>
+  <li><a href="#case-study-stages" id="toc-case-study-stages" class="nav-link" data-scroll-target="#case-study-stages">Case Study Stages</a></li>
+  <li><a href="#interpreting-the-case-study" id="toc-interpreting-the-case-study" class="nav-link" data-scroll-target="#interpreting-the-case-study">Interpreting the Case Study</a></li>
   <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#final-cdi-principle" id="toc-final-cdi-principle" class="nav-link" data-scroll-target="#final-cdi-principle">Final CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./20-end-to-end-case-study.html"><span class="chapter-title">End-to-End Case Study</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="end-to-end-case-study" class="quarto-section-identifier"><span class="chapter-title">End-to-End Case Study</span></span></h1>
+<h1 class="title"><span class="chapter-title">End-to-End Case Study</span></h1>
 </div>
 
 
@@ -341,46 +350,189 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-20</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, clinical research teams, and CDI learners</li>
+<li><strong>Theme:</strong> A clinical data system becomes real when the full workflow can run from example inputs to analysis-ready outputs, reports, dashboards, and interoperability artifacts</li>
 </ul>
+</div>
+<p>This final chapter brings the Clinical &amp; Medical Data Systems guide together.</p>
+<p>The previous chapters built the system in layers:</p>
+<ul>
+<li>clinical data foundations</li>
+<li>clinical data inputs</li>
+<li>cleaning, validation, and readiness</li>
+<li>descriptive analysis</li>
+<li>risk stratification</li>
+<li>model evaluation</li>
+<li>clinical interpretation</li>
+<li>reproducible reporting</li>
+<li>dashboard readiness</li>
+<li>interoperability planning</li>
+</ul>
+<p>This chapter connects those layers into one end-to-end case study.</p>
+<p>The goal is not to prove a clinical claim.</p>
+<p>The goal is to demonstrate a complete, reproducible clinical data workflow.</p>
+<hr>
+<section id="case-study-purpose" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-purpose">Case Study Purpose</h2>
+<p>The case study answers a practical systems question:</p>
+<p><strong>Can we start from structured example clinical data and produce documented, analysis-ready, interpretation-ready, report-ready, dashboard-ready, and interoperability-aware outputs?</strong></p>
+<p>A clinical data system is credible when it can be rebuilt.</p>
+<p>This chapter shows that rebuild path.</p>
+<hr>
+</section>
+<section id="end-to-end-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="end-to-end-workflow">End-to-End Workflow</h2>
+<p>The workflow follows the guide sequence.</p>
+<p>```text id=“case-study-workflow” 01 clinical system concepts 02 healthcare data types 03 clinical questions and cohorts 04 governance, privacy, and ethics</p>
+<p>05 demographics and encounters 06 diagnoses, procedures, medications 07 labs and vital signs 08 outcomes and follow-up</p>
+<p>09 clinical data quality checks 10 missingness and completeness 11 clinical variable engineering 12 analysis-ready dataset</p>
+<p>13 descriptive clinical analysis 14 risk stratification and clinical models 15 clinical model evaluation 16 clinical interpretation and decision support</p>
+<p>17 reproducible clinical reports 18 clinical dashboard readiness 19 EHR, FHIR, and interoperability roadmap 20 end-to-end case study</p>
+<pre><code>
+The case study runner focuses on the executable workflow from Chapter 05 onward.
+
+---
+
+## Input Layer
+
+The example input layer is created by earlier scripts.
+
+```text id="case-study-input-layer"
+data/example/patient-demographics.csv
+data/example/clinical-encounters.csv
+data/example/diagnoses.csv
+data/example/procedures.csv
+data/example/medications.csv
+data/example/laboratory-results.csv
+data/example/vital-sign-results.csv
+data/example/clinical-outcomes.csv</code></pre>
+<p>These files represent simplified structured clinical data.</p>
+<p>They are educational examples, not real patient data.</p>
+<hr>
+</section>
+<section id="readiness-layer" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-layer">Readiness Layer</h2>
+<p>The readiness layer checks whether the inputs can support analysis.</p>
+<p><code>text id="case-study-readiness-layer" results/clinical-data-quality-readiness-summary.txt results/missingness-completeness-readiness-summary.txt results/clinical-variable-engineering-summary.txt results/analysis-ready-clinical-dataset-readiness-summary.txt</code></p>
+<p>This layer protects the downstream workflow from hidden structural problems.</p>
+<hr>
+</section>
+<section id="analysis-layer" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-layer">Analysis Layer</h2>
+<p>The analysis layer describes the cohort and creates model-oriented outputs.</p>
+<p><code>text id="case-study-analysis-layer" results/descriptive-clinical-analysis-summary.txt results/clinical-risk-model-summary.txt results/clinical-model-evaluation-summary.txt</code></p>
+<p>The purpose is not to create a validated model.</p>
+<p>The purpose is to demonstrate a transparent clinical analysis workflow.</p>
+<hr>
+</section>
+<section id="interpretation-and-system-layer" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-and-system-layer">Interpretation and System Layer</h2>
+<p>The final layers prepare outputs for real-world review.</p>
+<p><code>text id="case-study-system-layer" results/clinical-interpretation-and-decision-support-summary.txt results/reports/reproducible-clinical-report.md results/dashboard/clinical-dashboard-prototype.html results/interoperability/interoperability-roadmap-summary.txt</code></p>
+<p>These artifacts show how analysis outputs can be translated into communication, dashboard, and interoperability planning outputs.</p>
+<hr>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>This chapter creates a case-study summary package.</p>
+<p><code>text id="chapter20-outputs" results/case-study/end-to-end-case-study-file-inventory.tsv results/case-study/end-to-end-case-study-stage-summary.tsv results/case-study/end-to-end-case-study-summary.md results/case-study/end-to-end-case-study-readiness-summary.txt logs/20-end-to-end-case-study.log</code></p>
+<p>The runner also calls prior chapter scripts to regenerate the workflow.</p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-end-to-end-case-study" python scripts/python/20-build-end-to-end-case-study-summary-safe.py bash scripts/bash/20-run-end-to-end-case-study.sh</code></p>
+<p>To run the full end-to-end workflow:</p>
+<p><code>bash id="run-end-to-end-bash-only" bash scripts/bash/20-run-end-to-end-case-study.sh</code></p>
+<hr>
+</section>
+<section id="what-the-bash-runner-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-bash-runner-does">What the Bash Runner Does</h2>
+<p>The bash runner executes the workflow in order.</p>
+<p>It runs the example data creators first.</p>
+<p>Then it runs validation, readiness, analysis, interpretation, reporting, dashboard, and interoperability scripts.</p>
+<p>Finally, it runs the Chapter 20 summary script.</p>
+<p>The runner is designed to keep going only when each step completes successfully.</p>
+<p>If a step fails, the log shows where the workflow stopped.</p>
+<hr>
+</section>
+<section id="what-the-python-summary-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-summary-script-does">What the Python Summary Script Does</h2>
+<p>The Python summary script does not rerun every analysis.</p>
+<p>It checks the outputs and builds a final case-study package.</p>
+<p>It creates:</p>
+<ul>
+<li>a file inventory</li>
+<li>a stage summary</li>
+<li>a Markdown case-study summary</li>
+<li>a text readiness summary</li>
+</ul>
+<p>The script is safe and dependency-light.</p>
+<p>It does not require external reporting packages.</p>
+<hr>
+</section>
+<section id="case-study-stages" class="level2">
+<h2 class="anchored" data-anchor-id="case-study-stages">Case Study Stages</h2>
+<p>The case study is organized into stages.</p>
+<p><code>text id="case-study-stages" input_generation input_validation missingness_and_readiness variable_engineering analysis_ready_dataset descriptive_analysis risk_stratification model_evaluation clinical_interpretation reporting dashboard_readiness interoperability case_study_summary</code></p>
+<p>Each stage has expected files.</p>
+<p>The summary script reports which files are present and which are missing.</p>
+<hr>
+</section>
+<section id="interpreting-the-case-study" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-case-study">Interpreting the Case Study</h2>
+<p>A successful run means:</p>
+<ul>
+<li>scripts executed</li>
+<li>expected files were created</li>
+<li>outputs are traceable</li>
+<li>the workflow is reproducible</li>
+<li>downstream artifacts can be reviewed</li>
+</ul>
+<p>It does not mean:</p>
+<ul>
+<li>the model is clinically valid</li>
+<li>the example data represent real patients</li>
+<li>the dashboard is production-ready</li>
+<li>the FHIR mapping is implementation-ready</li>
+<li>clinical deployment is approved</li>
+</ul>
+<p>This distinction is essential.</p>
+<hr>
 </section>
 <section id="why-this-matters" class="level2">
 <h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<p>Many clinical analytics workflows fail because they are fragmented.</p>
+<p>One person creates input files.</p>
+<p>Another cleans them.</p>
+<p>Another builds a model.</p>
+<p>Another writes a report.</p>
+<p>Another builds a dashboard.</p>
+<p>Another tries to map outputs to an EHR.</p>
+<p>Without a reproducible system, assumptions get lost.</p>
+<p>This guide shows a safer pattern: each layer writes outputs that the next layer can inspect and reuse.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="final-cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="final-cdi-principle">Final CDI Principle</h2>
+<p>A clinical data system is not a single script, model, table, or dashboard.</p>
+<p>It is a chain of defensible transformations.</p>
+<p>The chain begins with clinical questions and governance.</p>
+<p>It continues through validation and analysis readiness.</p>
+<p>It ends with interpretation, reporting, dashboard readiness, and interoperability planning.</p>
+<p>Each layer should be understandable, reproducible, and honest about its limitations.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
-</section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this final chapter, we connected the Clinical &amp; Medical Data Systems guide into an end-to-end reproducible case study.</p>
+<p>We created a final runner and summary outputs that show whether the system can rebuild itself from structured example clinical inputs.</p>
+<p>This completes the main guide.</p>
 
 
 </section>

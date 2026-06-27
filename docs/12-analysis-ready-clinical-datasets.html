@@ -305,11 +305,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-analysis-ready-does-not-mean-perfect" id="toc-why-analysis-ready-does-not-mean-perfect" class="nav-link active" data-scroll-target="#why-analysis-ready-does-not-mean-perfect">Why Analysis-Ready Does Not Mean Perfect</a></li>
+  <li><a href="#what-makes-a-clinical-dataset-analysis-ready" id="toc-what-makes-a-clinical-dataset-analysis-ready" class="nav-link" data-scroll-target="#what-makes-a-clinical-dataset-analysis-ready">What Makes a Clinical Dataset Analysis-Ready?</a></li>
+  <li><a href="#recommended-dataset-layers" id="toc-recommended-dataset-layers" class="nav-link" data-scroll-target="#recommended-dataset-layers">Recommended Dataset Layers</a></li>
+  <li><a href="#example-workflow" id="toc-example-workflow" class="nav-link" data-scroll-target="#example-workflow">Example Workflow</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#readiness-checks" id="toc-readiness-checks" class="nav-link" data-scroll-target="#readiness-checks">Readiness Checks</a></li>
+  <li><a href="#analysis-inclusion-flag" id="toc-analysis-inclusion-flag" class="nav-link" data-scroll-target="#analysis-inclusion-flag">Analysis Inclusion Flag</a></li>
+  <li><a href="#why-retain-excluded-records" id="toc-why-retain-excluded-records" class="nav-link" data-scroll-target="#why-retain-excluded-records">Why Retain Excluded Records?</a></li>
+  <li><a href="#variable-dictionary" id="toc-variable-dictionary" class="nav-link" data-scroll-target="#variable-dictionary">Variable Dictionary</a></li>
+  <li><a href="#common-failure-modes" id="toc-common-failure-modes" class="nav-link" data-scroll-target="#common-failure-modes">Common Failure Modes</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-clinical-data-quality-checks.html">Part III: Cleaning, Validation, and Readiness</a></li><li class="breadcrumb-item"><a href="./12-analysis-ready-clinical-datasets.html"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="analysis-ready-clinical-datasets" class="quarto-section-identifier"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></span></h1>
+<h1 class="title"><span class="chapter-title">Analysis-Ready Clinical Datasets</span></h1>
 </div>
 
 
@@ -341,46 +350,253 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-12</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, data scientists, health informatics teams, and applied researchers</li>
+<li><strong>Theme:</strong> Clinical analysis begins only after inputs are converted into a documented, patient-level, analysis-ready dataset</li>
 </ul>
+</div>
+<p>Raw clinical data rarely arrives in a form that can be analyzed directly.</p>
+<p>Demographics may live in one table.</p>
+<p>Encounters may live in another.</p>
+<p>Diagnoses, procedures, medications, laboratory results, vital signs, outcomes, and follow-up information may all be recorded at different time scales.</p>
+<p>Before descriptive analysis, risk modeling, dashboards, or decision support, these sources must be converted into an <strong>analysis-ready clinical dataset</strong>.</p>
+<p>This chapter shows how to define, assemble, check, and document that dataset.</p>
+<hr>
+<section id="why-analysis-ready-does-not-mean-perfect" class="level2">
+<h2 class="anchored" data-anchor-id="why-analysis-ready-does-not-mean-perfect">Why Analysis-Ready Does Not Mean Perfect</h2>
+<p>An analysis-ready dataset is not a perfect dataset.</p>
+<p>It is a dataset that is sufficiently prepared, documented, and validated for a specific analytical purpose.</p>
+<p>In clinical work, this distinction matters.</p>
+<p>A dataset may be ready for describing patient demographics but not ready for survival analysis.</p>
+<p>A dataset may be ready for quality improvement monitoring but not ready for causal inference.</p>
+<p>A dataset may be ready for internal dashboarding but not ready for external publication.</p>
+<p>Analysis readiness is therefore tied to the clinical question.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="what-makes-a-clinical-dataset-analysis-ready" class="level2">
+<h2 class="anchored" data-anchor-id="what-makes-a-clinical-dataset-analysis-ready">What Makes a Clinical Dataset Analysis-Ready?</h2>
+<p>A clinical dataset becomes analysis-ready when it has:</p>
+<ul>
+<li>one clear unit of analysis</li>
+<li>stable patient identifiers</li>
+<li>documented inclusion and exclusion rules</li>
+<li>clinically meaningful variables</li>
+<li>defined index dates</li>
+<li>defined follow-up windows</li>
+<li>documented outcome definitions</li>
+<li>clear handling of missingness</li>
+<li>data quality checks</li>
+<li>a variable dictionary</li>
+<li>reproducible scripts that can rebuild the dataset</li>
+</ul>
+<p>For many clinical analyses, the unit of analysis is one row per patient.</p>
+<p>For some analyses, it may be one row per encounter, one row per medication exposure, one row per laboratory result, or one row per follow-up period.</p>
+<p>The important point is that the unit must be explicit.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="recommended-dataset-layers" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-dataset-layers">Recommended Dataset Layers</h2>
+<p>A modern clinical data system should not jump directly from raw inputs to the final analysis file.</p>
+<p>A cleaner workflow separates the layers.</p>
+<p>```text id=“clinical-dataset-layers” data/example/ patient-demographics.csv clinical-encounters.csv diagnoses.csv procedures.csv medications.csv laboratory-results.csv vital-sign-results.csv clinical-outcomes.csv</p>
+<p>results/ patient-level-derived-variables.tsv clinical-variable-dictionary.tsv analysis-ready-clinical-dataset.tsv analysis-ready-clinical-dataset-data-dictionary.tsv analysis-ready-clinical-dataset-readiness-summary.txt</p>
+<pre><code>
+The final analysis-ready dataset should be reproducible from earlier checked inputs.
+
+It should not be manually edited.
+
+---
+
+## The Role of the Derived Variable Table
+
+In the previous chapter, we created patient-level derived variables.
+
+That table is the bridge between clinical data inputs and formal analysis.
+
+It may include variables such as:
+
+- age group
+- sex
+- encounter count
+- diagnosis burden
+- medication count
+- abnormal laboratory indicators
+- latest vital sign values
+- outcome status
+- follow-up days
+- completeness indicators
+
+In this chapter, we turn that derived table into a more explicit analysis-ready dataset.
+
+---
+
+## Analysis-Ready Dataset Contract
+
+Before creating the final dataset, define a dataset contract.
+
+The contract should answer:
+
+1. What is the unit of analysis?
+2. What is the index date?
+3. What patients are included?
+4. What patients are excluded?
+5. Which variables are required?
+6. Which variables are optional?
+7. Which outcome definition is used?
+8. How is follow-up measured?
+9. How is missingness documented?
+10. What outputs should be produced?
+
+A simple contract can be stored as a plain text or YAML-style file.
+
+```text id="analysis-ready-contract"
+unit_of_analysis: patient
+index_date: first eligible encounter date
+included_population: patients with valid demographic and encounter information
+required_variables:
+  - patient_id
+  - age
+  - sex
+  - age_group
+  - encounter_count
+  - outcome_status
+  - follow_up_days
+primary_output:
+  - results/analysis-ready-clinical-dataset.tsv</code></pre>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="example-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="example-workflow">Example Workflow</h2>
+<p>This chapter uses the outputs generated in Chapter 11.</p>
+<p>The main input is:</p>
+<p><code>text id="chapter12-input" results/patient-level-derived-variables.tsv</code></p>
+<p>The workflow then creates:</p>
+<p><code>text id="chapter12-outputs" results/analysis-ready-clinical-dataset.tsv results/analysis-ready-clinical-dataset-data-dictionary.tsv results/analysis-ready-clinical-dataset-readiness-summary.txt results/figures/analysis-ready-age-group-distribution.png results/figures/analysis-ready-follow-up-distribution.png logs/12-analysis-ready-clinical-dataset.log</code></p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-analysis-ready-dataset" python scripts/python/12-build-analysis-ready-clinical-dataset.py Rscript scripts/R/12-visualize-analysis-ready-clinical-dataset.R bash scripts/bash/12-run-analysis-ready-clinical-dataset.sh</code></p>
+<p>If you want the bash script to run the full chapter workflow, use:</p>
+<p><code>bash id="run-analysis-ready-bash-only" bash scripts/bash/12-run-analysis-ready-clinical-dataset.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script reads the patient-level derived variables table and applies a readiness contract.</p>
+<p>It checks that required columns exist.</p>
+<p>It standardizes selected column names.</p>
+<p>It creates explicit analysis flags.</p>
+<p>It writes the final dataset and a data dictionary.</p>
+<p><code>python id="python-script-purpose" input_file = "results/patient-level-derived-variables.tsv" output_file = "results/analysis-ready-clinical-dataset.tsv" dictionary_file = "results/analysis-ready-clinical-dataset-data-dictionary.tsv" summary_file = "results/analysis-ready-clinical-dataset-readiness-summary.txt"</code></p>
+<p>The script is deliberately conservative.</p>
+<p>It does not silently invent missing clinical facts.</p>
+<p>If a required variable is missing, it records that issue in the readiness summary.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates modern summary visuals from the final analysis-ready dataset.</p>
+<p>It uses tidyverse-style data handling and ggplot2-based visualization.</p>
+<p><code>r id="r-script-purpose" readr::read_tsv("results/analysis-ready-clinical-dataset.tsv")</code></p>
+<p>The figures are intended to confirm that the dataset is structurally reasonable before analysis begins.</p>
+<hr>
+</section>
+<section id="readiness-checks" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-checks">Readiness Checks</h2>
+<p>The readiness checks focus on whether the dataset can support downstream analysis.</p>
+<p>Key checks include:</p>
+<ul>
+<li>row count</li>
+<li>patient identifier uniqueness</li>
+<li>required variable availability</li>
+<li>missingness by required variable</li>
+<li>age validity</li>
+<li>follow-up validity</li>
+<li>outcome availability</li>
+<li>analysis inclusion flag counts</li>
+</ul>
+<p>These checks do not prove that the clinical definitions are correct.</p>
+<p>They help prevent obvious structural errors from reaching the analysis stage.</p>
+<hr>
+</section>
+<section id="analysis-inclusion-flag" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-inclusion-flag">Analysis Inclusion Flag</h2>
+<p>Not every patient in a cleaned dataset should automatically enter every analysis.</p>
+<p>For this reason, the script creates an <code>analysis_inclusion_flag</code>.</p>
+<p>A patient is analysis-ready when the core required fields are available and valid.</p>
+<p><code>text id="analysis-inclusion-logic" analysis_inclusion_flag = true when:   patient_id is present   age is present and non-negative   sex is present   outcome_status is present   follow_up_days is present and non-negative</code></p>
+<p>Patients that do not meet the flag are retained in the file.</p>
+<p>They are not deleted automatically.</p>
+<p>This allows transparent reporting of how many records were excluded from a specific analysis.</p>
+<hr>
+</section>
+<section id="why-retain-excluded-records" class="level2">
+<h2 class="anchored" data-anchor-id="why-retain-excluded-records">Why Retain Excluded Records?</h2>
+<p>Removing excluded records too early can hide important data issues.</p>
+<p>A better clinical workflow keeps the full prepared dataset and labels analytic eligibility explicitly.</p>
+<p>This makes it possible to answer:</p>
+<ul>
+<li>how many patients were available before analysis restrictions</li>
+<li>how many were excluded</li>
+<li>which variables caused exclusion</li>
+<li>whether exclusions were clinically meaningful</li>
+<li>whether exclusion could bias interpretation</li>
+</ul>
+<p>Transparency is more important than silently producing a clean-looking table.</p>
+<hr>
+</section>
+<section id="variable-dictionary" class="level2">
+<h2 class="anchored" data-anchor-id="variable-dictionary">Variable Dictionary</h2>
+<p>Every analysis-ready dataset should have a variable dictionary.</p>
+<p>The dictionary should include:</p>
+<ul>
+<li>variable name</li>
+<li>description</li>
+<li>expected type</li>
+<li>allowed values where relevant</li>
+<li>whether the variable is required</li>
+<li>source or derivation rule</li>
+</ul>
+<p>This is essential for clinical review.</p>
+<p>A dataset without a dictionary may still be technically analyzable, but it is not defensible.</p>
+<hr>
+</section>
+<section id="common-failure-modes" class="level2">
+<h2 class="anchored" data-anchor-id="common-failure-modes">Common Failure Modes</h2>
+<p>Clinical datasets often fail analysis readiness because of:</p>
+<ul>
+<li>duplicate patient rows</li>
+<li>inconsistent patient identifiers</li>
+<li>missing index dates</li>
+<li>impossible ages</li>
+<li>negative follow-up times</li>
+<li>outcomes recorded before index dates</li>
+<li>unclear outcome definitions</li>
+<li>mixed coding systems</li>
+<li>undocumented derived variables</li>
+<li>mismatched denominators across tables</li>
+</ul>
+<p>The purpose of this chapter is to catch these issues before formal interpretation.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical dataset is analysis-ready when another person can understand what each row means, how each variable was created, and why the dataset is appropriate for the stated clinical question.</p>
+<p>The dataset should not depend on memory.</p>
+<p>It should depend on structure, documentation, and reproducible code.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we converted patient-level derived variables into a documented analysis-ready clinical dataset.</p>
+<p>We introduced the idea of a dataset contract, retained exclusion information transparently, created a data dictionary, and generated readiness outputs.</p>
+<p>This completes Part III.</p>
+<p>The next part moves from data readiness into clinical analysis and interpretation.</p>
 
 
 </section>

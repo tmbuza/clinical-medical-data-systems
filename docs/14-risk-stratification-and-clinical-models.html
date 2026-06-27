@@ -305,11 +305,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#risk-stratification-before-prediction" id="toc-risk-stratification-before-prediction" class="nav-link active" data-scroll-target="#risk-stratification-before-prediction">Risk Stratification Before Prediction</a></li>
+  <li><a href="#why-clinical-models-require-extra-care" id="toc-why-clinical-models-require-extra-care" class="nav-link" data-scroll-target="#why-clinical-models-require-extra-care">Why Clinical Models Require Extra Care</a></li>
+  <li><a href="#input-dataset" id="toc-input-dataset" class="nav-link" data-scroll-target="#input-dataset">Input Dataset</a></li>
+  <li><a href="#modeling-goal" id="toc-modeling-goal" class="nav-link" data-scroll-target="#modeling-goal">Modeling Goal</a></li>
+  <li><a href="#candidate-predictors" id="toc-candidate-predictors" class="nav-link" data-scroll-target="#candidate-predictors">Candidate Predictors</a></li>
+  <li><a href="#outcome-handling" id="toc-outcome-handling" class="nav-link" data-scroll-target="#outcome-handling">Outcome Handling</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#why-keep-a-rule-based-fallback" id="toc-why-keep-a-rule-based-fallback" class="nav-link" data-scroll-target="#why-keep-a-rule-based-fallback">Why Keep a Rule-Based Fallback?</a></li>
+  <li><a href="#clinical-interpretation" id="toc-clinical-interpretation" class="nav-link" data-scroll-target="#clinical-interpretation">Clinical Interpretation</a></li>
+  <li><a href="#avoiding-data-leakage" id="toc-avoiding-data-leakage" class="nav-link" data-scroll-target="#avoiding-data-leakage">Avoiding Data Leakage</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +328,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13-descriptive-clinical-analysis.html">Part IV: Clinical Analysis and Interpretation</a></li><li class="breadcrumb-item"><a href="./14-risk-stratification-and-clinical-models.html"><span class="chapter-title">Risk Stratification and Clinical Models</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="risk-stratification-and-clinical-models" class="quarto-section-identifier"><span class="chapter-title">Risk Stratification and Clinical Models</span></span></h1>
+<h1 class="title"><span class="chapter-title">Risk Stratification and Clinical Models</span></h1>
 </div>
 
 
@@ -341,46 +351,247 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-14</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, and clinical decision-support teams</li>
+<li><strong>Theme:</strong> Clinical models should begin as transparent risk stratification systems before becoming decision-support tools</li>
 </ul>
+</div>
+<p>After a clinical cohort has been described, the next step is often to identify patients at higher or lower risk.</p>
+<p>This may involve a simple clinical rule.</p>
+<p>It may involve a regression model.</p>
+<p>It may involve a machine learning model.</p>
+<p>But in clinical data systems, the goal is not simply to produce predictions.</p>
+<p>The goal is to create a transparent, reviewable, clinically meaningful risk stratification workflow.</p>
+<hr>
+<section id="risk-stratification-before-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="risk-stratification-before-prediction">Risk Stratification Before Prediction</h2>
+<p>Risk stratification groups patients into clinically meaningful risk categories.</p>
+<p>For example:</p>
+<ul>
+<li>low risk</li>
+<li>moderate risk</li>
+<li>high risk</li>
+</ul>
+<p>This is different from simply producing a probability.</p>
+<p>A probability may be useful to a data scientist, but a risk group is often easier for clinical teams to review, communicate, and act on.</p>
+<p>Good clinical modeling workflows usually include both:</p>
+<p><code>text id="risk-stratification-layer" patient-level variables   -&gt; risk score   -&gt; risk group   -&gt; clinical review   -&gt; model evaluation   -&gt; decision-support readiness</code></p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="why-clinical-models-require-extra-care" class="level2">
+<h2 class="anchored" data-anchor-id="why-clinical-models-require-extra-care">Why Clinical Models Require Extra Care</h2>
+<p>Clinical models can affect real people.</p>
+<p>A model may influence:</p>
+<ul>
+<li>who receives follow-up</li>
+<li>who is flagged for intervention</li>
+<li>who is prioritized for review</li>
+<li>how resources are allocated</li>
+<li>how clinical risk is communicated</li>
+</ul>
+<p>For this reason, a clinical model should not be treated as just another statistical output.</p>
+<p>It must be reviewed for:</p>
+<ul>
+<li>data quality</li>
+<li>clinical plausibility</li>
+<li>bias and fairness concerns</li>
+<li>calibration</li>
+<li>interpretability</li>
+<li>workflow fit</li>
+<li>governance and accountability</li>
+</ul>
+<p>This chapter focuses on the first modeling layer: creating a simple, transparent risk stratification workflow.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="input-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="input-dataset">Input Dataset</h2>
+<p>This chapter uses the analysis-ready clinical dataset created in Chapter 12 and described in Chapter 13.</p>
+<p><code>text id="chapter14-input" results/analysis-ready-clinical-dataset.tsv</code></p>
+<p>The expected unit is one row per patient.</p>
+<p>The dataset should contain an <code>analysis_inclusion_flag</code> and a small set of patient-level predictors.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="modeling-goal" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-goal">Modeling Goal</h2>
+<p>The example workflow builds a simple risk stratification model using available patient-level features.</p>
+<p>The goal is not to create a production clinical model.</p>
+<p>The goal is to show a reproducible modeling pattern:</p>
+<ol type="1">
+<li>select eligible patients</li>
+<li>define predictors</li>
+<li>define outcome</li>
+<li>fit a transparent model when possible</li>
+<li>generate predicted risk scores</li>
+<li>convert scores into risk groups</li>
+<li>save model-ready outputs</li>
+<li>document limitations</li>
+</ol>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="candidate-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="candidate-predictors">Candidate Predictors</h2>
+<p>The example script looks for common patient-level variables such as:</p>
+<ul>
+<li>age</li>
+<li>encounter count</li>
+<li>diagnosis count</li>
+<li>procedure count</li>
+<li>medication count</li>
+<li>abnormal laboratory count</li>
+<li>latest systolic blood pressure</li>
+<li>latest diastolic blood pressure</li>
+<li>latest body mass index</li>
+<li>diagnosis indicators</li>
+</ul>
+<p>The script only uses predictors that are present and usable.</p>
+<p>This makes the workflow robust across different stages of the project.</p>
+<hr>
+</section>
+<section id="outcome-handling" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-handling">Outcome Handling</h2>
+<p>Clinical outcomes can be stored in many ways.</p>
+<p>The example script converts <code>outcome_status</code> into a binary modeling target using simple rules.</p>
+<p>```text id=“binary-outcome-logic” positive outcome examples: - event - adverse_event - died - death - readmitted - yes - true - 1</p>
+<p>negative outcome examples: - no_event - alive - no - false - 0</p>
+<pre><code>
+In a real clinical project, this mapping should be replaced by a reviewed clinical outcome definition.
+
+---
+
+## Model Choice
+
+The script uses a simple logistic regression model when there are enough positive and negative outcome examples.
+
+Logistic regression is useful at this stage because it is:
+
+- familiar to clinical teams
+- transparent
+- fast
+- interpretable
+- suitable as a baseline
+- easier to document than a complex black-box model
+
+If the dataset is too small or has only one outcome class, the script falls back to a rule-based risk score.
+
+This allows the chapter workflow to run even with small example data.
+
+---
+
+## Risk Groups
+
+Predicted risk scores are converted into risk groups.
+
+```text id="risk-group-logic"
+low risk: lower third of risk scores
+moderate risk: middle third of risk scores
+high risk: upper third of risk scores</code></pre>
+<p>For real clinical deployment, risk thresholds should not be chosen automatically.</p>
+<p>They should be selected with clinical stakeholders based on expected action, resource constraints, and consequences of false positives and false negatives.</p>
+<hr>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>This chapter creates model-ready and risk-stratified outputs.</p>
+<p><code>text id="chapter14-outputs" results/clinical-risk-stratification-results.tsv results/clinical-risk-model-feature-summary.tsv results/clinical-risk-model-summary.txt results/figures/risk-score-distribution.png results/figures/risk-group-summary.png logs/14-risk-stratification-and-clinical-models.log</code></p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-risk-stratification" python scripts/python/14-risk-stratification-and-clinical-models-safe.py Rscript scripts/R/14-visualize-risk-stratification-safe.R bash scripts/bash/14-run-risk-stratification-and-clinical-models.sh</code></p>
+<p>To run the full chapter workflow with logging:</p>
+<p><code>bash id="run-risk-bash-only" bash scripts/bash/14-run-risk-stratification-and-clinical-models.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script:</p>
+<ul>
+<li>reads the analysis-ready dataset</li>
+<li>filters to analysis-included patients when possible</li>
+<li>creates a binary outcome target</li>
+<li>selects usable numeric and boolean predictors</li>
+<li>imputes missing predictor values</li>
+<li>fits a logistic regression model when feasible</li>
+<li>falls back to a rule-based score when needed</li>
+<li>writes patient-level risk scores</li>
+<li>writes feature summaries</li>
+<li>writes a model summary</li>
+</ul>
+<p>The output is intentionally transparent.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates modern visual summaries of the risk stratification output.</p>
+<p>It writes:</p>
+<p><code>text id="chapter14-r-outputs" results/figures/risk-score-distribution.png results/figures/risk-group-summary.png</code></p>
+<p>The script is defensive.</p>
+<p>If the data are too small or columns are missing, it writes skip notes instead of stopping the workflow.</p>
+<hr>
+</section>
+<section id="why-keep-a-rule-based-fallback" class="level2">
+<h2 class="anchored" data-anchor-id="why-keep-a-rule-based-fallback">Why Keep a Rule-Based Fallback?</h2>
+<p>Small example datasets often do not contain enough events for formal modeling.</p>
+<p>Real clinical projects can also encounter this problem.</p>
+<p>A rule-based fallback helps demonstrate the risk stratification layer without pretending that a weak model is reliable.</p>
+<p>The summary file clearly states whether the workflow used:</p>
+<ul>
+<li>logistic regression</li>
+<li>rule-based fallback</li>
+<li>insufficient-data fallback</li>
+</ul>
+<p>This prevents silent overclaiming.</p>
+<hr>
+</section>
+<section id="clinical-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-interpretation">Clinical Interpretation</h2>
+<p>A risk model should never be interpreted only by its code.</p>
+<p>Clinical review should ask:</p>
+<ul>
+<li>Does the outcome definition make clinical sense?</li>
+<li>Are the predictors available before the decision point?</li>
+<li>Are any variables proxies for bias or access to care?</li>
+<li>Are there leakage variables?</li>
+<li>Are the risk groups actionable?</li>
+<li>What harm could come from incorrect classification?</li>
+<li>Who will review model outputs?</li>
+<li>How will performance be monitored?</li>
+</ul>
+<p>These questions matter before the model is connected to real workflows.</p>
+<hr>
+</section>
+<section id="avoiding-data-leakage" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-data-leakage">Avoiding Data Leakage</h2>
+<p>Data leakage occurs when predictors include information that would not be available at the time of prediction.</p>
+<p>Examples include:</p>
+<ul>
+<li>using future outcomes as predictors</li>
+<li>using post-index follow-up variables</li>
+<li>using treatments that occurred after the risk decision</li>
+<li>using discharge information to predict admission risk</li>
+<li>using variables created after the clinical action point</li>
+</ul>
+<p>Clinical modeling requires a clear prediction time.</p>
+<p>Without a prediction time, model performance can look better than it really is.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical model is not ready because it runs.</p>
+<p>It is ready for review when its cohort, predictors, outcome definition, risk groups, assumptions, and limitations are visible.</p>
+<p>Modeling is not the start of clinical insight.</p>
+<p>It is a layer built on top of clinical data readiness.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we built a transparent risk stratification workflow from the analysis-ready clinical dataset.</p>
+<p>We created patient-level risk scores, risk groups, feature summaries, visual outputs, and a model summary.</p>
+<p>The next chapter evaluates clinical models and explains why accuracy alone is not enough.</p>
 
 
 </section>

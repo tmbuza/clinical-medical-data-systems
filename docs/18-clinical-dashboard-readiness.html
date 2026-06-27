@@ -305,11 +305,21 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-dashboard-readiness-comes-after-reporting" id="toc-why-dashboard-readiness-comes-after-reporting" class="nav-link active" data-scroll-target="#why-dashboard-readiness-comes-after-reporting">Why Dashboard Readiness Comes After Reporting</a></li>
+  <li><a href="#dashboard-readiness-is-a-data-product-layer" id="toc-dashboard-readiness-is-a-data-product-layer" class="nav-link" data-scroll-target="#dashboard-readiness-is-a-data-product-layer">Dashboard Readiness Is a Data Product Layer</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files">Input Files</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#dashboard-metric-catalog" id="toc-dashboard-metric-catalog" class="nav-link" data-scroll-target="#dashboard-metric-catalog">Dashboard Metric Catalog</a></li>
+  <li><a href="#kpi-summary" id="toc-kpi-summary" class="nav-link" data-scroll-target="#kpi-summary">KPI Summary</a></li>
+  <li><a href="#risk-group-summary" id="toc-risk-group-summary" class="nav-link" data-scroll-target="#risk-group-summary">Risk Group Summary</a></li>
+  <li><a href="#readiness-issues" id="toc-readiness-issues" class="nav-link" data-scroll-target="#readiness-issues">Readiness Issues</a></li>
+  <li><a href="#avoiding-dashboard-overclaiming" id="toc-avoiding-dashboard-overclaiming" class="nav-link" data-scroll-target="#avoiding-dashboard-overclaiming">Avoiding Dashboard Overclaiming</a></li>
+  <li><a href="#refresh-readiness" id="toc-refresh-readiness" class="nav-link" data-scroll-target="#refresh-readiness">Refresh Readiness</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +328,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./18-clinical-dashboard-readiness.html"><span class="chapter-title">Clinical Dashboard Readiness</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="clinical-dashboard-readiness" class="quarto-section-identifier"><span class="chapter-title">Clinical Dashboard Readiness</span></span></h1>
+<h1 class="title"><span class="chapter-title">Clinical Dashboard Readiness</span></h1>
 </div>
 
 
@@ -341,46 +351,189 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-18</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, dashboard developers, health informatics teams, quality improvement teams, and clinical decision-support stakeholders</li>
+<li><strong>Theme:</strong> Clinical dashboards require curated metrics, clear denominators, safe interpretation language, and refresh-ready data outputs</li>
 </ul>
+</div>
+<p>A clinical dashboard is not just a collection of charts.</p>
+<p>It is a live or repeatable clinical communication layer.</p>
+<p>Dashboards can support quality improvement, cohort monitoring, operational review, patient safety discussions, and decision-support planning.</p>
+<p>But dashboards can also mislead if the underlying metrics are not defined, denominators are unclear, or visual outputs imply more certainty than the data support.</p>
+<p>This chapter prepares dashboard-ready clinical outputs from the existing analysis workflow.</p>
+<hr>
+<section id="why-dashboard-readiness-comes-after-reporting" class="level2">
+<h2 class="anchored" data-anchor-id="why-dashboard-readiness-comes-after-reporting">Why Dashboard Readiness Comes After Reporting</h2>
+<p>A static report is usually easier to review.</p>
+<p>A dashboard is more dynamic.</p>
+<p>Before building a dashboard, the team should already understand:</p>
+<ul>
+<li>the cohort definition</li>
+<li>available variables</li>
+<li>missingness</li>
+<li>descriptive summaries</li>
+<li>model outputs</li>
+<li>evaluation limitations</li>
+<li>interpretation boundaries</li>
+</ul>
+<p>Dashboards should not be used to discover basic data problems for the first time.</p>
+<p>They should sit on top of checked, documented outputs.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="dashboard-readiness-is-a-data-product-layer" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-readiness-is-a-data-product-layer">Dashboard Readiness Is a Data Product Layer</h2>
+<p>A dashboard-ready dataset is different from an analysis dataset.</p>
+<p>An analysis dataset may contain many variables and patient-level details.</p>
+<p>A dashboard dataset should contain curated metrics and display-ready summaries.</p>
+<p><code>text id="dashboard-layer" analysis-ready dataset   -&gt; descriptive summaries   -&gt; model summaries   -&gt; interpretation outputs   -&gt; dashboard-ready metric tables   -&gt; dashboard prototype or BI tool</code></p>
+<p>This chapter creates the metric layer.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="input-files" class="level2">
+<h2 class="anchored" data-anchor-id="input-files">Input Files</h2>
+<p>The workflow uses outputs from earlier chapters.</p>
+<p><code>text id="chapter18-inputs" results/analysis-ready-clinical-dataset.tsv results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/clinical-model-evaluation-metrics.tsv results/clinical-model-risk-group-evaluation.tsv results/clinical-decision-support-readiness.tsv</code></p>
+<p>The script is defensive.</p>
+<p>If an input is missing, it writes a dashboard readiness issue rather than crashing.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>The chapter creates dashboard-ready tables and a compact prototype.</p>
+<p><code>text id="chapter18-outputs" results/dashboard/dashboard-metric-catalog.tsv results/dashboard/dashboard-kpi-summary.tsv results/dashboard/dashboard-risk-group-summary.tsv results/dashboard/dashboard-readiness-issues.tsv results/dashboard/clinical-dashboard-prototype.html results/figures/dashboard-kpi-readiness-summary.png logs/18-clinical-dashboard-readiness.log</code></p>
+<p>The HTML prototype is intentionally simple.</p>
+<p>It is not a production dashboard.</p>
+<p>It demonstrates how curated outputs can be assembled into a reviewable dashboard artifact.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-clinical-dashboard-readiness" python scripts/python/18-build-clinical-dashboard-readiness-safe.py Rscript scripts/R/18-visualize-dashboard-readiness-safe.R bash scripts/bash/18-run-clinical-dashboard-readiness.sh</code></p>
+<p>To run the full workflow with logging:</p>
+<p><code>bash id="run-clinical-dashboard-bash-only" bash scripts/bash/18-run-clinical-dashboard-readiness.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script creates dashboard-ready tables.</p>
+<p>It produces:</p>
+<ul>
+<li>a metric catalog</li>
+<li>a KPI summary table</li>
+<li>a risk group summary table</li>
+<li>a dashboard readiness issue log</li>
+<li>a small HTML dashboard prototype</li>
+</ul>
+<p>The script avoids heavy dashboard dependencies.</p>
+<p>It writes a plain HTML file that can be opened in a browser.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates one visual readiness summary.</p>
+<p>It reads:</p>
+<p><code>text id="dashboard-readiness-r-input" results/dashboard/dashboard-kpi-summary.tsv</code></p>
+<p>It writes:</p>
+<p><code>text id="dashboard-readiness-r-output" results/figures/dashboard-kpi-readiness-summary.png</code></p>
+<p>The script uses safe type conversion and writes a skip note if the KPI file is unavailable.</p>
+<hr>
+</section>
+<section id="dashboard-metric-catalog" class="level2">
+<h2 class="anchored" data-anchor-id="dashboard-metric-catalog">Dashboard Metric Catalog</h2>
+<p>A dashboard metric catalog should document every displayed metric.</p>
+<p>It should include:</p>
+<ul>
+<li>metric name</li>
+<li>display label</li>
+<li>source file</li>
+<li>numerator definition</li>
+<li>denominator definition</li>
+<li>refresh expectation</li>
+<li>interpretation note</li>
+</ul>
+<p>This protects against dashboard drift.</p>
+<p>If a metric appears on a dashboard, someone should be able to explain exactly how it was created.</p>
+<hr>
+</section>
+<section id="kpi-summary" class="level2">
+<h2 class="anchored" data-anchor-id="kpi-summary">KPI Summary</h2>
+<p>The KPI summary provides compact values for dashboard cards.</p>
+<p>Example KPI cards include:</p>
+<p><code>text id="dashboard-kpi-examples" Total patients Analysis-included patients Observed event rate Mean predicted risk High-risk patient count Decision-support readiness items present Decision-support items requiring review</code></p>
+<p>A KPI card should never hide its denominator.</p>
+<hr>
+</section>
+<section id="risk-group-summary" class="level2">
+<h2 class="anchored" data-anchor-id="risk-group-summary">Risk Group Summary</h2>
+<p>Risk groups are common dashboard elements.</p>
+<p>However, they should be shown carefully.</p>
+<p>A dashboard may display:</p>
+<ul>
+<li>count of patients by risk group</li>
+<li>observed event rate by risk group</li>
+<li>interpretation note</li>
+<li>validation status</li>
+</ul>
+<p>The dashboard should not imply that risk groups are clinically actionable unless governance review is complete.</p>
+<hr>
+</section>
+<section id="readiness-issues" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-issues">Readiness Issues</h2>
+<p>Dashboard readiness issues are not failures.</p>
+<p>They are transparency outputs.</p>
+<p>Examples include:</p>
+<ul>
+<li>missing input file</li>
+<li>missing denominator</li>
+<li>no known outcomes</li>
+<li>unavailable model evaluation</li>
+<li>decision-support governance not complete</li>
+<li>dashboard prototype only</li>
+</ul>
+<p>Issue logs make dashboards safer because limitations are visible.</p>
+<hr>
+</section>
+<section id="avoiding-dashboard-overclaiming" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-dashboard-overclaiming">Avoiding Dashboard Overclaiming</h2>
+<p>Clinical dashboards should avoid language such as:</p>
+<p><code>text id="dashboard-overclaiming" Patients who need intervention Preventable deaths Model-recommended treatment</code></p>
+<p>Safer language includes:</p>
+<p><code>text id="dashboard-safer-language" Patients assigned to high risk group Patients requiring review under approved workflow Observed outcome count Decision-support readiness status</code></p>
+<p>Dashboards should communicate evidence, not exaggerate certainty.</p>
+<hr>
+</section>
+<section id="refresh-readiness" class="level2">
+<h2 class="anchored" data-anchor-id="refresh-readiness">Refresh Readiness</h2>
+<p>A dashboard should be designed with refresh in mind.</p>
+<p>Ask:</p>
+<ul>
+<li>Which script rebuilds the dashboard data?</li>
+<li>Which input files must be updated first?</li>
+<li>Are outputs timestamped?</li>
+<li>Are denominators stable?</li>
+<li>Are missing files detected?</li>
+<li>Are stale outputs visible?</li>
+<li>Who reviews changes after refresh?</li>
+</ul>
+<p>A dashboard that refreshes without validation can spread errors quickly.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical dashboard is ready when its metrics are defined, denominators are visible, limitations are documented, and the output can be regenerated safely.</p>
+<p>Dashboard readiness is not a visual design step only.</p>
+<p>It is a data-system readiness step.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we prepared dashboard-ready outputs from the clinical analysis workflow.</p>
+<p>We created a metric catalog, KPI summary, risk group summary, readiness issue log, prototype HTML dashboard, and a readiness figure.</p>
+<p>The next chapter moves into EHR, FHIR, and interoperability planning.</p>
 
 
 </section>

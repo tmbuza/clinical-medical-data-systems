@@ -305,11 +305,31 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-completeness-matters" id="toc-why-completeness-matters" class="nav-link active" data-scroll-target="#why-completeness-matters">Why Completeness Matters</a></li>
+  <li><a href="#missingness-is-a-signal" id="toc-missingness-is-a-signal" class="nav-link" data-scroll-target="#missingness-is-a-signal">Missingness Is a Signal</a></li>
+  <li><a href="#common-missingness-patterns" id="toc-common-missingness-patterns" class="nav-link" data-scroll-target="#common-missingness-patterns">Common Missingness Patterns</a>
+  <ul class="collapse">
+  <li><a href="#variable-level-missingness" id="toc-variable-level-missingness" class="nav-link" data-scroll-target="#variable-level-missingness">Variable-level missingness</a></li>
+  <li><a href="#patient-level-missingness" id="toc-patient-level-missingness" class="nav-link" data-scroll-target="#patient-level-missingness">Patient-level missingness</a></li>
+  <li><a href="#encounter-level-missingness" id="toc-encounter-level-missingness" class="nav-link" data-scroll-target="#encounter-level-missingness">Encounter-level missingness</a></li>
+  <li><a href="#domain-level-missingness" id="toc-domain-level-missingness" class="nav-link" data-scroll-target="#domain-level-missingness">Domain-level missingness</a></li>
+  <li><a href="#time-dependent-missingness" id="toc-time-dependent-missingness" class="nav-link" data-scroll-target="#time-dependent-missingness">Time-dependent missingness</a></li>
+  </ul></li>
+  <li><a href="#completeness-is-context-specific" id="toc-completeness-is-context-specific" class="nav-link" data-scroll-target="#completeness-is-context-specific">Completeness Is Context-Specific</a></li>
+  <li><a href="#example-completeness-review" id="toc-example-completeness-review" class="nav-link" data-scroll-target="#example-completeness-review">Example Completeness Review</a></li>
+  <li><a href="#how-to-run-the-missingness-workflow" id="toc-how-to-run-the-missingness-workflow" class="nav-link" data-scroll-target="#how-to-run-the-missingness-workflow">How to Run the Missingness Workflow</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#interpreting-completeness-results" id="toc-interpreting-completeness-results" class="nav-link" data-scroll-target="#interpreting-completeness-results">Interpreting Completeness Results</a>
+  <ul class="collapse">
+  <li><a href="#primary-exposure" id="toc-primary-exposure" class="nav-link" data-scroll-target="#primary-exposure">Primary exposure</a></li>
+  <li><a href="#primary-outcome" id="toc-primary-outcome" class="nav-link" data-scroll-target="#primary-outcome">Primary outcome</a></li>
+  <li><a href="#adjustment-variables" id="toc-adjustment-variables" class="nav-link" data-scroll-target="#adjustment-variables">Adjustment variables</a></li>
+  <li><a href="#descriptive-variables" id="toc-descriptive-variables" class="nav-link" data-scroll-target="#descriptive-variables">Descriptive variables</a></li>
+  </ul></li>
+  <li><a href="#missingness-and-bias" id="toc-missingness-and-bias" class="nav-link" data-scroll-target="#missingness-and-bias">Missingness and Bias</a></li>
+  <li><a href="#practical-checklist" id="toc-practical-checklist" class="nav-link" data-scroll-target="#practical-checklist">Practical Checklist</a></li>
+  <li><a href="#connection-to-the-next-chapter" id="toc-connection-to-the-next-chapter" class="nav-link" data-scroll-target="#connection-to-the-next-chapter">Connection to the Next Chapter</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./09-clinical-data-quality-checks.html">Part III: Cleaning, Validation, and Readiness</a></li><li class="breadcrumb-item"><a href="./10-missingness-and-data-completeness.html"><span class="chapter-title">Missingness and Data Completeness</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="missingness-and-data-completeness" class="quarto-section-identifier"><span class="chapter-title">Missingness and Data Completeness</span></span></h1>
+<h1 class="title"><span id="chapter10" class="quarto-section-identifier"><span class="chapter-title">Missingness and Data Completeness</span></span></h1>
 </div>
 
 
@@ -341,46 +361,221 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CMDS-010</li>
+<li><strong>Type:</strong> Core</li>
+<li><strong>Audience:</strong> Clinical data analysts, clinical researchers, informatics teams, and data stewards</li>
+<li><strong>Theme:</strong> Missingness is not only a data problem; it is a clinical, workflow, and interpretation problem</li>
 </ul>
+</div>
+<p>Clinical data are rarely complete.</p>
+<p>Patients miss appointments.</p>
+<p>Laboratory tests are ordered only when clinically indicated.</p>
+<p>Vital signs may be recorded in some encounters but not others.</p>
+<p>Medication histories may be incomplete because prescriptions, dispensing records, and patient-reported use do not always agree.</p>
+<p>Outcome follow-up may stop when patients move, transfer care, die outside the system, or disengage from care.</p>
+<p>Because of this, missingness in clinical data should never be treated as a simple technical inconvenience.</p>
+<p>It is part of the clinical system that produced the dataset.</p>
+<hr>
+<section id="why-completeness-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-completeness-matters">Why Completeness Matters</h2>
+<p>A clinical dataset can pass basic quality checks and still be unsafe for analysis.</p>
+<p>For example, a laboratory table may have valid patient identifiers, valid dates, and valid numeric values.</p>
+<p>But if creatinine values are mostly available only for very sick patients, an analysis using creatinine may accidentally compare a high-risk tested group against a lower-risk untested group.</p>
+<p>The dataset is not merely incomplete.</p>
+<p>It is selectively observed.</p>
+<p>That distinction matters.</p>
+<p>Completeness checks help answer practical questions such as:</p>
+<ul>
+<li>Which variables are sufficiently populated for analysis?</li>
+<li>Which patient groups have poorer data coverage?</li>
+<li>Which domains are missing because of workflow rather than random absence?</li>
+<li>Which variables should be used directly, engineered carefully, or excluded?</li>
+<li>Which limitations must be reported clearly?</li>
+</ul>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="missingness-is-a-signal" class="level2">
+<h2 class="anchored" data-anchor-id="missingness-is-a-signal">Missingness Is a Signal</h2>
+<p>In many clinical datasets, missingness may carry meaning.</p>
+<p>A missing laboratory result may mean that a test was not clinically indicated.</p>
+<p>A missing medication may mean that the patient was not prescribed the drug, that the prescription was outside the system, or that medication data were not captured.</p>
+<p>A missing outcome may mean no event occurred, follow-up was incomplete, or the event happened elsewhere.</p>
+<p>These meanings are not interchangeable.</p>
+<p>Before filling, dropping, or modeling missing values, the analyst should ask what the missingness represents clinically.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="common-missingness-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="common-missingness-patterns">Common Missingness Patterns</h2>
+<p>Clinical missingness often appears in recognizable patterns.</p>
+<section id="variable-level-missingness" class="level3">
+<h3 class="anchored" data-anchor-id="variable-level-missingness">Variable-level missingness</h3>
+<p>A variable has many missing values across the dataset.</p>
+<p>Examples include race, insurance status, smoking status, medication stop date, or follow-up outcome.</p>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="patient-level-missingness" class="level3">
+<h3 class="anchored" data-anchor-id="patient-level-missingness">Patient-level missingness</h3>
+<p>Some patients have very sparse records.</p>
+<p>This may happen when patients have only one encounter, are new to the health system, or receive care elsewhere.</p>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="encounter-level-missingness" class="level3">
+<h3 class="anchored" data-anchor-id="encounter-level-missingness">Encounter-level missingness</h3>
+<p>Some encounters have incomplete clinical observations.</p>
+<p>For example, outpatient visits may lack vital signs, while inpatient encounters may have frequent measurements.</p>
+</section>
+<section id="domain-level-missingness" class="level3">
+<h3 class="anchored" data-anchor-id="domain-level-missingness">Domain-level missingness</h3>
+<p>An entire domain may be absent or underrepresented.</p>
+<p>For example, medication data may exist, but procedures may be unavailable.</p>
+</section>
+<section id="time-dependent-missingness" class="level3">
+<h3 class="anchored" data-anchor-id="time-dependent-missingness">Time-dependent missingness</h3>
+<p>Data completeness may change over calendar time.</p>
+<p>This can happen after a new electronic health record system, a coding change, a laboratory interface update, or a change in reporting policy.</p>
+<hr>
+</section>
+</section>
+<section id="completeness-is-context-specific" class="level2">
+<h2 class="anchored" data-anchor-id="completeness-is-context-specific">Completeness Is Context-Specific</h2>
+<p>There is no universal threshold that makes a clinical variable usable.</p>
+<p>A variable with 40% completeness may be unacceptable for a primary exposure.</p>
+<p>The same variable may still be useful as a secondary descriptive characteristic if the missingness is clearly reported.</p>
+<p>A variable with 95% completeness may still be biased if the missing 5% are concentrated in a clinically important subgroup.</p>
+<p>Completeness should therefore be assessed at several levels:</p>
+<ul>
+<li>overall dataset level</li>
+<li>variable level</li>
+<li>patient level</li>
+<li>clinical domain level</li>
+<li>time period level</li>
+<li>subgroup level</li>
+</ul>
+<hr>
+</section>
+<section id="example-completeness-review" class="level2">
+<h2 class="anchored" data-anchor-id="example-completeness-review">Example Completeness Review</h2>
+<p>A practical review may begin with a simple inventory of the main clinical input files.</p>
+<p><code>text id="input-files" data/example/patient-demographics.csv data/example/clinical-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-outcomes.csv</code></p>
+<p>The goal is not only to count missing values.</p>
+<p>The goal is to decide whether the dataset is ready for responsible analysis.</p>
+<hr>
+</section>
+<section id="how-to-run-the-missingness-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run-the-missingness-workflow">How to Run the Missingness Workflow</h2>
+<p>From the project root, run the Python missingness profiler.</p>
+<p><code>bash id="run-python-missingness" python scripts/python/10-profile-missingness-and-completeness.py</code></p>
+<p>Then run the R visualization script.</p>
+<p><code>bash id="run-r-visuals" Rscript scripts/R/10-visualize-missingness-and-completeness.R</code></p>
+<p>Or run the full workflow with the Bash wrapper.</p>
+<p><code>bash id="run-full-workflow" bash scripts/bash/10-run-missingness-and-completeness.sh</code></p>
+<p>Expected outputs:</p>
+<p><code>text id="expected-outputs" results/missingness-file-summary.tsv results/missingness-variable-summary.tsv results/missingness-domain-summary.tsv results/missingness-patient-summary.tsv results/missingness-completeness-readiness-summary.txt results/figures/missingness-domain-completeness.png results/figures/missingness-variable-top20.png logs/10-missingness-and-completeness.log</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script reads available example clinical input files from <code>data/example/</code>.</p>
+<p>It then produces four practical outputs.</p>
+<p>First, it creates a file-level summary.</p>
+<p>This checks whether each expected file exists, how many rows it has, how many columns it has, and how complete it appears overall.</p>
+<p>Second, it creates a variable-level missingness table.</p>
+<p>This identifies the number and percentage of missing values in each column of each input file.</p>
+<p>Third, it creates a domain-level completeness summary.</p>
+<p>This groups files into clinical domains such as demographics, encounters, coded events, results, and outcomes.</p>
+<p>Fourth, it creates a patient-level completeness summary where patient identifiers are available.</p>
+<p>This helps identify whether some patients have sparse cross-domain coverage.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates modern visual summaries from the Python output tables.</p>
+<p>It uses tidyverse-style data handling and <code>ggplot2</code> for clear, publication-ready plots.</p>
+<p>The goal is not decorative plotting.</p>
+<p>The goal is fast clinical review.</p>
+<p>The visual outputs help identify:</p>
+<ul>
+<li>domains with weak completeness</li>
+<li>variables with the highest missingness</li>
+<li>files that may need additional cleaning before analysis</li>
+</ul>
+<hr>
+</section>
+<section id="interpreting-completeness-results" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-completeness-results">Interpreting Completeness Results</h2>
+<p>Completeness results should not be interpreted mechanically.</p>
+<p>A variable with high missingness is not automatically useless.</p>
+<p>A variable with low missingness is not automatically safe.</p>
+<p>Each variable should be interpreted according to its role in the analysis.</p>
+<section id="primary-exposure" class="level3">
+<h3 class="anchored" data-anchor-id="primary-exposure">Primary exposure</h3>
+<p>If a primary exposure has substantial missingness, the analysis question may need to be revised.</p>
+<p>The team may need to define a complete-case cohort, use an alternative exposure, or explicitly model missingness.</p>
+</section>
+<section id="primary-outcome" class="level3">
+<h3 class="anchored" data-anchor-id="primary-outcome">Primary outcome</h3>
+<p>Missing outcome data are especially important.</p>
+<p>If follow-up is incomplete, the analysis may underestimate events or misclassify patients.</p>
+</section>
+<section id="adjustment-variables" class="level3">
+<h3 class="anchored" data-anchor-id="adjustment-variables">Adjustment variables</h3>
+<p>Missing covariates can affect model stability and interpretation.</p>
+<p>The team should decide whether to use imputation, missingness indicators, complete-case analysis, or a simplified model.</p>
+</section>
+<section id="descriptive-variables" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-variables">Descriptive variables</h3>
+<p>Some variables may be useful for context even if they are too incomplete for modeling.</p>
+<p>In that case, missingness should be reported clearly.</p>
+<hr>
+</section>
+</section>
+<section id="missingness-and-bias" class="level2">
+<h2 class="anchored" data-anchor-id="missingness-and-bias">Missingness and Bias</h2>
+<p>The most important question is not whether data are missing.</p>
+<p>The most important question is whether missingness could change the interpretation.</p>
+<p>For example:</p>
+<p>```text id=“missingness-interpretation-example” If follow-up outcome is missing mostly among younger patients, outcome rates may be biased toward older patients.</p>
+<p>If laboratory testing is more complete among severe cases, lab-based risk models may overrepresent high-acuity patients.</p>
+<p>If medication records are incomplete for patients receiving care outside the system, treatment exposure may be misclassified.</p>
+<pre><code>
+A clinical data system should make these risks visible before formal analysis begins.
+
+---
+
+## Completeness Readiness Decisions
+
+After reviewing missingness, each major variable or domain can be assigned a readiness decision.
+
+```text id="readiness-decisions"
+Ready for primary analysis
+Ready for secondary/descriptive analysis
+Requires clinical review
+Requires additional data extraction
+Exclude from current analysis</code></pre>
+<p>These decisions should be documented.</p>
+<p>They are part of the evidence trail for the final clinical report.</p>
+<hr>
+</section>
+<section id="practical-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="practical-checklist">Practical Checklist</h2>
+<p>Before moving to clinical variable engineering, confirm that:</p>
+<ul>
+<li>expected clinical input files are present</li>
+<li>patient identifiers are usable where needed</li>
+<li>required cohort variables are sufficiently complete</li>
+<li>date variables are populated enough to support follow-up logic</li>
+<li>outcome completeness has been reviewed</li>
+<li>missingness is checked by domain and patient subgroup where possible</li>
+<li>important limitations are documented before modeling</li>
+</ul>
+<hr>
+</section>
+<section id="connection-to-the-next-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="connection-to-the-next-chapter">Connection to the Next Chapter</h2>
+<p>The next chapter moves from data completeness to clinical variable engineering.</p>
+<p>At that stage, raw clinical observations become analysis variables.</p>
+<p>That step should only happen after missingness has been reviewed.</p>
+<p>Otherwise, engineered variables may hide important gaps in the original data.</p>
 
 
 </section>

@@ -305,11 +305,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-descriptive-analysis-matters" id="toc-why-descriptive-analysis-matters" class="nav-link active" data-scroll-target="#why-descriptive-analysis-matters">Why Descriptive Analysis Matters</a></li>
+  <li><a href="#the-starting-point" id="toc-the-starting-point" class="nav-link" data-scroll-target="#the-starting-point">The Starting Point</a></li>
+  <li><a href="#descriptive-questions" id="toc-descriptive-questions" class="nav-link" data-scroll-target="#descriptive-questions">Descriptive Questions</a></li>
+  <li><a href="#recommended-outputs" id="toc-recommended-outputs" class="nav-link" data-scroll-target="#recommended-outputs">Recommended Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#cohort-summary" id="toc-cohort-summary" class="nav-link" data-scroll-target="#cohort-summary">Cohort Summary</a></li>
+  <li><a href="#variable-summary" id="toc-variable-summary" class="nav-link" data-scroll-target="#variable-summary">Variable Summary</a></li>
+  <li><a href="#outcome-summary" id="toc-outcome-summary" class="nav-link" data-scroll-target="#outcome-summary">Outcome Summary</a></li>
+  <li><a href="#table-one" id="toc-table-one" class="nav-link" data-scroll-target="#table-one">Table One</a></li>
+  <li><a href="#included-versus-excluded-patients" id="toc-included-versus-excluded-patients" class="nav-link" data-scroll-target="#included-versus-excluded-patients">Included Versus Excluded Patients</a></li>
+  <li><a href="#clinical-plausibility" id="toc-clinical-plausibility" class="nav-link" data-scroll-target="#clinical-plausibility">Clinical Plausibility</a></li>
+  <li><a href="#connection-to-data-science-foundations" id="toc-connection-to-data-science-foundations" class="nav-link" data-scroll-target="#connection-to-data-science-foundations">Connection to Data Science Foundations</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +329,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./13-descriptive-clinical-analysis.html">Part IV: Clinical Analysis and Interpretation</a></li><li class="breadcrumb-item"><a href="./13-descriptive-clinical-analysis.html"><span class="chapter-title">Descriptive Clinical Analysis</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="descriptive-clinical-analysis" class="quarto-section-identifier"><span class="chapter-title">Descriptive Clinical Analysis</span></span></h1>
+<h1 class="title"><span class="chapter-title">Descriptive Clinical Analysis</span></h1>
 </div>
 
 
@@ -341,46 +352,220 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-13</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, and clinical research teams</li>
+<li><strong>Theme:</strong> Descriptive clinical analysis turns an analysis-ready dataset into transparent patient summaries before modeling or decision support</li>
 </ul>
+</div>
+<p>Descriptive analysis is the first formal analytical layer after a clinical dataset becomes analysis-ready.</p>
+<p>It answers a simple but essential question:</p>
+<p><strong>Who is in the dataset, what happened to them, and how complete is the information?</strong></p>
+<p>Before risk stratification, prediction, dashboarding, or decision support, a clinical team must understand the population.</p>
+<p>A model should not be built before the cohort is described.</p>
+<p>A dashboard should not be published before the denominator is known.</p>
+<p>A clinical interpretation should not be written before the data structure is understood.</p>
+<hr>
+<section id="why-descriptive-analysis-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-descriptive-analysis-matters">Why Descriptive Analysis Matters</h2>
+<p>In clinical data systems, descriptive analysis is not just a reporting formality.</p>
+<p>It is a safety check.</p>
+<p>It helps reveal:</p>
+<ul>
+<li>unexpected patient distributions</li>
+<li>missing or sparse variables</li>
+<li>outcome imbalance</li>
+<li>unrealistic values</li>
+<li>data capture gaps</li>
+<li>hidden exclusions</li>
+<li>cohort drift</li>
+<li>site or encounter artifacts</li>
+<li>differences between included and excluded patients</li>
+</ul>
+<p>A strong descriptive layer protects the rest of the analysis.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="the-starting-point" class="level2">
+<h2 class="anchored" data-anchor-id="the-starting-point">The Starting Point</h2>
+<p>This chapter uses the analysis-ready dataset created in Chapter 12.</p>
+<p><code>text id="chapter13-input" results/analysis-ready-clinical-dataset.tsv</code></p>
+<p>This file should contain one row per patient and an <code>analysis_inclusion_flag</code>.</p>
+<p>The descriptive workflow summarizes both the full prepared dataset and the analysis-included subset.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="descriptive-questions" class="level2">
+<h2 class="anchored" data-anchor-id="descriptive-questions">Descriptive Questions</h2>
+<p>A clinical descriptive analysis should answer questions such as:</p>
+<ol type="1">
+<li>How many patients are available?</li>
+<li>How many are eligible for analysis?</li>
+<li>What is the age distribution?</li>
+<li>What is the sex distribution?</li>
+<li>What outcomes are observed?</li>
+<li>How long is follow-up?</li>
+<li>How common are key diagnosis indicators?</li>
+<li>How complete are the variables?</li>
+<li>Are there obvious data quality concerns?</li>
+<li>Are the results clinically plausible?</li>
+</ol>
+<p>The goal is not to prove a hypothesis.</p>
+<p>The goal is to understand the cohort.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="recommended-outputs" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-outputs">Recommended Outputs</h2>
+<p>This chapter creates a small descriptive analysis package.</p>
+<p><code>text id="chapter13-outputs" results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-variable-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/descriptive-clinical-table-one.tsv results/descriptive-clinical-analysis-summary.txt results/figures/descriptive-age-distribution.png results/figures/descriptive-outcome-summary.png results/figures/descriptive-follow-up-by-outcome.png logs/13-descriptive-clinical-analysis.log</code></p>
+<p>These outputs can support clinical review, reporting, dashboards, and later model-development decisions.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-descriptive-clinical-analysis" python scripts/python/13-run-descriptive-clinical-analysis.py Rscript scripts/R/13-visualize-descriptive-clinical-analysis.R bash scripts/bash/13-run-descriptive-clinical-analysis.sh</code></p>
+<p>To run the full chapter workflow with logging:</p>
+<p><code>bash id="run-descriptive-bash-only" bash scripts/bash/13-run-descriptive-clinical-analysis.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script produces structured summary tables.</p>
+<p>It reads:</p>
+<p><code>text id="descriptive-python-input" results/analysis-ready-clinical-dataset.tsv</code></p>
+<p>It writes:</p>
+<p><code>text id="descriptive-python-outputs" results/descriptive-clinical-cohort-summary.tsv results/descriptive-clinical-variable-summary.tsv results/descriptive-clinical-outcome-summary.tsv results/descriptive-clinical-table-one.tsv results/descriptive-clinical-analysis-summary.txt</code></p>
+<p>The summaries are intentionally simple and auditable.</p>
+<p>They are designed to be checked by a human clinical reviewer.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script creates modern descriptive figures using tidyverse-style workflows and ggplot2.</p>
+<p>It writes:</p>
+<p><code>text id="descriptive-r-outputs" results/figures/descriptive-age-distribution.png results/figures/descriptive-outcome-summary.png results/figures/descriptive-follow-up-by-outcome.png</code></p>
+<p>The figures are not meant to replace clinical interpretation.</p>
+<p>They help the analyst quickly see whether the cohort behaves as expected.</p>
+<hr>
+</section>
+<section id="cohort-summary" class="level2">
+<h2 class="anchored" data-anchor-id="cohort-summary">Cohort Summary</h2>
+<p>The cohort summary answers the denominator question.</p>
+<p>It should include:</p>
+<ul>
+<li>total prepared patients</li>
+<li>analysis-included patients</li>
+<li>analysis-excluded patients</li>
+<li>number of unique patient identifiers</li>
+<li>duplicate patient rows</li>
+<li>median age</li>
+<li>median follow-up</li>
+<li>observed outcome count</li>
+</ul>
+<p>A clinical analysis without a denominator is not interpretable.</p>
+<hr>
+</section>
+<section id="variable-summary" class="level2">
+<h2 class="anchored" data-anchor-id="variable-summary">Variable Summary</h2>
+<p>The variable summary checks whether each variable is usable.</p>
+<p>For each variable, the script records:</p>
+<ul>
+<li>observed data type</li>
+<li>missing count</li>
+<li>missing percent</li>
+<li>unique value count</li>
+<li>example non-missing values</li>
+</ul>
+<p>This helps identify variables that appear present but are too incomplete or inconsistent to support interpretation.</p>
+<hr>
+</section>
+<section id="outcome-summary" class="level2">
+<h2 class="anchored" data-anchor-id="outcome-summary">Outcome Summary</h2>
+<p>The outcome summary describes the outcome distribution.</p>
+<p>Clinical outcome imbalance is common.</p>
+<p>For example, a severe adverse event may be rare, while a mild follow-up outcome may be common.</p>
+<p>Outcome imbalance affects:</p>
+<ul>
+<li>descriptive interpretation</li>
+<li>model feasibility</li>
+<li>evaluation metric selection</li>
+<li>dashboard design</li>
+<li>subgroup analysis</li>
+<li>communication with clinical stakeholders</li>
+</ul>
+<p>A model chapter should not begin until outcome frequency is understood.</p>
+<hr>
+</section>
+<section id="table-one" class="level2">
+<h2 class="anchored" data-anchor-id="table-one">Table One</h2>
+<p>A common clinical reporting output is a baseline characteristics table.</p>
+<p>This chapter creates a simple table-one-style file.</p>
+<p>It summarizes key variables by analysis inclusion status.</p>
+<p><code>text id="table-one-concept" group: analysis_inclusion_flag variables:   - age   - follow_up_days   - encounter_count   - diagnosis_count   - medication_count   - sex   - age_group   - outcome_status</code></p>
+<p>This is not a final manuscript table.</p>
+<p>It is a reproducible starting point.</p>
+<hr>
+</section>
+<section id="included-versus-excluded-patients" class="level2">
+<h2 class="anchored" data-anchor-id="included-versus-excluded-patients">Included Versus Excluded Patients</h2>
+<p>When an <code>analysis_inclusion_flag</code> exists, descriptive analysis should compare included and excluded records.</p>
+<p>This protects against hidden selection effects.</p>
+<p>For example, excluded patients may have:</p>
+<ul>
+<li>shorter follow-up</li>
+<li>missing outcomes</li>
+<li>incomplete demographics</li>
+<li>fewer encounters</li>
+<li>different age distributions</li>
+</ul>
+<p>If excluded patients differ strongly from included patients, downstream interpretation should mention that limitation.</p>
+<hr>
+</section>
+<section id="clinical-plausibility" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-plausibility">Clinical Plausibility</h2>
+<p>Descriptive outputs should be reviewed for clinical plausibility.</p>
+<p>Ask:</p>
+<ul>
+<li>Are ages realistic?</li>
+<li>Are follow-up times plausible?</li>
+<li>Are outcome counts expected?</li>
+<li>Are diagnosis indicators reasonable?</li>
+<li>Are vital signs in clinically possible ranges?</li>
+<li>Are missingness levels acceptable?</li>
+<li>Do distributions reflect the intended cohort?</li>
+</ul>
+<p>Scripts can detect structure.</p>
+<p>Clinical review is still needed to judge meaning.</p>
+<hr>
+</section>
+<section id="connection-to-data-science-foundations" class="level2">
+<h2 class="anchored" data-anchor-id="connection-to-data-science-foundations">Connection to Data Science Foundations</h2>
+<p>This chapter connects directly to the broader Data Science Foundations layer.</p>
+<p>Once a tidy patient-level table exists, the same foundational ideas apply:</p>
+<ul>
+<li>inspect the data</li>
+<li>describe the variables</li>
+<li>summarize distributions</li>
+<li>visualize patterns</li>
+<li>identify missingness</li>
+<li>document assumptions</li>
+<li>avoid unsupported claims</li>
+</ul>
+<p>The clinical layer adds domain-specific interpretation and governance.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>Descriptive clinical analysis is where the dataset becomes visible.</p>
+<p>Before making claims about risk, quality, outcomes, or decisions, the population must be described clearly enough for another person to understand what the analysis is actually about.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we created a descriptive analysis layer for the analysis-ready clinical dataset.</p>
+<p>We generated cohort summaries, variable summaries, outcome summaries, a table-one-style file, and modern descriptive figures.</p>
+<p>The next chapter moves from description into risk stratification and clinical modeling.</p>
 
 
 </section>

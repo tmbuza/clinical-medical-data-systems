@@ -305,11 +305,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
+  <li><a href="#why-clinical-data-quality-is-different" id="toc-why-clinical-data-quality-is-different" class="nav-link active" data-scroll-target="#why-clinical-data-quality-is-different">Why Clinical Data Quality Is Different</a></li>
+  <li><a href="#core-quality-dimensions" id="toc-core-quality-dimensions" class="nav-link" data-scroll-target="#core-quality-dimensions">Core Quality Dimensions</a></li>
+  <li><a href="#recommended-project-inputs" id="toc-recommended-project-inputs" class="nav-link" data-scroll-target="#recommended-project-inputs">Recommended Project Inputs</a></li>
+  <li><a href="#quality-checks-used-in-this-chapter" id="toc-quality-checks-used-in-this-chapter" class="nav-link" data-scroll-target="#quality-checks-used-in-this-chapter">Quality Checks Used in This Chapter</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
   <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#example-readiness-interpretation" id="toc-example-readiness-interpretation" class="nav-link" data-scroll-target="#example-readiness-interpretation">Example Readiness Interpretation</a></li>
+  <li><a href="#temporal-quality-checks" id="toc-temporal-quality-checks" class="nav-link" data-scroll-target="#temporal-quality-checks">Temporal Quality Checks</a></li>
+  <li><a href="#missingness-is-not-always-simple" id="toc-missingness-is-not-always-simple" class="nav-link" data-scroll-target="#missingness-is-not-always-simple">Missingness Is Not Always Simple</a></li>
+  <li><a href="#modern-quality-checking-practice" id="toc-modern-quality-checking-practice" class="nav-link" data-scroll-target="#modern-quality-checking-practice">Modern Quality-Checking Practice</a></li>
+  <li><a href="#clinical-interpretation-rule" id="toc-clinical-interpretation-rule" class="nav-link" data-scroll-target="#clinical-interpretation-rule">Clinical Interpretation Rule</a></li>
+  <li><a href="#readiness-checklist" id="toc-readiness-checklist" class="nav-link" data-scroll-target="#readiness-checklist">Readiness Checklist</a></li>
+  <li><a href="#connection-to-the-next-chapter" id="toc-connection-to-the-next-chapter" class="nav-link" data-scroll-target="#connection-to-the-next-chapter">Connection to the Next Chapter</a></li>
   </ul>
 </nav>
     </div>
@@ -341,46 +349,344 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CMDS-09</li>
+<li><strong>Type:</strong> Core workflow</li>
+<li><strong>Audience:</strong> Clinical data analysts, health data scientists, clinical informatics teams</li>
+<li><strong>Theme:</strong> Clinical analysis begins only after data quality has been checked across patients, encounters, events, results, and outcomes</li>
 </ul>
+</div>
+<p>Clinical data quality checks are the bridge between raw clinical records and defensible analysis.</p>
+<p>A clinical dataset may look complete because it contains many rows.</p>
+<p>That does not mean it is ready.</p>
+<p>Rows can be duplicated.</p>
+<p>Dates can be impossible.</p>
+<p>Patients can appear in outcome files without encounters.</p>
+<p>Medication records can occur before the patient entered the system.</p>
+<p>Laboratory values can use mixed units.</p>
+<p>Outcome follow-up can be shorter than required for the clinical question.</p>
+<p>This chapter introduces a practical quality-checking layer for clinical data systems.</p>
+<p>The goal is not to make data perfect.</p>
+<p>The goal is to make quality visible, measurable, and actionable before analysis begins.</p>
+<hr>
+<section id="why-clinical-data-quality-is-different" class="level2">
+<h2 class="anchored" data-anchor-id="why-clinical-data-quality-is-different">Why Clinical Data Quality Is Different</h2>
+<p>Clinical data quality is not only a technical issue.</p>
+<p>It is also a clinical interpretation issue.</p>
+<p>A missing value may mean different things depending on context.</p>
+<p>For example:</p>
+<ul>
+<li>a missing diagnosis may mean the condition was not present;</li>
+<li>the condition may have been present but not coded;</li>
+<li>the patient may have received care outside the captured system;</li>
+<li>the diagnosis may exist in notes but not structured fields;</li>
+<li>the diagnosis may have been recorded after the analysis window.</li>
+</ul>
+<p>Because of this, clinical data quality checks should combine structural checks, temporal checks, clinical plausibility checks, and cohort-readiness checks.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="core-quality-dimensions" class="level2">
+<h2 class="anchored" data-anchor-id="core-quality-dimensions">Core Quality Dimensions</h2>
+<p>A clinical data readiness workflow should usually inspect these dimensions:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Dimension</th>
+<th>Main question</th>
+<th>Example check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Structure</td>
+<td>Are required files and columns present?</td>
+<td><code>patient_id</code>, <code>encounter_id</code>, <code>event_date</code> exist</td>
+</tr>
+<tr class="even">
+<td>Identity</td>
+<td>Can records be linked safely?</td>
+<td>Patient IDs match across domains</td>
+</tr>
+<tr class="odd">
+<td>Completeness</td>
+<td>Are important fields populated?</td>
+<td>Age, sex, dates, codes, result values</td>
+</tr>
+<tr class="even">
+<td>Uniqueness</td>
+<td>Are records unexpectedly duplicated?</td>
+<td>Duplicate patient or encounter rows</td>
+</tr>
+<tr class="odd">
+<td>Temporal logic</td>
+<td>Do dates happen in a valid order?</td>
+<td>Outcome date after index date</td>
+</tr>
+<tr class="even">
+<td>Domain validity</td>
+<td>Are values allowed or plausible?</td>
+<td>Sex category, encounter type, lab result range</td>
+</tr>
+<tr class="odd">
+<td>Cross-domain consistency</td>
+<td>Do records agree across tables?</td>
+<td>Lab results link to known patients</td>
+</tr>
+<tr class="even">
+<td>Analysis readiness</td>
+<td>Can the dataset support the question?</td>
+<td>Enough follow-up and outcome definition clarity</td>
+</tr>
+</tbody>
+</table>
+<p>A modern clinical data system should not rely on manual inspection alone.</p>
+<p>It should produce reusable, script-generated quality outputs.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="recommended-project-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="recommended-project-inputs">Recommended Project Inputs</h2>
+<p>This chapter assumes the example files created in Part II are present.</p>
+<p><code>text id="jql5ca" data/example/patient-demographics.csv data/example/clinical-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-outcomes.csv</code></p>
+<p>These inputs represent common structured clinical data domains:</p>
+<ul>
+<li>patient demographics;</li>
+<li>clinical encounters;</li>
+<li>diagnoses;</li>
+<li>procedures;</li>
+<li>medications;</li>
+<li>laboratory results;</li>
+<li>vital sign results;</li>
+<li>outcomes and follow-up.</li>
+</ul>
+<p>In a real system, these tables may come from an EHR extract, registry, REDCap project, claims database, FHIR export, or curated research data mart.</p>
+<hr>
+</section>
+<section id="quality-checks-used-in-this-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="quality-checks-used-in-this-chapter">Quality Checks Used in This Chapter</h2>
+<p>The script for this chapter performs cross-domain checks across the example clinical files.</p>
+<p>It checks whether required files exist.</p>
+<p>It checks whether required columns exist.</p>
+<p>It counts rows and unique patients.</p>
+<p>It evaluates missingness for key fields.</p>
+<p>It identifies duplicate rows.</p>
+<p>It checks whether domain records link back to the patient table.</p>
+<p>It checks simple temporal rules.</p>
+<p>It summarizes results into a single readiness report.</p>
+<p>The outputs are intentionally simple and portable.</p>
+<p>They can be reviewed in a spreadsheet, version controlled, or used as inputs for later reporting chapters.</p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run the workflow from the project root.</p>
+<p><code>bash id="w5b4jf" python scripts/python/09-run-clinical-data-quality-checks.py bash scripts/bash/09-run-clinical-data-quality-checks.sh</code></p>
+<p>The Python script can be run directly.</p>
+<p>The Bash script is a convenience runner that creates logs and runs the same check in a reproducible way.</p>
+<hr>
 </section>
 <section id="expected-outputs" class="level2">
 <h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<p>The workflow writes quality outputs into <code>results/</code> and logs into <code>logs/</code>.</p>
+<p><code>text id="owqg5o" results/clinical-data-quality-file-summary.tsv results/clinical-data-quality-column-checks.tsv results/clinical-data-quality-missingness.tsv results/clinical-data-quality-linkage-checks.tsv results/clinical-data-quality-temporal-checks.tsv results/clinical-data-quality-readiness-summary.txt logs/09-clinical-data-quality-checks.log</code></p>
+<p>Each output answers a different question.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Output</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>clinical-data-quality-file-summary.tsv</code></td>
+<td>Shows which files were found and how many rows/columns they contain</td>
+</tr>
+<tr class="even">
+<td><code>clinical-data-quality-column-checks.tsv</code></td>
+<td>Shows whether required columns are present</td>
+</tr>
+<tr class="odd">
+<td><code>clinical-data-quality-missingness.tsv</code></td>
+<td>Summarizes missing values in key fields</td>
+</tr>
+<tr class="even">
+<td><code>clinical-data-quality-linkage-checks.tsv</code></td>
+<td>Checks whether clinical domain records link to known patients</td>
+</tr>
+<tr class="odd">
+<td><code>clinical-data-quality-temporal-checks.tsv</code></td>
+<td>Checks basic date-order problems</td>
+</tr>
+<tr class="even">
+<td><code>clinical-data-quality-readiness-summary.txt</code></td>
+<td>Provides a human-readable readiness summary</td>
+</tr>
+</tbody>
+</table>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="example-readiness-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="example-readiness-interpretation">Example Readiness Interpretation</h2>
+<p>A quality report should not simply say pass or fail.</p>
+<p>It should describe what is ready, what is questionable, and what needs review.</p>
+<p>```text id=“va7tuj” Clinical Data Quality Readiness Summary</p>
+<p>Overall status: REVIEW NEEDED</p>
+<p>Major checks: - Required files: complete - Required columns: complete - Patient linkage: review needed - Missingness: acceptable for core identifiers, review needed for selected clinical fields - Temporal logic: review needed for records with dates outside expected order</p>
+<p>Recommended next step: Resolve linkage and temporal issues before creating analysis-ready clinical datasets.</p>
+<pre><code>
+This type of summary supports transparent decision-making.
+
+It does not hide uncertainty.
+
+It makes the readiness decision explicit.
+
+---
+
+## Cross-Domain Linkage Checks
+
+Clinical data systems are rarely one table.
+
+They are networks of related tables.
+
+A diagnosis, medication, laboratory result, or outcome record should usually link back to a known patient.
+
+In many workflows, it should also link to a known encounter.
+
+A basic linkage check asks:
+
+```text id="gy4n54"
+Are all patient_id values in each domain also present in the patient table?</code></pre>
+<p>A stricter check may ask:</p>
+<p><code>text id="kd492r" Do encounter-level records link to a valid encounter_id for the same patient_id?</code></p>
+<p>The stricter version is often better, but it requires consistent encounter identifiers across all data domains.</p>
+<p>In real EHR data, some records are patient-level while others are encounter-level.</p>
+<p>The quality-checking system should recognize that distinction.</p>
+<hr>
+</section>
+<section id="temporal-quality-checks" class="level2">
+<h2 class="anchored" data-anchor-id="temporal-quality-checks">Temporal Quality Checks</h2>
+<p>Clinical analysis depends heavily on time.</p>
+<p>Time defines exposure.</p>
+<p>Time defines baseline.</p>
+<p>Time defines follow-up.</p>
+<p>Time defines whether an outcome happened before or after an index event.</p>
+<p>Common temporal checks include:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Rule</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Encounter date should not occur before birth date</td>
+<td>Prevents impossible patient timelines</td>
+</tr>
+<tr class="even">
+<td>Outcome date should not occur before index date</td>
+<td>Prevents reverse causal interpretation</td>
+</tr>
+<tr class="odd">
+<td>Medication start date should not occur after medication stop date</td>
+<td>Prevents invalid exposure windows</td>
+</tr>
+<tr class="even">
+<td>Lab result date should fall inside the observation window</td>
+<td>Prevents use of irrelevant measurements</td>
+</tr>
+<tr class="odd">
+<td>Follow-up end date should occur after cohort entry</td>
+<td>Supports outcome ascertainment</td>
+</tr>
+</tbody>
+</table>
+<p>Temporal checks do not solve all clinical design problems.</p>
+<p>They help prevent obvious timeline errors before deeper analysis begins.</p>
+<hr>
+</section>
+<section id="missingness-is-not-always-simple" class="level2">
+<h2 class="anchored" data-anchor-id="missingness-is-not-always-simple">Missingness Is Not Always Simple</h2>
+<p>Missingness in clinical data is often informative.</p>
+<p>A missing lab result may mean the test was not clinically indicated.</p>
+<p>A missing medication stop date may mean the medication was ongoing.</p>
+<p>A missing outcome date may mean no outcome occurred, or it may mean follow-up was incomplete.</p>
+<p>Therefore, missingness should be reported by domain and variable.</p>
+<p>It should not be silently removed.</p>
+<p><code>text id="oiy27k" Variable-level missingness should be reviewed before filtering records.</code></p>
+<p>Later chapters use missingness summaries to decide whether a variable is suitable for modeling, reporting, or dashboarding.</p>
+<hr>
+</section>
+<section id="modern-quality-checking-practice" class="level2">
+<h2 class="anchored" data-anchor-id="modern-quality-checking-practice">Modern Quality-Checking Practice</h2>
+<p>A modern clinical data quality workflow should be:</p>
+<ul>
+<li>scripted;</li>
+<li>repeatable;</li>
+<li>version controlled;</li>
+<li>readable by analysts and clinical reviewers;</li>
+<li>separated from final analysis code;</li>
+<li>able to produce both machine-readable and human-readable outputs.</li>
+</ul>
+<p>This chapter uses Python because it is well suited for portable data checks, file-system workflows, and structured output generation.</p>
+<p>For larger clinical datasets, the same logic can be extended with DuckDB, Polars, Arrow, database queries, or formal validation frameworks.</p>
+<p>The important principle is the same:</p>
+<p><code>text id="lgv0jh" Do not analyze clinical data until its quality assumptions are visible.</code></p>
+<hr>
+</section>
+<section id="clinical-interpretation-rule" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-interpretation-rule">Clinical Interpretation Rule</h2>
+<p>A quality flag does not automatically mean a record is wrong.</p>
+<p>It means the record needs interpretation.</p>
+<p>For example, an outcome date before a recorded encounter date could mean:</p>
+<ul>
+<li>the encounter table is incomplete;</li>
+<li>the patient had prior care elsewhere;</li>
+<li>the outcome was historical;</li>
+<li>the index date was incorrectly defined;</li>
+<li>the wrong date field was used.</li>
+</ul>
+<p>A clinical data system should help analysts identify these issues without pretending that code alone can resolve them.</p>
+<hr>
+</section>
+<section id="readiness-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="readiness-checklist">Readiness Checklist</h2>
+<p>Before moving to missingness and completeness analysis, confirm that:</p>
+<ul>
+<li>required clinical domain files exist;</li>
+<li>required identifiers are present;</li>
+<li>patient linkage has been checked;</li>
+<li>duplicated records have been reviewed;</li>
+<li>key fields have missingness summaries;</li>
+<li>temporal checks have been run;</li>
+<li>quality outputs are saved in <code>results/</code>;</li>
+<li>quality logs are saved in <code>logs/</code>;</li>
+<li>unresolved issues are documented rather than hidden.</li>
+</ul>
+<hr>
+</section>
+<section id="connection-to-the-next-chapter" class="level2">
+<h2 class="anchored" data-anchor-id="connection-to-the-next-chapter">Connection to the Next Chapter</h2>
+<p>This chapter introduced broad clinical data quality checks.</p>
+<p>The next chapter focuses more specifically on missingness and data completeness.</p>
+<p>That distinction matters.</p>
+<p>Data quality asks whether the clinical data system is structurally trustworthy.</p>
+<p>Completeness asks whether the available information is sufficient for a specific clinical question.</p>
+<p>A dataset can pass structural quality checks and still be incomplete for a particular analysis.</p>
 
 
 </section>

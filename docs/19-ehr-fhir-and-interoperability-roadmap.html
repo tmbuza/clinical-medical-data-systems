@@ -305,11 +305,25 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-interoperability-matters" id="toc-why-interoperability-matters" class="nav-link active" data-scroll-target="#why-interoperability-matters">Why Interoperability Matters</a></li>
+  <li><a href="#ehr-data-are-not-automatically-analysis-ready" id="toc-ehr-data-are-not-automatically-analysis-ready" class="nav-link" data-scroll-target="#ehr-data-are-not-automatically-analysis-ready">EHR Data Are Not Automatically Analysis-Ready</a></li>
+  <li><a href="#what-fhir-provides" id="toc-what-fhir-provides" class="nav-link" data-scroll-target="#what-fhir-provides">What FHIR Provides</a></li>
+  <li><a href="#local-tables-to-fhir-resources" id="toc-local-tables-to-fhir-resources" class="nav-link" data-scroll-target="#local-tables-to-fhir-resources">Local Tables to FHIR Resources</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files">Input Files</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#what-the-r-script-does" id="toc-what-the-r-script-does" class="nav-link" data-scroll-target="#what-the-r-script-does">What the R Script Does</a></li>
+  <li><a href="#interoperability-readiness-questions" id="toc-interoperability-readiness-questions" class="nav-link" data-scroll-target="#interoperability-readiness-questions">Interoperability Readiness Questions</a></li>
+  <li><a href="#patient-resource-mapping" id="toc-patient-resource-mapping" class="nav-link" data-scroll-target="#patient-resource-mapping">Patient Resource Mapping</a></li>
+  <li><a href="#encounter-resource-mapping" id="toc-encounter-resource-mapping" class="nav-link" data-scroll-target="#encounter-resource-mapping">Encounter Resource Mapping</a></li>
+  <li><a href="#condition-and-procedure-mapping" id="toc-condition-and-procedure-mapping" class="nav-link" data-scroll-target="#condition-and-procedure-mapping">Condition and Procedure Mapping</a></li>
+  <li><a href="#observation-mapping" id="toc-observation-mapping" class="nav-link" data-scroll-target="#observation-mapping">Observation Mapping</a></li>
+  <li><a href="#medication-mapping" id="toc-medication-mapping" class="nav-link" data-scroll-target="#medication-mapping">Medication Mapping</a></li>
+  <li><a href="#provenance-and-auditability" id="toc-provenance-and-auditability" class="nav-link" data-scroll-target="#provenance-and-auditability">Provenance and Auditability</a></li>
+  <li><a href="#privacy-and-minimum-necessary-data" id="toc-privacy-and-minimum-necessary-data" class="nav-link" data-scroll-target="#privacy-and-minimum-necessary-data">Privacy and Minimum Necessary Data</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +332,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./19-ehr-fhir-and-interoperability-roadmap.html"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="ehr-fhir-and-interoperability-roadmap" class="quarto-section-identifier"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></span></h1>
+<h1 class="title"><span class="chapter-title">EHR, FHIR, and Interoperability Roadmap</span></h1>
 </div>
 
 
@@ -341,46 +355,239 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-19</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, health informatics teams, EHR data teams, interoperability teams, clinical data scientists, and implementation stakeholders</li>
+<li><strong>Theme:</strong> Clinical data systems become scalable when local data structures are mapped toward interoperable standards such as FHIR</li>
 </ul>
+</div>
+<p>Clinical data systems rarely live in isolation.</p>
+<p>A useful system often needs to connect with electronic health records, registries, data warehouses, dashboards, research systems, quality reporting workflows, or decision-support tools.</p>
+<p>This is where interoperability matters.</p>
+<p>Interoperability is not only about moving data from one place to another.</p>
+<p>It is about preserving meaning.</p>
+<hr>
+<section id="why-interoperability-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-interoperability-matters">Why Interoperability Matters</h2>
+<p>A patient age, diagnosis, laboratory result, medication, or encounter may appear simple in a table.</p>
+<p>But in real health systems, every data element has context.</p>
+<p>For example:</p>
+<ul>
+<li>Which patient does it belong to?</li>
+<li>Which encounter produced it?</li>
+<li>Which code system was used?</li>
+<li>Which unit was used?</li>
+<li>Which time was recorded?</li>
+<li>Was it ordered, resulted, administered, or documented?</li>
+<li>Was the value corrected?</li>
+<li>Is the field local, standardized, or mapped?</li>
+</ul>
+<p>Interoperability helps make these meanings explicit.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="ehr-data-are-not-automatically-analysis-ready" class="level2">
+<h2 class="anchored" data-anchor-id="ehr-data-are-not-automatically-analysis-ready">EHR Data Are Not Automatically Analysis-Ready</h2>
+<p>Electronic health records are designed primarily for clinical care, billing, operations, and documentation.</p>
+<p>They are not automatically designed for analysis.</p>
+<p>EHR data may contain:</p>
+<ul>
+<li>duplicated events</li>
+<li>local codes</li>
+<li>changing workflows</li>
+<li>missing timestamps</li>
+<li>inconsistent units</li>
+<li>free-text documentation</li>
+<li>multiple encounter types</li>
+<li>medication orders that differ from administrations</li>
+<li>laboratory panels with local naming conventions</li>
+</ul>
+<p>This is why the earlier chapters focused on validation, variable engineering, analysis readiness, and reporting before interoperability planning.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="what-fhir-provides" class="level2">
+<h2 class="anchored" data-anchor-id="what-fhir-provides">What FHIR Provides</h2>
+<p>FHIR stands for Fast Healthcare Interoperability Resources.</p>
+<p>It is a modern healthcare interoperability standard organized around resources such as:</p>
+<ul>
+<li>Patient</li>
+<li>Encounter</li>
+<li>Condition</li>
+<li>Procedure</li>
+<li>MedicationRequest</li>
+<li>Observation</li>
+<li>DiagnosticReport</li>
+<li>CarePlan</li>
+</ul>
+<p>FHIR does not automatically solve data quality problems.</p>
+<p>But it provides a common structure for exchanging and representing healthcare data.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="local-tables-to-fhir-resources" class="level2">
+<h2 class="anchored" data-anchor-id="local-tables-to-fhir-resources">Local Tables to FHIR Resources</h2>
+<p>The clinical data inputs used in this guide can be mapped conceptually to FHIR resources.</p>
+<p><code>text id="local-to-fhir-concept" patient-demographics.csv        -&gt; Patient clinical-encounters.csv         -&gt; Encounter diagnoses.csv                   -&gt; Condition procedures.csv                  -&gt; Procedure medications.csv                 -&gt; MedicationRequest or MedicationStatement laboratory-results.csv          -&gt; Observation vital-sign-results.csv          -&gt; Observation clinical-outcomes.csv           -&gt; Observation, Condition, Encounter, or custom outcome definition</code></p>
+<p>The correct mapping depends on the clinical use case and source system.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="input-files" class="level2">
+<h2 class="anchored" data-anchor-id="input-files">Input Files</h2>
+<p>This chapter uses the example clinical data inputs created earlier in the guide.</p>
+<p><code>text id="chapter19-inputs" data/example/patient-demographics.csv data/example/clinical-encounters.csv data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-outcomes.csv</code></p>
+<p>The workflow does not require a live EHR or FHIR server.</p>
+<p>Instead, it creates an interoperability readiness roadmap.</p>
+<hr>
+</section>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>The chapter creates mapping and readiness artifacts.</p>
+<p><code>text id="chapter19-outputs" results/interoperability/fhir-resource-mapping.tsv results/interoperability/interoperability-readiness-checklist.tsv results/interoperability/example-fhir-patient-bundle.json results/interoperability/interoperability-roadmap-summary.txt results/figures/fhir-resource-mapping-summary.png logs/19-ehr-fhir-and-interoperability-roadmap.log</code></p>
+<p>The example FHIR-like bundle is intentionally minimal.</p>
+<p>It is for learning and mapping orientation, not for production exchange.</p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-fhir-interoperability-roadmap" python scripts/python/19-build-fhir-interoperability-roadmap-safe.py Rscript scripts/R/19-visualize-fhir-interoperability-readiness-safe.R bash scripts/bash/19-run-ehr-fhir-and-interoperability-roadmap.sh</code></p>
+<p>To run the full workflow with logging:</p>
+<p><code>bash id="run-fhir-interoperability-bash-only" bash scripts/bash/19-run-ehr-fhir-and-interoperability-roadmap.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script creates:</p>
+<ul>
+<li>a local-table-to-FHIR resource mapping</li>
+<li>a readiness checklist</li>
+<li>a small example FHIR-like patient bundle</li>
+<li>a text roadmap summary</li>
+</ul>
+<p>The script checks whether expected input files exist and records missing files as readiness issues.</p>
+<p>It does not require external packages beyond pandas.</p>
+<hr>
+</section>
+<section id="what-the-r-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-r-script-does">What the R Script Does</h2>
+<p>The R script reads the mapping table and creates a simple resource coverage figure.</p>
+<p>It writes:</p>
+<p><code>text id="chapter19-r-output" results/figures/fhir-resource-mapping-summary.png</code></p>
+<p>If the mapping table is missing or empty, it writes a skip note instead of stopping.</p>
+<hr>
+</section>
+<section id="interoperability-readiness-questions" class="level2">
+<h2 class="anchored" data-anchor-id="interoperability-readiness-questions">Interoperability Readiness Questions</h2>
+<p>Before connecting a clinical data system to an EHR or FHIR workflow, ask:</p>
+<ol type="1">
+<li>Are patient identifiers stable and linkable?</li>
+<li>Are encounter identifiers available?</li>
+<li>Are dates and timestamps reliable?</li>
+<li>Are diagnosis codes mapped to a known system?</li>
+<li>Are medication fields structured?</li>
+<li>Are laboratory units standardized?</li>
+<li>Are vital signs distinguishable from other observations?</li>
+<li>Are outcomes defined consistently?</li>
+<li>Is provenance available?</li>
+<li>Are privacy and access controls defined?</li>
+</ol>
+<p>A system is not interoperable merely because it can export a file.</p>
+<hr>
+</section>
+<section id="patient-resource-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="patient-resource-mapping">Patient Resource Mapping</h2>
+<p>A local patient demographics table may map to a FHIR Patient resource.</p>
+<p>Common fields include:</p>
+<p><code>text id="patient-resource-mapping" patient_id       -&gt; Patient.identifier sex              -&gt; Patient.gender birth_date       -&gt; Patient.birthDate age              -&gt; derived, not usually stored directly as Patient.age</code></p>
+<p>Age is often derived from birth date and index date.</p>
+<p>In real systems, storing only age can limit interoperability.</p>
+<hr>
+</section>
+<section id="encounter-resource-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="encounter-resource-mapping">Encounter Resource Mapping</h2>
+<p>Encounter data are central to clinical context.</p>
+<p><code>text id="encounter-resource-mapping" encounter_id     -&gt; Encounter.identifier patient_id       -&gt; Encounter.subject encounter_date   -&gt; Encounter.period.start encounter_type   -&gt; Encounter.class or Encounter.type</code></p>
+<p>Many clinical variables only make sense when tied to an encounter.</p>
+<hr>
+</section>
+<section id="condition-and-procedure-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="condition-and-procedure-mapping">Condition and Procedure Mapping</h2>
+<p>Diagnoses can map to Condition resources.</p>
+<p>Procedures can map to Procedure resources.</p>
+<p><code>text id="condition-procedure-mapping" diagnosis_code   -&gt; Condition.code diagnosis_date   -&gt; Condition.recordedDate or onsetDateTime procedure_code   -&gt; Procedure.code procedure_date   -&gt; Procedure.performedDateTime</code></p>
+<p>The code system should be documented.</p>
+<p>For example, ICD-10, SNOMED CT, CPT, or a local coding system.</p>
+<hr>
+</section>
+<section id="observation-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="observation-mapping">Observation Mapping</h2>
+<p>Laboratory results and vital signs commonly map to Observation resources.</p>
+<p><code>text id="observation-resource-mapping" result_name      -&gt; Observation.code result_value     -&gt; Observation.valueQuantity.value result_unit      -&gt; Observation.valueQuantity.unit result_date      -&gt; Observation.effectiveDateTime abnormal_flag    -&gt; Observation.interpretation</code></p>
+<p>Observation mapping is powerful but requires careful unit and code handling.</p>
+<p>A potassium value, blood pressure, and body mass index are all observations, but they require different interpretation.</p>
+<hr>
+</section>
+<section id="medication-mapping" class="level2">
+<h2 class="anchored" data-anchor-id="medication-mapping">Medication Mapping</h2>
+<p>Medication data are often complex.</p>
+<p>A medication may represent:</p>
+<ul>
+<li>an order</li>
+<li>a request</li>
+<li>a prescription</li>
+<li>an administration</li>
+<li>a dispense event</li>
+<li>patient-reported use</li>
+</ul>
+<p>FHIR has different resources for these patterns.</p>
+<p>This guide uses a simplified mapping toward MedicationRequest or MedicationStatement.</p>
+<p>A production system should clarify exactly what the local medication table represents.</p>
+<hr>
+</section>
+<section id="provenance-and-auditability" class="level2">
+<h2 class="anchored" data-anchor-id="provenance-and-auditability">Provenance and Auditability</h2>
+<p>Interoperability should preserve provenance.</p>
+<p>A receiving system should know:</p>
+<ul>
+<li>source system</li>
+<li>extraction date</li>
+<li>transformation logic</li>
+<li>code mapping version</li>
+<li>data owner</li>
+<li>refresh schedule</li>
+<li>known limitations</li>
+</ul>
+<p>Without provenance, data can travel while meaning is lost.</p>
+<hr>
+</section>
+<section id="privacy-and-minimum-necessary-data" class="level2">
+<h2 class="anchored" data-anchor-id="privacy-and-minimum-necessary-data">Privacy and Minimum Necessary Data</h2>
+<p>FHIR and EHR integration must respect privacy rules and institutional governance.</p>
+<p>Before exchanging data, define:</p>
+<ul>
+<li>intended use</li>
+<li>minimum necessary fields</li>
+<li>access controls</li>
+<li>de-identification needs</li>
+<li>audit logging</li>
+<li>retention policy</li>
+<li>patient consent requirements where applicable</li>
+</ul>
+<p>Interoperability is not permission by itself.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>Interoperability is not just connection.</p>
+<p>It is meaning-preserving exchange.</p>
+<p>A clinical data system becomes interoperable when local variables, identifiers, timestamps, code systems, provenance, and governance are mapped clearly enough for another system or team to understand them.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we created an interoperability roadmap for the clinical data system.</p>
+<p>We mapped local clinical tables to FHIR resource concepts, created a readiness checklist, generated a small example FHIR-like bundle, and produced a mapping visualization.</p>
+<p>The final chapter brings the guide together in an end-to-end case study.</p>
 
 
 </section>

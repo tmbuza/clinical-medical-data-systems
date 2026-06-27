@@ -305,11 +305,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-reproducible-reporting-matters" id="toc-why-reproducible-reporting-matters" class="nav-link active" data-scroll-target="#why-reproducible-reporting-matters">Why Reproducible Reporting Matters</a></li>
+  <li><a href="#reporting-is-part-of-the-system" id="toc-reporting-is-part-of-the-system" class="nav-link" data-scroll-target="#reporting-is-part-of-the-system">Reporting Is Part of the System</a></li>
+  <li><a href="#input-files" id="toc-input-files" class="nav-link" data-scroll-target="#input-files">Input Files</a></li>
+  <li><a href="#outputs" id="toc-outputs" class="nav-link" data-scroll-target="#outputs">Outputs</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-python-script-does" id="toc-what-the-python-script-does" class="nav-link" data-scroll-target="#what-the-python-script-does">What the Python Script Does</a></li>
+  <li><a href="#report-sections" id="toc-report-sections" class="nav-link" data-scroll-target="#report-sections">Report Sections</a></li>
+  <li><a href="#why-markdown-first" id="toc-why-markdown-first" class="nav-link" data-scroll-target="#why-markdown-first">Why Markdown First?</a></li>
+  <li><a href="#report-inventory" id="toc-report-inventory" class="nav-link" data-scroll-target="#report-inventory">Report Inventory</a></li>
+  <li><a href="#avoiding-manual-copy-errors" id="toc-avoiding-manual-copy-errors" class="nav-link" data-scroll-target="#avoiding-manual-copy-errors">Avoiding Manual Copy Errors</a></li>
+  <li><a href="#interpretation-boundaries" id="toc-interpretation-boundaries" class="nav-link" data-scroll-target="#interpretation-boundaries">Interpretation Boundaries</a></li>
+  <li><a href="#clinical-review-checklist" id="toc-clinical-review-checklist" class="nav-link" data-scroll-target="#clinical-review-checklist">Clinical Review Checklist</a></li>
+  <li><a href="#cdi-principle" id="toc-cdi-principle" class="nav-link" data-scroll-target="#cdi-principle">CDI Principle</a></li>
+  <li><a href="#chapter-summary" id="toc-chapter-summary" class="nav-link" data-scroll-target="#chapter-summary">Chapter Summary</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html">Part V: Reporting and Real-World Systems</a></li><li class="breadcrumb-item"><a href="./17-reproducible-clinical-reports.html"><span class="chapter-title">Reproducible Clinical Reports</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="reproducible-clinical-reports" class="quarto-section-identifier"><span class="chapter-title">Reproducible Clinical Reports</span></span></h1>
+<h1 class="title"><span class="chapter-title">Reproducible Clinical Reports</span></h1>
 </div>
 
 
@@ -341,46 +350,181 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CDMS-17</li>
+<li><strong>Type:</strong> Premium</li>
+<li><strong>Audience:</strong> Clinical analysts, applied data scientists, health informatics teams, clinical research teams, and reporting teams</li>
+<li><strong>Theme:</strong> Reproducible clinical reports turn analysis outputs into transparent, reviewable evidence products</li>
 </ul>
+</div>
+<p>Clinical analysis does not end when tables and figures are created.</p>
+<p>The work must be communicated.</p>
+<p>A reproducible clinical report brings together the cohort definition, analysis-ready dataset, descriptive summaries, model evaluation, interpretation notes, and decision-support readiness outputs into one reviewable artifact.</p>
+<p>The goal is not only to make a report look polished.</p>
+<p>The goal is to make the report traceable.</p>
+<hr>
+<section id="why-reproducible-reporting-matters" class="level2">
+<h2 class="anchored" data-anchor-id="why-reproducible-reporting-matters">Why Reproducible Reporting Matters</h2>
+<p>Clinical reports are often used for decisions, meetings, quality improvement, research, dashboards, and operational planning.</p>
+<p>If a report cannot be reproduced, it becomes difficult to know:</p>
+<ul>
+<li>which data version was used</li>
+<li>which filters were applied</li>
+<li>which cohort was included</li>
+<li>which scripts produced the outputs</li>
+<li>whether numbers changed over time</li>
+<li>whether tables and figures are consistent</li>
+<li>whether interpretation followed the evidence</li>
+</ul>
+<p>A reproducible report protects the integrity of clinical communication.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="reporting-is-part-of-the-system" class="level2">
+<h2 class="anchored" data-anchor-id="reporting-is-part-of-the-system">Reporting Is Part of the System</h2>
+<p>A clinical data system should treat reporting as a first-class layer.</p>
+<p><code>text id="clinical-reporting-layer" data inputs   -&gt; validation   -&gt; derived variables   -&gt; analysis-ready dataset   -&gt; descriptive analysis   -&gt; model evaluation   -&gt; interpretation   -&gt; reproducible report</code></p>
+<p>The report should not be manually assembled from screenshots and copied tables.</p>
+<p>It should be generated from saved outputs.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="input-files" class="level2">
+<h2 class="anchored" data-anchor-id="input-files">Input Files</h2>
+<p>This chapter uses the outputs generated across Parts III and IV.</p>
+<p><code>text id="chapter17-inputs" results/analysis-ready-clinical-dataset-readiness-summary.txt results/descriptive-clinical-analysis-summary.txt results/clinical-risk-model-summary.txt results/clinical-model-evaluation-summary.txt results/clinical-interpretation-and-decision-support-summary.txt results/descriptive-clinical-cohort-summary.tsv results/clinical-model-evaluation-metrics.tsv results/clinical-decision-support-readiness.tsv</code></p>
+<p>The report builder is defensive.</p>
+<p>If an input file is missing, it records that fact instead of failing silently.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="outputs" class="level2">
+<h2 class="anchored" data-anchor-id="outputs">Outputs</h2>
+<p>The chapter creates a report package.</p>
+<p><code>text id="chapter17-outputs" results/reports/reproducible-clinical-report.md results/reports/reproducible-clinical-report-summary.tsv results/reports/reproducible-clinical-report-file-inventory.tsv logs/17-reproducible-clinical-reports.log</code></p>
+<p>The Markdown report can be reviewed directly or later integrated into Quarto, GitHub Pages, or a dashboard system.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run from the project root.</p>
+<p><code>bash id="run-reproducible-clinical-report" python scripts/python/17-build-reproducible-clinical-report-safe.py bash scripts/bash/17-run-reproducible-clinical-reports.sh</code></p>
+<p>To run the full workflow with logging:</p>
+<p><code>bash id="run-reproducible-report-bash-only" bash scripts/bash/17-run-reproducible-clinical-reports.sh</code></p>
+<hr>
+</section>
+<section id="what-the-python-script-does" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-python-script-does">What the Python Script Does</h2>
+<p>The Python script creates a Markdown report from existing result files.</p>
+<p>It does four things:</p>
+<ol type="1">
+<li>checks whether expected result files exist</li>
+<li>creates a report file inventory</li>
+<li>extracts selected metrics from TSV outputs</li>
+<li>writes a structured Markdown report</li>
+</ol>
+<p>The script does not invent missing results.</p>
+<p>Missing outputs are shown clearly in the report.</p>
+<hr>
+</section>
+<section id="report-sections" class="level2">
+<h2 class="anchored" data-anchor-id="report-sections">Report Sections</h2>
+<p>The generated report includes:</p>
+<ul>
+<li>report title and timestamp</li>
+<li>evidence file inventory</li>
+<li>analysis-ready dataset summary</li>
+<li>descriptive cohort summary</li>
+<li>risk stratification summary</li>
+<li>model evaluation summary</li>
+<li>decision-support readiness summary</li>
+<li>limitations</li>
+<li>recommended next review steps</li>
+</ul>
+<p>This gives clinical stakeholders a single starting point for review.</p>
+<hr>
+</section>
+<section id="why-markdown-first" class="level2">
+<h2 class="anchored" data-anchor-id="why-markdown-first">Why Markdown First?</h2>
+<p>Markdown is a practical intermediate report format.</p>
+<p>It is:</p>
+<ul>
+<li>readable in plain text</li>
+<li>version-controllable</li>
+<li>easy to render later</li>
+<li>compatible with Quarto</li>
+<li>friendly to GitHub</li>
+<li>simple enough for automated generation</li>
+</ul>
+<p>A later production system may render the report as HTML, PDF, Word, or dashboard content.</p>
+<p>But the first reproducible artifact should be transparent.</p>
+<hr>
+</section>
+<section id="report-inventory" class="level2">
+<h2 class="anchored" data-anchor-id="report-inventory">Report Inventory</h2>
+<p>Every generated report should include an inventory of its evidence files.</p>
+<p>The inventory should record:</p>
+<ul>
+<li>expected file path</li>
+<li>whether it exists</li>
+<li>file size</li>
+<li>modified timestamp</li>
+<li>role in the report</li>
+</ul>
+<p>This makes it easier to identify stale or missing results.</p>
+<hr>
+</section>
+<section id="avoiding-manual-copy-errors" class="level2">
+<h2 class="anchored" data-anchor-id="avoiding-manual-copy-errors">Avoiding Manual Copy Errors</h2>
+<p>Manual report creation often introduces errors.</p>
+<p>Examples include:</p>
+<ul>
+<li>old figures copied into new reports</li>
+<li>table values copied incorrectly</li>
+<li>denominators changed but text not updated</li>
+<li>summary paragraphs no longer matching results</li>
+<li>model output interpreted beyond available evidence</li>
+</ul>
+<p>A reproducible report reduces these risks by linking text to saved outputs.</p>
+<hr>
+</section>
+<section id="interpretation-boundaries" class="level2">
+<h2 class="anchored" data-anchor-id="interpretation-boundaries">Interpretation Boundaries</h2>
+<p>A reproducible report should separate:</p>
+<p>```text id=“report-interpretation-boundaries” What the data show: Observed counts, distributions, metrics, and readiness checks.</p>
+<p>What the analysis suggests: Patterns requiring clinical review.</p>
+<p>What cannot be concluded: Causal effects, clinical utility, safety, or deployment readiness without further validation. ```</p>
+<p>This distinction is especially important in clinical work.</p>
+<hr>
+</section>
+<section id="clinical-review-checklist" class="level2">
+<h2 class="anchored" data-anchor-id="clinical-review-checklist">Clinical Review Checklist</h2>
+<p>Before sharing a clinical report broadly, review:</p>
+<ul>
+<li>cohort definition</li>
+<li>inclusion and exclusion logic</li>
+<li>missingness</li>
+<li>outcome definition</li>
+<li>descriptive summaries</li>
+<li>risk score interpretation</li>
+<li>model evaluation limitations</li>
+<li>decision-support language</li>
+<li>governance needs</li>
+<li>patient safety considerations</li>
+</ul>
+<p>The report should support this review, not replace it.</p>
+<hr>
+</section>
+<section id="cdi-principle" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-principle">CDI Principle</h2>
+<p>A clinical report is reproducible when another person can regenerate it, trace each claim to a source output, and understand what the analysis does and does not support.</p>
+<p>Reporting is not decoration.</p>
+<p>It is part of responsible clinical data practice.</p>
+<hr>
+</section>
+<section id="chapter-summary" class="level2">
+<h2 class="anchored" data-anchor-id="chapter-summary">Chapter Summary</h2>
+<p>In this chapter, we created a reproducible reporting layer for the Clinical &amp; Medical Data Systems guide.</p>
+<p>The workflow assembled existing outputs into a Markdown report, file inventory, and report summary.</p>
+<p>The next chapter moves from static reporting into dashboard readiness.</p>
 
 
 </section>

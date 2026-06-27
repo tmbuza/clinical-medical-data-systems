@@ -305,11 +305,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#why-these-inputs-matter" id="toc-why-these-inputs-matter" class="nav-link" data-scroll-target="#why-these-inputs-matter">Why These Inputs Matter</a></li>
+  <li><a href="#core-data-domains" id="toc-core-data-domains" class="nav-link" data-scroll-target="#core-data-domains">Core Data Domains</a></li>
+  <li><a href="#a-practical-long-table-pattern" id="toc-a-practical-long-table-pattern" class="nav-link" data-scroll-target="#a-practical-long-table-pattern">A Practical Long-Table Pattern</a></li>
+  <li><a href="#common-coding-systems" id="toc-common-coding-systems" class="nav-link" data-scroll-target="#common-coding-systems">Common Coding Systems</a></li>
+  <li><a href="#diagnosis-data-are-not-always-disease-truth" id="toc-diagnosis-data-are-not-always-disease-truth" class="nav-link" data-scroll-target="#diagnosis-data-are-not-always-disease-truth">Diagnosis Data Are Not Always Disease Truth</a></li>
+  <li><a href="#minimum-required-fields" id="toc-minimum-required-fields" class="nav-link" data-scroll-target="#minimum-required-fields">Minimum Required Fields</a></li>
+  <li><a href="#example-project-files" id="toc-example-project-files" class="nav-link" data-scroll-target="#example-project-files">Example Project Files</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#quality-checks" id="toc-quality-checks" class="nav-link" data-scroll-target="#quality-checks">Quality Checks</a></li>
+  <li><a href="#analysis-ready-thinking" id="toc-analysis-ready-thinking" class="nav-link" data-scroll-target="#analysis-ready-thinking">Analysis-Ready Thinking</a></li>
+  <li><a href="#cdi-interpretation-rule" id="toc-cdi-interpretation-rule" class="nav-link" data-scroll-target="#cdi-interpretation-rule">CDI Interpretation Rule</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +326,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-patient-demographics-and-encounters.html">Part II: Clinical Data Inputs</a></li><li class="breadcrumb-item"><a href="./06-diagnoses-procedures-and-medications.html"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="diagnoses-procedures-and-medications" class="quarto-section-identifier"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></span></h1>
+<h1 class="title"><span id="sec-diagnoses-procedures-medications" class="quarto-section-identifier"><span class="chapter-title">Diagnoses, Procedures, and Medications</span></span></h1>
 </div>
 
 
@@ -341,46 +349,341 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="cdi-message">
+<ul>
+<li><strong>ID:</strong> CLIN-006</li>
+<li><strong>Type:</strong> Core Workflow</li>
+<li><strong>Audience:</strong> Clinical analysts, data scientists, informatics teams, public health analysts</li>
+<li><strong>Theme:</strong> Clinical meaning depends on coded events being interpreted in context</li>
+</ul>
 </div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
+<p>Diagnoses, procedures, and medications are among the most important structured inputs in clinical data systems.</p>
+<p>They describe what conditions were recognized, what care was delivered, and what treatments were ordered, dispensed, or administered.</p>
+<p>But these tables are not simple facts.</p>
+<p>A diagnosis code may represent active disease, history of disease, billing justification, suspected disease, rule-out disease, or a problem carried forward from a previous visit.</p>
+<p>A medication order may not mean the patient actually took the medication.</p>
+<p>A procedure code may describe a major intervention, a diagnostic test, a routine screening, or a billing artifact.</p>
+<p>This chapter treats diagnoses, procedures, and medications as <strong>clinical event data</strong> that require careful validation before analysis.</p>
+<hr>
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
 <p>By the end of this chapter, you should be able to:</p>
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li>distinguish diagnosis, procedure, and medication tables;</li>
+<li>recognize common coding systems used in clinical datasets;</li>
+<li>structure coded clinical events in a consistent long-table format;</li>
+<li>identify basic quality issues in coded event data;</li>
+<li>prepare these inputs for cohort definition, phenotyping, and downstream analysis.</li>
 </ul>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="why-these-inputs-matter" class="level2">
+<h2 class="anchored" data-anchor-id="why-these-inputs-matter">Why These Inputs Matter</h2>
+<p>Clinical questions often depend on coded events.</p>
+<p>For example:</p>
+<ul>
+<li>Does the patient have diabetes?</li>
+<li>Was the patient admitted for heart failure?</li>
+<li>Did the patient receive surgery?</li>
+<li>Was the patient prescribed antibiotics?</li>
+<li>Did the patient receive chemotherapy before an outcome occurred?</li>
+</ul>
+<p>Each question depends on structured clinical records.</p>
+<p>But answering these questions safely requires knowing where the code came from, when it occurred, and what it means.</p>
+<p>A clinical data system should not treat codes as isolated labels.</p>
+<p>It should treat them as events connected to patients, encounters, time, coding systems, and clinical context.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="core-data-domains" class="level2">
+<h2 class="anchored" data-anchor-id="core-data-domains">Core Data Domains</h2>
+<p>This chapter focuses on three common clinical input domains.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Domain</th>
+<th>Typical content</th>
+<th>Common use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Diagnoses</td>
+<td>Conditions, symptoms, history, billing diagnoses</td>
+<td>Cohorts, comorbidity flags, risk adjustment</td>
+</tr>
+<tr class="even">
+<td>Procedures</td>
+<td>Surgeries, imaging, diagnostic tests, interventions</td>
+<td>Exposure definition, care pathways, utilization</td>
+</tr>
+<tr class="odd">
+<td>Medications</td>
+<td>Orders, prescriptions, administrations, dispensations</td>
+<td>Treatment exposure, medication history, safety studies</td>
+</tr>
+</tbody>
+</table>
+<p>These domains are usually stored separately in EHR exports, claims datasets, registries, or clinical data warehouses.</p>
+<p>For analysis readiness, they should be harmonized into consistent event-level structures.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="a-practical-long-table-pattern" class="level2">
+<h2 class="anchored" data-anchor-id="a-practical-long-table-pattern">A Practical Long-Table Pattern</h2>
+<p>A useful structure for coded clinical events is a long table where each row is one event for one patient.</p>
+<p><code>text id="coded-event-table-pattern" patient_id | encounter_id | event_domain | code_system | code | code_description | event_date | source_table P001       | E001         | diagnosis    | ICD-10-CM   | E11.9 | Type 2 diabetes  | 2026-01-05 | diagnoses P001       | E001         | medication   | RxNorm      | 860975| Metformin        | 2026-01-05 | medications P002       | E004         | procedure    | CPT         | 93000 | ECG              | 2026-02-14 | procedures</code></p>
+<p>This structure makes it easier to validate, filter, summarize, and reuse clinical events.</p>
+<p>It also keeps clinical meaning explicit.</p>
+<p>The analyst can ask:</p>
+<ul>
+<li>Which coding system was used?</li>
+<li>Was the event tied to an encounter?</li>
+<li>Did the event occur before or after the outcome?</li>
+<li>Was the code from diagnosis, procedure, or medication data?</li>
+</ul>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="common-coding-systems" class="level2">
+<h2 class="anchored" data-anchor-id="common-coding-systems">Common Coding Systems</h2>
+<p>Different clinical systems use different vocabularies.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Coding system</th>
+<th>Common use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ICD-10-CM</td>
+<td>Diagnoses and conditions</td>
+</tr>
+<tr class="even">
+<td>ICD-10-PCS</td>
+<td>Inpatient procedures in some systems</td>
+</tr>
+<tr class="odd">
+<td>CPT / HCPCS</td>
+<td>Procedures, services, billing events</td>
+</tr>
+<tr class="even">
+<td>RxNorm</td>
+<td>Medication concepts</td>
+</tr>
+<tr class="odd">
+<td>NDC</td>
+<td>Drug products and packages</td>
+</tr>
+<tr class="even">
+<td>SNOMED CT</td>
+<td>Clinical concepts and problem lists</td>
+</tr>
+<tr class="odd">
+<td>LOINC</td>
+<td>Laboratory tests and clinical observations</td>
+</tr>
+</tbody>
+</table>
+<p>A clinical data system should preserve the original coding system whenever possible.</p>
+<p>Code lists should be versioned and documented, especially when they define cohorts or outcomes.</p>
+<hr>
+</section>
+<section id="diagnosis-data-are-not-always-disease-truth" class="level2">
+<h2 class="anchored" data-anchor-id="diagnosis-data-are-not-always-disease-truth">Diagnosis Data Are Not Always Disease Truth</h2>
+<p>Diagnosis codes are often used as evidence of disease, but they are not always definitive.</p>
+<p>A diagnosis table may contain:</p>
+<ul>
+<li>primary diagnosis codes;</li>
+<li>secondary diagnosis codes;</li>
+<li>encounter diagnoses;</li>
+<li>billing diagnoses;</li>
+<li>problem-list entries;</li>
+<li>historical conditions;</li>
+<li>suspected or rule-out diagnoses.</li>
+</ul>
+<p>The meaning depends on the source.</p>
+<p>For example, a diabetes cohort may require more than one diagnosis code, a diagnosis plus medication evidence, or diagnosis evidence within a defined time window.</p>
+<p>```text id=“example-diagnosis-rule” Possible diabetes phenotype rule:</p>
+<p>Include patient if: - at least 2 outpatient ICD-10-CM diabetes codes on different dates, OR - at least 1 inpatient diabetes code, OR - diabetes medication evidence plus supporting diagnosis evidence.</p>
+<pre><code>
+The exact rule depends on the project and clinical context.
+
+The important principle is that codes should be translated into phenotype logic carefully.
+
+---
+
+## Procedure Data Need Context
+
+Procedure codes can represent many kinds of care events.
+
+Some procedures are major exposures.
+
+Others are routine tests or billing services.
+
+A procedure table should ideally include:
+
+- patient identifier;
+- encounter identifier;
+- procedure code;
+- coding system;
+- procedure date;
+- provider or facility context when available;
+- description or mapped concept.
+
+Procedure timing is especially important.
+
+A procedure before an outcome may be an exposure.
+
+A procedure after an outcome may be part of treatment or follow-up.
+
+---
+
+## Medication Data Need Source Awareness
+
+Medication data are especially sensitive to interpretation.
+
+Medication evidence may come from:
+
+- orders;
+- prescriptions;
+- pharmacy fills;
+- medication administrations;
+- medication reconciliation lists;
+- discharge medication lists.
+
+These are not the same.
+
+A medication order means a clinician ordered the medication.
+
+A pharmacy fill suggests the medication was dispensed.
+
+An administration record suggests the medication was given in a clinical setting.
+
+A medication list may reflect reported or historical use.
+
+```text id="medication-source-interpretation"
+Medication order        = intended treatment
+Pharmacy fill           = medication dispensed
+Administration record   = medication given
+Medication list         = reported or reconciled medication history</code></pre>
+<p>For exposure analyses, the source of medication evidence should be explicit.</p>
+<hr>
+</section>
+<section id="minimum-required-fields" class="level2">
+<h2 class="anchored" data-anchor-id="minimum-required-fields">Minimum Required Fields</h2>
+<p>A practical coded event dataset should include these fields.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>patient_id</td>
+<td>Links event to patient</td>
+</tr>
+<tr class="even">
+<td>encounter_id</td>
+<td>Links event to visit or admission when available</td>
+</tr>
+<tr class="odd">
+<td>event_domain</td>
+<td>Diagnosis, procedure, medication</td>
+</tr>
+<tr class="even">
+<td>code_system</td>
+<td>ICD-10-CM, CPT, RxNorm, NDC, etc.</td>
+</tr>
+<tr class="odd">
+<td>code</td>
+<td>Original clinical code</td>
+</tr>
+<tr class="even">
+<td>code_description</td>
+<td>Human-readable meaning when available</td>
+</tr>
+<tr class="odd">
+<td>event_date</td>
+<td>Date of diagnosis, procedure, order, fill, or administration</td>
+</tr>
+<tr class="even">
+<td>source_table</td>
+<td>Original table or extract source</td>
+</tr>
+</tbody>
+</table>
+<p>Some projects may also need provider, facility, route, dose, quantity, diagnosis position, or medication status.</p>
+<p>But these minimum fields provide a stable foundation.</p>
+<hr>
+</section>
+<section id="example-project-files" class="level2">
+<h2 class="anchored" data-anchor-id="example-project-files">Example Project Files</h2>
+<p>For this chapter, we create a small synthetic coded clinical event dataset.</p>
+<p>The workflow produces diagnosis, procedure, medication, and combined event files.</p>
+<p><code>text id="chapter-06-files" data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/coded-clinical-events.csv results/coded-event-quality-checks.tsv results/coded-event-domain-summary.tsv results/coded-event-readiness-summary.txt</code></p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>Run the commands from the project root.</p>
+<p><code>bash id="run-chapter-06-workflow" python scripts/python/06-create-example-coded-clinical-events.py python scripts/python/06-check-coded-clinical-events.py bash scripts/bash/06-run-coded-clinical-event-checks.sh</code></p>
+<p>The bash script runs the same workflow end to end.</p>
+<p><code>bash id="run-chapter-06-bash-only" bash scripts/bash/06-run-coded-clinical-event-checks.sh</code></p>
+<p>Expected outputs:</p>
+<p><code>text id="expected-chapter-06-outputs" data/example/diagnoses.csv data/example/procedures.csv data/example/medications.csv data/example/coded-clinical-events.csv results/coded-event-quality-checks.tsv results/coded-event-domain-summary.tsv results/coded-event-readiness-summary.txt</code></p>
+<hr>
+</section>
+<section id="quality-checks" class="level2">
+<h2 class="anchored" data-anchor-id="quality-checks">Quality Checks</h2>
+<p>At minimum, coded clinical event checks should ask:</p>
+<ul>
+<li>Are required columns present?</li>
+<li>Are patient identifiers missing?</li>
+<li>Are event dates missing or invalid?</li>
+<li>Are coding systems present?</li>
+<li>Are event domains restricted to expected values?</li>
+<li>Are there duplicate patient-event-code-date records?</li>
+<li>Are diagnosis, procedure, and medication domains all represented?</li>
+</ul>
+<p>These checks do not prove the clinical logic is correct.</p>
+<p>They confirm that the data are structurally ready for clinical reasoning.</p>
+<hr>
+</section>
+<section id="analysis-ready-thinking" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-ready-thinking">Analysis-Ready Thinking</h2>
+<p>A coded clinical event table becomes useful when it can support questions such as:</p>
+<p><code>text id="analysis-ready-coded-event-questions" Which patients had evidence of diabetes before baseline? Which patients had antibiotic exposure within 30 days of admission? Which procedures occurred during the index encounter? Which medications were ordered after discharge? Which diagnoses should be treated as comorbidities rather than outcomes?</code></p>
+<p>These questions require both technical structure and clinical interpretation.</p>
+<p>The goal is not only to clean codes.</p>
+<p>The goal is to make coded events reliable enough to support defensible clinical claims.</p>
+<hr>
+</section>
+<section id="cdi-interpretation-rule" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-interpretation-rule">CDI Interpretation Rule</h2>
+<p>A code is not a conclusion.</p>
+<p>A code is evidence.</p>
+<p>Clinical data systems should preserve the evidence, document the rule used to interpret it, and make the resulting variable traceable.</p>
+<p><code>text id="cdi-coded-event-rule" Clinical code → documented rule → derived clinical variable → interpreted result</code></p>
+<p>This pattern protects the analysis from overclaiming.</p>
+<p>It also makes the workflow easier to review, reproduce, and improve.</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<p>Diagnoses, procedures, and medications are essential clinical data inputs, but they must be interpreted carefully.</p>
+<p>A robust clinical data system should preserve event domain, coding system, source, date, patient linkage, and encounter linkage.</p>
+<p>Medication and diagnosis evidence should never be treated as self-explanatory.</p>
+<p>The safest workflow is to validate coded events first, then translate them into project-specific clinical variables using documented logic.</p>
 
 
 </section>

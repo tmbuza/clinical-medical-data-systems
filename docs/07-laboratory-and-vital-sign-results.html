@@ -305,11 +305,20 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#learning-goals" id="toc-learning-goals" class="nav-link active" data-scroll-target="#learning-goals">Learning Goals</a></li>
-  <li><a href="#why-this-matters" id="toc-why-this-matters" class="nav-link" data-scroll-target="#why-this-matters">Why This Matters</a></li>
-  <li><a href="#expected-inputs" id="toc-expected-inputs" class="nav-link" data-scroll-target="#expected-inputs">Expected Inputs</a></li>
-  <li><a href="#expected-outputs" id="toc-expected-outputs" class="nav-link" data-scroll-target="#expected-outputs">Expected Outputs</a></li>
-  <li><a href="#code-organization" id="toc-code-organization" class="nav-link" data-scroll-target="#code-organization">Code Organization</a></li>
+  <li><a href="#why-laboratory-and-vital-sign-data-need-special-care" id="toc-why-laboratory-and-vital-sign-data-need-special-care" class="nav-link active" data-scroll-target="#why-laboratory-and-vital-sign-data-need-special-care">Why Laboratory and Vital Sign Data Need Special Care</a></li>
+  <li><a href="#core-laboratory-result-fields" id="toc-core-laboratory-result-fields" class="nav-link" data-scroll-target="#core-laboratory-result-fields">Core Laboratory Result Fields</a></li>
+  <li><a href="#core-vital-sign-fields" id="toc-core-vital-sign-fields" class="nav-link" data-scroll-target="#core-vital-sign-fields">Core Vital Sign Fields</a></li>
+  <li><a href="#long-format-before-wide-format" id="toc-long-format-before-wide-format" class="nav-link" data-scroll-target="#long-format-before-wide-format">Long Format Before Wide Format</a></li>
+  <li><a href="#result-timing-matters" id="toc-result-timing-matters" class="nav-link" data-scroll-target="#result-timing-matters">Result Timing Matters</a></li>
+  <li><a href="#unit-harmonization" id="toc-unit-harmonization" class="nav-link" data-scroll-target="#unit-harmonization">Unit Harmonization</a></li>
+  <li><a href="#plausibility-checks" id="toc-plausibility-checks" class="nav-link" data-scroll-target="#plausibility-checks">Plausibility Checks</a></li>
+  <li><a href="#abnormal-flags-are-helpful-but-not-enough" id="toc-abnormal-flags-are-helpful-but-not-enough" class="nav-link" data-scroll-target="#abnormal-flags-are-helpful-but-not-enough">Abnormal Flags Are Helpful but Not Enough</a></li>
+  <li><a href="#analysis-ready-result-tables" id="toc-analysis-ready-result-tables" class="nav-link" data-scroll-target="#analysis-ready-result-tables">Analysis-Ready Result Tables</a></li>
+  <li><a href="#example-workflow" id="toc-example-workflow" class="nav-link" data-scroll-target="#example-workflow">Example Workflow</a></li>
+  <li><a href="#how-to-run" id="toc-how-to-run" class="nav-link" data-scroll-target="#how-to-run">How to Run</a></li>
+  <li><a href="#what-the-checks-look-for" id="toc-what-the-checks-look-for" class="nav-link" data-scroll-target="#what-the-checks-look-for">What the Checks Look For</a></li>
+  <li><a href="#cdi-interpretation" id="toc-cdi-interpretation" class="nav-link" data-scroll-target="#cdi-interpretation">CDI Interpretation</a></li>
+  <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   </ul>
 </nav>
     </div>
@@ -318,7 +327,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./05-patient-demographics-and-encounters.html">Part II: Clinical Data Inputs</a></li><li class="breadcrumb-item"><a href="./07-laboratory-and-vital-sign-results.html"><span class="chapter-title">Laboratory and Vital Sign Results</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="laboratory-and-vital-sign-results" class="quarto-section-identifier"><span class="chapter-title">Laboratory and Vital Sign Results</span></span></h1>
+<h1 class="title"><span id="sec-laboratory-and-vital-sign-results" class="quarto-section-identifier"><span class="chapter-title">Laboratory and Vital Sign Results</span></span></h1>
 </div>
 
 
@@ -341,46 +350,200 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Chapter status
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This chapter is a scaffold.</p>
-<p>The narrative will explain the clinical data concept, required inputs, checks, outputs, and interpretation.</p>
-</div>
-</div>
-<section id="learning-goals" class="level2">
-<h2 class="anchored" data-anchor-id="learning-goals">Learning Goals</h2>
-<p>By the end of this chapter, you should be able to:</p>
+<div class="cdi-message">
 <ul>
-<li>Understand the role of this step in a clinical data system.</li>
-<li>Identify the expected input tables.</li>
-<li>Recognize common data-quality risks.</li>
-<li>Describe the expected output for downstream analysis.</li>
+<li><strong>ID:</strong> CMDS-07</li>
+<li><strong>Type:</strong> Core Clinical Data Input</li>
+<li><strong>Audience:</strong> Clinical data analysts, clinical researchers, informatics teams, data managers</li>
+<li><strong>Theme:</strong> Laboratory and vital sign results become useful only after units, timing, ranges, and clinical context are made explicit</li>
 </ul>
+</div>
+<p>Laboratory and vital sign data are among the most clinically useful data sources in a medical data system.</p>
+<p>They often provide the closest structured view of a patient’s physiological state.</p>
+<p>A diagnosis code may say that a patient has diabetes.</p>
+<p>A medication record may show that glucose-lowering treatment was prescribed.</p>
+<p>But laboratory and vital sign results show whether the condition is measurable, changing, improving, worsening, or unstable.</p>
+<p>This chapter focuses on two common clinical result domains:</p>
+<ul>
+<li>laboratory results</li>
+<li>vital sign measurements</li>
+</ul>
+<p>The goal is not only to store these values.</p>
+<p>The goal is to make them analysis-ready.</p>
+<hr>
+<section id="why-laboratory-and-vital-sign-data-need-special-care" class="level2">
+<h2 class="anchored" data-anchor-id="why-laboratory-and-vital-sign-data-need-special-care">Why Laboratory and Vital Sign Data Need Special Care</h2>
+<p>Laboratory and vital sign data look simple at first.</p>
+<p>They often appear as rows with a patient identifier, a test name, a date, and a numeric value.</p>
+<p>But in real clinical systems, these data can be complicated.</p>
+<p>The same clinical concept may appear under multiple names.</p>
+<p>Units may differ across sites.</p>
+<p>Reference ranges may depend on age, sex, pregnancy status, laboratory method, or clinical setting.</p>
+<p>Values may include symbols such as <code>&lt;</code>, <code>&gt;</code>, <code>trace</code>, <code>positive</code>, or <code>negative</code>.</p>
+<p>Vital signs may be measured during triage, inpatient monitoring, outpatient visits, emergency care, or intensive care.</p>
+<p>A single blood pressure value may mean different things depending on whether it was recorded during routine clinic review or during acute illness.</p>
+<p>A clinical data system must preserve this context.</p>
+<hr>
 </section>
-<section id="why-this-matters" class="level2">
-<h2 class="anchored" data-anchor-id="why-this-matters">Why This Matters</h2>
-<p>Clinical data are not just numbers in tables.</p>
-<p>They represent patients, care processes, measurements, diagnoses, treatments, and outcomes.</p>
-<p>A reliable clinical data workflow must preserve meaning while making the data ready for analysis.</p>
+<section id="core-laboratory-result-fields" class="level2">
+<h2 class="anchored" data-anchor-id="core-laboratory-result-fields">Core Laboratory Result Fields</h2>
+<p>A laboratory result table should usually include:</p>
+<p><code>text id="lab-fields" patient_id encounter_id specimen_datetime result_datetime test_code test_name result_value result_unit reference_low reference_high abnormal_flag source_system</code></p>
+<p>Not every project will have every field.</p>
+<p>But the system should make missing fields visible rather than hiding them.</p>
+<p>For example, a table with laboratory values but no unit column is risky.</p>
+<p>A creatinine value of <code>1.1</code> means something very different depending on whether the unit is <code>mg/dL</code> or <code>µmol/L</code>.</p>
+<hr>
 </section>
-<section id="expected-inputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-inputs">Expected Inputs</h2>
+<section id="core-vital-sign-fields" class="level2">
+<h2 class="anchored" data-anchor-id="core-vital-sign-fields">Core Vital Sign Fields</h2>
+<p>A vital sign table should usually include:</p>
+<p><code>text id="vital-fields" patient_id encounter_id measurement_datetime vital_name vital_value vital_unit measurement_position care_setting source_system</code></p>
+<p>Common vital signs include:</p>
+<ul>
+<li>systolic blood pressure</li>
+<li>diastolic blood pressure</li>
+<li>heart rate</li>
+<li>respiratory rate</li>
+<li>temperature</li>
+<li>oxygen saturation</li>
+<li>weight</li>
+<li>height</li>
+<li>body mass index</li>
+</ul>
+<p>For analysis, it is helpful to store vital signs in a long format first.</p>
+<p>Each row represents one measurement.</p>
+<p>This makes validation, unit checks, and time-window selection easier.</p>
+<hr>
 </section>
-<section id="expected-outputs" class="level2">
-<h2 class="anchored" data-anchor-id="expected-outputs">Expected Outputs</h2>
+<section id="long-format-before-wide-format" class="level2">
+<h2 class="anchored" data-anchor-id="long-format-before-wide-format">Long Format Before Wide Format</h2>
+<p>Clinical results are often best stored in long format during cleaning.</p>
+<p><code>text id="long-format-example" patient_id | encounter_id | result_datetime     | result_name | result_value | result_unit P001       | E001         | 2026-01-04 08:30:00 | creatinine  | 1.1          | mg/dL P001       | E001         | 2026-01-04 08:35:00 | systolic_bp | 138          | mmHg P001       | E001         | 2026-01-04 08:35:00 | heart_rate  | 88           | beats/min</code></p>
+<p>Later, the data can be transformed into wide format for modeling or reporting.</p>
+<p><code>text id="wide-format-example" patient_id | encounter_id | creatinine | systolic_bp | heart_rate P001       | E001         | 1.1        | 138         | 88</code></p>
+<p>The wide table is useful for analysis.</p>
+<p>The long table is safer for validation.</p>
+<p>A mature workflow usually keeps both.</p>
+<hr>
 </section>
-<section id="code-organization" class="level2">
-<h2 class="anchored" data-anchor-id="code-organization">Code Organization</h2>
-<p>Runnable code for this chapter should be placed in:</p>
-<p>Code shown in this chapter is for explanation unless explicitly stated otherwise.</p>
+<section id="result-timing-matters" class="level2">
+<h2 class="anchored" data-anchor-id="result-timing-matters">Result Timing Matters</h2>
+<p>Laboratory and vital sign values are rarely meaningful without timing.</p>
+<p>For example:</p>
+<ul>
+<li>baseline creatinine before admission</li>
+<li>peak creatinine during admission</li>
+<li>latest hemoglobin before discharge</li>
+<li>first oxygen saturation at triage</li>
+<li>average blood pressure during follow-up</li>
+</ul>
+<p>Each of these represents a different clinical question.</p>
+<p>A data system should avoid vague variable names such as <code>creatinine</code> or <code>blood_pressure</code> when the timing rule is not clear.</p>
+<p>Better names include:</p>
+<p><code>text id="timed-variable-names" baseline_creatinine_mg_dl peak_inpatient_creatinine_mg_dl latest_pre_discharge_hemoglobin_g_dl triage_oxygen_saturation_percent mean_followup_systolic_bp_mm_hg</code></p>
+<p>The variable name should carry enough meaning to prevent misuse.</p>
+<hr>
+</section>
+<section id="unit-harmonization" class="level2">
+<h2 class="anchored" data-anchor-id="unit-harmonization">Unit Harmonization</h2>
+<p>Unit harmonization is one of the most important steps in laboratory readiness.</p>
+<p>A project should define accepted units for each analyte.</p>
+<p><code>text id="unit-map-example" creatinine -&gt; mg/dL hemoglobin -&gt; g/dL glucose -&gt; mg/dL sodium -&gt; mmol/L potassium -&gt; mmol/L systolic_bp -&gt; mmHg diastolic_bp -&gt; mmHg temperature -&gt; Celsius oxygen_saturation -&gt; percent</code></p>
+<p>When multiple units exist, conversion rules should be explicit.</p>
+<p>The workflow should not silently combine incompatible values.</p>
+<hr>
+</section>
+<section id="plausibility-checks" class="level2">
+<h2 class="anchored" data-anchor-id="plausibility-checks">Plausibility Checks</h2>
+<p>Laboratory and vital sign values should be checked for impossible or implausible values.</p>
+<p>Examples:</p>
+<p><code>text id="plausibility-examples" heart_rate &lt; 20 or &gt; 250 systolic_bp &lt; 50 or &gt; 300 temperature_c &lt; 30 or &gt; 45 oxygen_saturation_percent &lt; 50 or &gt; 100 hemoglobin_g_dl &lt; 2 or &gt; 25 creatinine_mg_dl &lt; 0.1 or &gt; 20</code></p>
+<p>These ranges are not universal clinical rules.</p>
+<p>They are project-level readiness checks.</p>
+<p>The purpose is to identify values that need review.</p>
+<hr>
+</section>
+<section id="abnormal-flags-are-helpful-but-not-enough" class="level2">
+<h2 class="anchored" data-anchor-id="abnormal-flags-are-helpful-but-not-enough">Abnormal Flags Are Helpful but Not Enough</h2>
+<p>Many laboratory systems provide abnormal flags such as:</p>
+<p><code>text id="abnormal-flags" L H LL HH NORMAL ABNORMAL</code></p>
+<p>These flags can be useful.</p>
+<p>But they should not replace numeric interpretation.</p>
+<p>A low hemoglobin flag depends on the reference range used by the laboratory.</p>
+<p>A high creatinine flag may have different meaning depending on baseline kidney function.</p>
+<p>A clinical analysis should preserve the flag while also keeping the numeric value, unit, and reference range.</p>
+<hr>
+</section>
+<section id="analysis-ready-result-tables" class="level2">
+<h2 class="anchored" data-anchor-id="analysis-ready-result-tables">Analysis-Ready Result Tables</h2>
+<p>An analysis-ready laboratory or vital sign table should answer these questions:</p>
+<ul>
+<li>What was measured?</li>
+<li>When was it measured?</li>
+<li>Who was it measured for?</li>
+<li>During which encounter or care episode?</li>
+<li>What unit was used?</li>
+<li>Is the value numeric, categorical, or textual?</li>
+<li>Is the value plausible?</li>
+<li>Is the value clinically interpretable for the planned question?</li>
+</ul>
+<p>A result table is not analysis-ready simply because it has numbers.</p>
+<p>It is analysis-ready when those numbers are clinically located.</p>
+<hr>
+</section>
+<section id="example-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="example-workflow">Example Workflow</h2>
+<p>This chapter includes a small example workflow that creates synthetic laboratory and vital sign data, checks readiness, and writes summary outputs.</p>
+<p>The example files are intentionally small.</p>
+<p>They are designed to demonstrate structure, not to represent real patients.</p>
+<hr>
+</section>
+<section id="how-to-run" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-run">How to Run</h2>
+<p>From the project root, save the scripts into the following paths:</p>
+<p><code>text id="save-paths" scripts/python/07-create-example-labs-and-vitals.py scripts/python/07-check-labs-and-vitals.py scripts/bash/07-run-labs-and-vitals-checks.sh</code></p>
+<p>Then run:</p>
+<p><code>bash id="run-07-workflow" python scripts/python/07-create-example-labs-and-vitals.py python scripts/python/07-check-labs-and-vitals.py bash scripts/bash/07-run-labs-and-vitals-checks.sh</code></p>
+<p>Expected outputs:</p>
+<p><code>text id="expected-07-outputs" data/example/laboratory-results.csv data/example/vital-sign-results.csv data/example/clinical-results-combined.csv results/clinical-result-quality-checks.tsv results/clinical-result-domain-summary.tsv results/clinical-result-readiness-summary.txt logs/07-labs-and-vitals-checks.log</code></p>
+<hr>
+</section>
+<section id="what-the-checks-look-for" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-checks-look-for">What the Checks Look For</h2>
+<p>The validation script checks whether:</p>
+<ul>
+<li>required columns are present</li>
+<li>patient and encounter identifiers are populated</li>
+<li>result names are populated</li>
+<li>result values are numeric where expected</li>
+<li>result units are present</li>
+<li>common unit expectations are met</li>
+<li>measurement timestamps are parseable</li>
+<li>selected values fall within broad plausibility ranges</li>
+</ul>
+<p>The checks are not a substitute for clinical review.</p>
+<p>They are a readiness screen.</p>
+<hr>
+</section>
+<section id="cdi-interpretation" class="level2">
+<h2 class="anchored" data-anchor-id="cdi-interpretation">CDI Interpretation</h2>
+<p>Laboratory and vital sign results often drive clinical conclusions.</p>
+<p>That makes them powerful.</p>
+<p>It also makes them dangerous when poorly prepared.</p>
+<p>A single wrong unit, missing timestamp, duplicated result, or implausible value can change the interpretation of a cohort.</p>
+<p>In the CDI approach, clinical result data should move through a clear readiness pathway:</p>
+<p><code>text id="result-readiness-pathway" raw result table   -&gt; standardized result names   -&gt; unit checks   -&gt; timestamp checks   -&gt; plausibility checks   -&gt; clinical timing rules   -&gt; analysis-ready variables   -&gt; interpretation</code></p>
+<p>This pathway protects the analysis from treating raw clinical measurements as if they were already meaningful variables.</p>
+<hr>
+</section>
+<section id="key-takeaways" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<p>Laboratory and vital sign data are central to clinical analysis.</p>
+<p>They require careful handling of timing, units, reference ranges, plausibility, and clinical context.</p>
+<p>Long-format result tables are useful during cleaning and validation.</p>
+<p>Wide-format derived tables are useful later for reporting and modeling.</p>
+<p>The safest clinical data systems preserve both the raw measurement structure and the derived analysis-ready variables.</p>
 
 
 </section>
